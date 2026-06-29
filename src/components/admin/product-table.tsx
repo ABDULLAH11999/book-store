@@ -88,10 +88,16 @@ export function ProductTable({ initialProducts }: { initialProducts: Product[] }
               <span className="rounded-full border border-black/10 px-3 py-1 text-xs font-semibold">Stock {product.stock}</span>
             </div>
             <div className="mt-4 grid grid-cols-2 gap-2">
-              <Link href={`/admin/products/${product.id}`} className="rounded-2xl border border-black px-3 py-3 text-center text-sm font-semibold">
+              <Link
+                href={`/admin/products/${product.id}`}
+                className="flex w-full min-h-11 min-w-0 items-center justify-center rounded-2xl border border-black px-3 py-3 text-center text-sm font-semibold leading-none"
+              >
                 Edit
               </Link>
-              <button onClick={() => remove(product.id)} className="rounded-2xl border border-black px-3 py-3 text-sm font-semibold text-black">
+              <button
+                onClick={() => remove(product.id)}
+                className="flex w-full min-h-11 min-w-0 items-center justify-center rounded-2xl border border-black px-3 py-3 text-sm font-semibold leading-none text-black"
+              >
                 Delete
               </button>
             </div>

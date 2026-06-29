@@ -181,19 +181,19 @@ export function SettingsManager({ initialSettings }: { initialSettings: Settings
           >
             {backingUp ? "Preparing Backup..." : "Backup DB"}
           </button>
-          <a href="/admin/banner" className="rounded-2xl border border-black/10 px-6 py-3 font-semibold">
-            Banner Settings
-          </a>
           <a href="/admin/backup-db" className="rounded-2xl border border-black/10 px-6 py-3 font-semibold">
             Open Backup Page
           </a>
         </div>
       </section>
 
-      <div className="flex justify-stretch sm:justify-end">
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-end">
         <button onClick={save} disabled={saving} className="rounded-2xl bg-black px-6 py-3 font-semibold text-white disabled:opacity-60">
           {saving ? "Saving..." : "Save Settings"}
         </button>
+        <a href="/admin/banner" className="rounded-2xl border border-black/10 px-6 py-3 text-center font-semibold">
+          Banner Settings
+        </a>
       </div>
     </div>
   );

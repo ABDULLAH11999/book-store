@@ -150,6 +150,13 @@ export async function DELETE(_: Request, context: { params: Promise<{ resource: 
     return NextResponse.json({ ok: true });
   }
   if (resource === "testimonials") {
+    if (id.startsWith("demo-testimonial-")) {
+      return NextResponse.json({ ok: true });
+    }
+    const existing = await prisma.testimonial.findUnique({ where: { id } });
+    if (!existing) {
+      return NextResponse.json({ ok: true });
+    }
     await prisma.testimonial.delete({ where: { id } });
     return NextResponse.json({ ok: true });
   }
