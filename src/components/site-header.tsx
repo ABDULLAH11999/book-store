@@ -51,15 +51,11 @@ export function SiteHeader() {
           <Image
             src={BRAND_LOGO_PATH}
             alt={`${BRAND_NAME} logo`}
-            width={56}
-            height={56}
+            width={70}
+            height={70}
             className="h-11 w-11 shrink-0 object-contain sm:h-12 sm:w-12"
             priority
           />
-          <span>
-            <span className="block font-heading text-xl font-semibold tracking-wide text-white">{BRAND_NAME}</span>
-            <span className="block text-xs uppercase tracking-[0.3em] text-white/75">{BRAND_TAGLINE}</span>
-          </span>
         </Link>
 
         <nav className="hidden items-center gap-8 md:flex">
