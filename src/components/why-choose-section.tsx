@@ -4,11 +4,11 @@ import { motion } from "framer-motion";
 import { Check } from "lucide-react";
 
 const benefits = [
-  "Authentic luxury watch sourcing",
-  "Premium packaging and careful handling",
+  "اسلامی انداز کے ساتھ صاف presentation",
+  "شریعت کے مطابق trust-first shopping",
   "Cash on delivery across Pakistan",
-  "Fast customer response on WhatsApp",
-  "Trusted after-sales support"
+  "WhatsApp support for quick help",
+  "Careful packing and reliable delivery"
 ];
 
 export function WhyChooseSection() {
@@ -19,7 +19,7 @@ export function WhyChooseSection() {
           <p className="text-xs uppercase tracking-[0.35em] text-black/45 sm:text-sm">Why Choose</p>
           <h2 className="mt-2 font-heading text-3xl leading-tight sm:text-4xl">Why people choose IslamicPlay</h2>
           <p className="mt-4 max-w-xl text-sm leading-7 text-black/60 sm:text-base">
-            We keep the buying experience simple, trustworthy, and premium. Every order is handled with care so the storefront feels calm and dependable.
+            We keep the buying experience simple, trustworthy, and premium. Every order is handled with care so the storefront feels calm, respectful, and dependable.
           </p>
         </div>
 

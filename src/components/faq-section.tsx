@@ -6,20 +6,20 @@ import { ChevronDown } from "lucide-react";
 
 const faqs = [
   {
-    question: "How long does delivery take in Pakistan?",
-    answer: "Delivery usually takes 2 to 5 working days depending on your city and the selected courier service."
+    question: "How long does delivery take?",
+    answer: "Orders are usually processed within 3 to 5 business days, and delivery depends on your location. Major cities often receive orders in 2 to 4 business days, while other areas may take 3 to 7 business days."
   },
   {
-    question: "Do you offer returns?",
-    answer: "Yes. If we send the wrong item or a defective product, we will take responsibility and resolve it professionally."
+    question: "Do you offer Cash on Delivery?",
+    answer: "Yes. We offer Cash on Delivery across most areas in Pakistan. Please make sure someone is available to receive and pay for the order."
+  },
+  {
+    question: "Are shipping charges included?",
+    answer: "Shipping charges are calculated at checkout. We may also offer free delivery on selected items or promotional offers."
   },
   {
     question: "How can I contact support?",
     answer: "You can contact us via WhatsApp, phone, or email. Our team responds as quickly as possible during working hours."
-  },
-  {
-    question: "Are your watches authentic?",
-    answer: "We focus on premium, quality-checked products and make product details transparent so customers can buy with confidence."
   }
 ];
 

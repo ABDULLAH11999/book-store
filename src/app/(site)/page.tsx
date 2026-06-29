@@ -1,10 +1,8 @@
 import { prisma } from "@/lib/prisma";
 import { HeroVideo } from "@/components/hero-video";
-import { BrandShowcase } from "@/components/brand-showcase";
 import { BrandStrip } from "@/components/brand-strip";
 import { FeaturedProductsGrid } from "@/components/featured-products-grid";
 import { CinematicBanner } from "@/components/cinematic-banner";
-import { NewsletterStrip } from "@/components/newsletter-strip";
 import { TestimonialCarousel } from "@/components/swiper-testimonials";
 import { WhyChooseSection } from "@/components/why-choose-section";
 import { FaqSection } from "@/components/faq-section";
@@ -88,11 +86,7 @@ export default async function HomePage() {
           <BrandStrip />
         </div>
 
-        <div className="order-4">
-          <BrandShowcase />
-        </div>
-
-        <section className="order-5 mx-auto max-w-7xl px-4 py-6 sm:py-8 lg:px-8 lg:py-16">
+        <section className="order-4 mx-auto max-w-7xl px-4 py-6 sm:py-8 lg:px-8 lg:py-16">
           <div className="mb-4 sm:mb-8">
             <p className="text-xs uppercase tracking-[0.35em] text-gold sm:text-sm sm:tracking-[0.4em]">Featured Products</p>
             <h2 className="mt-1 font-heading text-2xl sm:mt-2 sm:text-4xl">Curated Picks</h2>
@@ -100,15 +94,15 @@ export default async function HomePage() {
           <FeaturedProductsGrid products={featured} />
         </section>
 
-        <div className="order-6">
+        <div className="order-5">
           <WhyChooseSection />
         </div>
 
-        <div className="order-7">
+        <div className="order-6">
           <CinematicBanner />
         </div>
 
-        <section className="order-8 mx-auto max-w-7xl px-4 py-6 sm:py-8 lg:px-8 lg:py-16">
+        <section className="order-7 mx-auto max-w-7xl px-4 py-6 sm:py-8 lg:px-8 lg:py-16">
           <div className="mb-4 sm:mb-8">
             <p className="text-xs uppercase tracking-[0.35em] text-gold sm:text-sm sm:tracking-[0.4em]">Testimonials</p>
             <h2 className="mt-1 font-heading text-2xl sm:mt-2 sm:text-4xl">What Our Customers Say</h2>
@@ -116,12 +110,8 @@ export default async function HomePage() {
           <TestimonialCarousel items={testimonials} />
         </section>
 
-        <div className="order-9">
+        <div className="order-8">
           <FaqSection />
-        </div>
-
-        <div className="order-10">
-          <NewsletterStrip />
         </div>
       </div>
     </>

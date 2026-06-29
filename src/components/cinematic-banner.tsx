@@ -1,5 +1,4 @@
 import Image from "next/image";
-import Link from "next/link";
 import { BRAND_BANNER_PATH, BRAND_NAME } from "@/lib/branding";
 
 export function CinematicBanner() {
@@ -16,7 +15,7 @@ export function CinematicBanner() {
               sizes="(max-width: 1024px) 100vw, 55vw"
               className="object-cover object-center opacity-90"
             />
-            <div className="absolute inset-0 bg-gradient-to-r from-black/45 via-black/20 to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-r from-black/18 via-black/5 to-transparent" />
           </div>
 
           <div className="flex items-center bg-white px-5 py-8 sm:px-8 sm:py-10 lg:px-10 lg:py-12">
@@ -28,14 +27,6 @@ export function CinematicBanner() {
               <p className="mt-3 max-w-lg text-sm leading-6 text-black/60 sm:mt-4 sm:text-base">
                 A clean editorial banner designed to keep the hero fast, clear, and focused on the new brand identity.
               </p>
-              <div className="mt-5 sm:mt-7">
-                <Link
-                  href="/collections"
-                  className="inline-flex rounded-full bg-black px-5 py-3 text-sm font-semibold text-white transition hover:bg-black/90"
-                >
-                  Explore All Watches
-                </Link>
-              </div>
             </div>
           </div>
         </div>
