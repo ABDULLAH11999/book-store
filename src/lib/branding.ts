@@ -1,0 +1,9 @@
+export const BRAND_NAME = "IslamicPlay";
+export const BRAND_TAGLINE = "Islamic-inspired shopping";
+export const BRAND_DOMAIN = "islamicplay.store";
+export const BRAND_SITE_URL = `https://${BRAND_DOMAIN}`;
+export const BRAND_LOGO_PATH = "/ui-image/Logo.avif";
+export const BRAND_BANNER_PATH = "/ui-image/banner.png";
+export const BRAND_SUPPORT_EMAIL = `hello@${BRAND_DOMAIN}`;
+export const BRAND_NO_REPLY_EMAIL = `no-reply@${BRAND_DOMAIN}`;
+export const BRAND_ADMIN_EMAIL = `admin@${BRAND_DOMAIN}`;
