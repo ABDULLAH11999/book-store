@@ -103,7 +103,7 @@ export function OrderCreateForm({ products }: { products: Product[] }) {
             <div key={product.id} className="flex items-center justify-between rounded-2xl border border-black/10 p-4">
               <div>
                 <p className="font-medium">{product.name}</p>
-                <p className="text-sm text-black/50">{product.brand} | {formatPKR(Number(product.salePrice ?? product.price))}</p>
+                <p className="text-sm text-black/50">Type: {product.brand} | {formatPKR(Number(product.salePrice ?? product.price))}</p>
               </div>
               <input
                 type="number"

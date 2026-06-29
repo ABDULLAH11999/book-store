@@ -15,7 +15,7 @@ function getContentType(fileName: string) {
 }
 
 export async function GET(_request: Request, { params }: { params: { path: string[] } }) {
-  const filePath = path.join(process.cwd(), "public", "watches", ...params.path);
+  const filePath = path.join(process.cwd(), "public", "books", ...params.path);
   try {
     const file = await readFile(filePath);
     return new NextResponse(file, {

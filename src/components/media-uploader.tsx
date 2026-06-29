@@ -3,7 +3,7 @@
 import { useState } from "react";
 import toast from "react-hot-toast";
 
-export function useMediaUploader(folder = "anmol-gadgets") {
+export function useMediaUploader(folder = "islamicplay/books") {
   const [uploading, setUploading] = useState(false);
 
   async function uploadFiles(files: FileList | null) {

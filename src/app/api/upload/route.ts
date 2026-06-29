@@ -11,7 +11,7 @@ export async function POST(request: Request) {
   try {
     const formData = await request.formData();
     const file = formData.get("file");
-    const folder = String(formData.get("folder") || "anmol-gadgets");
+    const folder = String(formData.get("folder") || "islamicplay/books");
 
     if (!(file instanceof File)) {
       return NextResponse.json({ error: "Missing file" }, { status: 400 });

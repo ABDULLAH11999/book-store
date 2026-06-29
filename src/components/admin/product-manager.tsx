@@ -44,7 +44,7 @@ export function ProductManager({ initialProducts }: { initialProducts: Product[]
   const [page, setPage] = useState(1);
   const [selected, setSelected] = useState<Product | null>(null);
   const [form, setForm] = useState(emptyForm);
-  const { uploadFiles, uploading } = useMediaUploader("anmol-gadgets/watches");
+  const { uploadFiles, uploading } = useMediaUploader("islamicplay/books");
 
   useEffect(() => {
     if (!selected) {
@@ -144,7 +144,7 @@ export function ProductManager({ initialProducts }: { initialProducts: Product[]
         </div>
         <div className="grid gap-4">
           <input value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} placeholder="Name" className="rounded-2xl border px-4 py-3" />
-          <input value={form.brand} onChange={(e) => setForm({ ...form, brand: e.target.value })} placeholder="Brand" className="rounded-2xl border px-4 py-3" />
+          <input value={form.brand} onChange={(e) => setForm({ ...form, brand: e.target.value })} placeholder="Type" className="rounded-2xl border px-4 py-3" />
           <TiptapEditor value={form.description} onChange={(description) => setForm({ ...form, description })} />
           <div className="grid gap-3 md:grid-cols-2">
             <input value={form.price} onChange={(e) => setForm({ ...form, price: e.target.value })} placeholder="Price" className="rounded-2xl border px-4 py-3" />
@@ -210,7 +210,7 @@ export function ProductManager({ initialProducts }: { initialProducts: Product[]
               <thead className="sticky top-0 bg-white text-black/50">
                 <tr>
                   <th className="px-4 py-3 font-medium">Product</th>
-                  <th className="px-4 py-3 font-medium">Brand</th>
+                  <th className="px-4 py-3 font-medium">Type</th>
                   <th className="px-4 py-3 font-medium">Price</th>
                   <th className="px-4 py-3 font-medium">Status</th>
                   <th className="px-4 py-3 font-medium">Stock</th>

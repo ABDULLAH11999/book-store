@@ -22,9 +22,9 @@ export function ProductCard({
   };
   onAddToCart?: () => void;
   }) {
-  const image = normalizeMediaUrl(product.images?.[0] || "/watches/classic-fusion-titanium.jpg");
+  const image = normalizeMediaUrl(product.images?.[0] || "/books/classic-fusion-titanium.jpg");
   const hoverImage = useMemo(
-    () => normalizeMediaUrl(product.images?.[1] || product.images?.[0] || "/watches/classic-fusion-titanium.jpg"),
+    () => normalizeMediaUrl(product.images?.[1] || product.images?.[0] || "/books/classic-fusion-titanium.jpg"),
     [product.images]
   );
   const salePrice = product.salePrice ? Number(product.salePrice) : null;

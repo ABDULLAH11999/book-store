@@ -6,7 +6,7 @@ import { z } from "zod";
 import { BRAND_ADMIN_EMAIL } from "@/lib/branding";
 
 const loginSchema = z.object({
-  email: z.string().email(),
+  email: z.string().trim().min(3),
   password: z.string().min(6)
 });
 
@@ -41,7 +41,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
           // Fall back to the seeded local admin credentials when the database is unreachable.
         }
 
-        if (parsed.data.email === BRAND_ADMIN_EMAIL && parsed.data.password === "Admin@123") {
+        if (parsed.data.email === BRAND_ADMIN_EMAIL && parsed.data.password === "islamicplay@234") {
           return {
             id: "local-admin",
             email: BRAND_ADMIN_EMAIL,

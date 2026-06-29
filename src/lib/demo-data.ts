@@ -6,7 +6,7 @@ export const demoProducts = [
     brand: "HUBLOT",
     price: "4850000",
     salePrice: "4200000",
-    images: ["/watches/classic-fusion-titanium.jpg"]
+    images: ["/books/classic-fusion-titanium.jpg"]
   },
   {
     id: "demo-big-bang-unico-black",
@@ -15,7 +15,7 @@ export const demoProducts = [
     brand: "HUBLOT",
     price: "6200000",
     salePrice: null,
-    images: ["/watches/big-bang-unico-black.jpg"]
+    images: ["/books/big-bang-unico-black.jpg"]
   },
   {
     id: "demo-spirit-of-big-bang",
@@ -24,7 +24,7 @@ export const demoProducts = [
     brand: "HUBLOT",
     price: "5500000",
     salePrice: "4900000",
-    images: ["/watches/big-bang-unico-black.jpg"]
+    images: ["/books/big-bang-unico-black.jpg"]
   },
   {
     id: "demo-mp-05-laferrari",
@@ -33,7 +33,7 @@ export const demoProducts = [
     brand: "HUBLOT",
     price: "9800000",
     salePrice: null,
-    images: ["/watches/mp-05-laferrari.jpg"]
+    images: ["/books/mp-05-laferrari.jpg"]
   },
   {
     id: "demo-nautilus-5711",
@@ -42,7 +42,7 @@ export const demoProducts = [
     brand: "PATEK PHILIPPE",
     price: "12500000",
     salePrice: null,
-    images: ["/watches/nautilus-5711.jpg"]
+    images: ["/books/nautilus-5711.jpg"]
   },
   {
     id: "demo-aquanaut-5167",
@@ -51,7 +51,7 @@ export const demoProducts = [
     brand: "PATEK PHILIPPE",
     price: "8900000",
     salePrice: "7800000",
-    images: ["/watches/aquanaut-5167.jpg"]
+    images: ["/books/aquanaut-5167.jpg"]
   },
   {
     id: "demo-grand-complications-5270",
@@ -60,7 +60,7 @@ export const demoProducts = [
     brand: "PATEK PHILIPPE",
     price: "18000000",
     salePrice: null,
-    images: ["/watches/grand-complications-5270.jpg"]
+    images: ["/books/grand-complications-5270.jpg"]
   },
   {
     id: "demo-calatrava-5196",
@@ -69,7 +69,7 @@ export const demoProducts = [
     brand: "PATEK PHILIPPE",
     price: "7200000",
     salePrice: null,
-    images: ["/watches/calatrava-5196.jpg"]
+    images: ["/books/calatrava-5196.jpg"]
   },
   {
     id: "demo-classic-fusion-blue",
@@ -78,7 +78,7 @@ export const demoProducts = [
     brand: "HUBLOT",
     price: "5150000",
     salePrice: null,
-    images: ["/watches/classic-fusion-titanium.jpg"]
+    images: ["/books/classic-fusion-titanium.jpg"]
   },
   {
     id: "demo-nautilus-rose",
@@ -87,7 +87,7 @@ export const demoProducts = [
     brand: "PATEK PHILIPPE",
     price: "13200000",
     salePrice: "12100000",
-    images: ["/watches/nautilus-5711.jpg"]
+    images: ["/books/nautilus-5711.jpg"]
   }
 ] as const;
 

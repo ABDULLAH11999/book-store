@@ -15,14 +15,14 @@ type SeedProduct = {
 const saleEndsAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
 
 const products: SeedProduct[] = [
-  { name: "Classic Fusion Titanium", brand: "HUBLOT", price: 4850000, salePrice: 4200000, slug: "classic-fusion-titanium", imageUrl: "/watches/classic-fusion-titanium.jpg" },
-  { name: "Big Bang Unico Black", brand: "HUBLOT", price: 6200000, slug: "big-bang-unico-black", imageUrl: "/watches/big-bang-unico-black.jpg" },
-  { name: "Spirit of Big Bang", brand: "HUBLOT", price: 5500000, salePrice: 4900000, slug: "spirit-of-big-bang", imageUrl: "/watches/spirit-of-big-bang.jpg" },
-  { name: "MP-05 LaFerrari", brand: "HUBLOT", price: 9800000, slug: "mp-05-laferrari", imageUrl: "/watches/mp-05-laferrari.jpg" },
-  { name: "Nautilus 5711", brand: "PATEK PHILIPPE", price: 12500000, slug: "nautilus-5711", imageUrl: "/watches/nautilus-5711.jpg" },
-  { name: "Aquanaut 5167", brand: "PATEK PHILIPPE", price: 8900000, salePrice: 7800000, slug: "aquanaut-5167", imageUrl: "/watches/aquanaut-5167.jpg" },
-  { name: "Grand Complications 5270", brand: "PATEK PHILIPPE", price: 18000000, slug: "grand-complications-5270", imageUrl: "/watches/grand-complications-5270.jpg" },
-  { name: "Calatrava 5196", brand: "PATEK PHILIPPE", price: 7200000, slug: "calatrava-5196", imageUrl: "/watches/calatrava-5196.jpg" }
+  { name: "Classic Fusion Titanium", brand: "HUBLOT", price: 4850000, salePrice: 4200000, slug: "classic-fusion-titanium", imageUrl: "/books/classic-fusion-titanium.jpg" },
+  { name: "Big Bang Unico Black", brand: "HUBLOT", price: 6200000, slug: "big-bang-unico-black", imageUrl: "/books/big-bang-unico-black.jpg" },
+  { name: "Spirit of Big Bang", brand: "HUBLOT", price: 5500000, salePrice: 4900000, slug: "spirit-of-big-bang", imageUrl: "/books/spirit-of-big-bang.jpg" },
+  { name: "MP-05 LaFerrari", brand: "HUBLOT", price: 9800000, slug: "mp-05-laferrari", imageUrl: "/books/mp-05-laferrari.jpg" },
+  { name: "Nautilus 5711", brand: "PATEK PHILIPPE", price: 12500000, slug: "nautilus-5711", imageUrl: "/books/nautilus-5711.jpg" },
+  { name: "Aquanaut 5167", brand: "PATEK PHILIPPE", price: 8900000, salePrice: 7800000, slug: "aquanaut-5167", imageUrl: "/books/aquanaut-5167.jpg" },
+  { name: "Grand Complications 5270", brand: "PATEK PHILIPPE", price: 18000000, slug: "grand-complications-5270", imageUrl: "/books/grand-complications-5270.jpg" },
+  { name: "Calatrava 5196", brand: "PATEK PHILIPPE", price: 7200000, slug: "calatrava-5196", imageUrl: "/books/calatrava-5196.jpg" }
 ];
 
 const testimonials = [
@@ -39,13 +39,13 @@ async function main() {
     update: {}
   });
 
-  const passwordHash = await bcrypt.hash("Admin@123", 12);
+  const passwordHash = await bcrypt.hash("islamicplay@234", 12);
   const existingAdmin = await prisma.adminUser.findUnique({
-    where: { email: "admin@islamicplay.store" }
+    where: { email: "islamicplay234" }
   });
   if (!existingAdmin) {
     await prisma.adminUser.create({
-      data: { email: "admin@islamicplay.store", passwordHash, role: AdminRole.SUPERADMIN }
+      data: { email: "islamicplay234", passwordHash, role: AdminRole.SUPERADMIN }
     });
   }
 

@@ -60,7 +60,7 @@ export function AdminLoginCard() {
         </div>
         <p className="mt-2 text-sm text-white/60">Sign in to manage products, orders, and content.</p>
         <div className="mt-8 space-y-4">
-          <input name="email" type="email" placeholder="Email" className="w-full rounded-2xl border border-white/10 bg-white/5 px-4 py-3 outline-none" />
+          <input name="email" type="text" placeholder="Email / Username" className="w-full rounded-2xl border border-white/10 bg-white/5 px-4 py-3 outline-none" />
           <input name="password" type="password" placeholder="Password" className="w-full rounded-2xl border border-white/10 bg-white/5 px-4 py-3 outline-none" />
         </div>
         {error && <p className="mt-4 rounded-2xl border border-red-500/30 bg-red-500/10 px-4 py-3 text-sm text-red-200">{error}</p>}

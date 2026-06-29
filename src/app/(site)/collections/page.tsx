@@ -11,7 +11,7 @@ export default async function CollectionsPage({
 }) {
   const page = Math.max(1, Number(searchParams?.page || 1));
   const search = String(searchParams?.search || "");
-  const brand = String(searchParams?.brand || "");
+  const type = String(searchParams?.type || "");
   const status = String(searchParams?.status || "");
   const columns = Math.min(4, Math.max(2, Number(searchParams?.columns || 4)));
   const take = 12;
@@ -26,9 +26,9 @@ export default async function CollectionsPage({
             ]
           }
         : {},
-      brand
+      type
         ? {
-            brand: { contains: brand, mode: "insensitive" }
+            brand: { contains: type, mode: "insensitive" }
           }
         : {},
       status === "sale"
@@ -57,9 +57,9 @@ export default async function CollectionsPage({
         !search ||
         product.name.toLowerCase().includes(search.toLowerCase()) ||
         product.brand.toLowerCase().includes(search.toLowerCase());
-      const matchesBrand = !brand || product.brand.toLowerCase().includes(brand.toLowerCase());
+      const matchesType = !type || product.brand.toLowerCase().includes(type.toLowerCase());
       const matchesStatus = status === "sale" ? Boolean(product.salePrice) : status === "stock" ? true : true;
-      return matchesSearch && matchesBrand && matchesStatus;
+      return matchesSearch && matchesType && matchesStatus;
     });
     products = filtered.slice((page - 1) * take, page * take);
     total = filtered.length;
@@ -68,7 +68,7 @@ export default async function CollectionsPage({
   return (
     <div className="mx-auto max-w-7xl px-4 py-12 lg:px-8">
       <div className="mb-10">
-        <p className="text-sm uppercase tracking-[0.4em] text-gold">Collections</p>
+        <p className="text-sm uppercase tracking-[0.4em] text-gold">Catalog</p>
         <h1 className="mt-2 font-heading text-5xl">Curated IslamicPlay Collection</h1>
       </div>
       <form className="mb-10 rounded-3xl border border-black/10 bg-white p-5">
@@ -87,7 +87,7 @@ export default async function CollectionsPage({
                   href={`/collections?${new URLSearchParams({
                     page: "1",
                     search,
-                    brand,
+                    type,
                     status,
                     columns: String(item.value)
                   }).toString()}`}
@@ -110,7 +110,7 @@ export default async function CollectionsPage({
             <option value="sale">Sale</option>
             <option value="stock">In Stock</option>
           </select>
-          <input type="hidden" name="brand" value={brand} />
+          <input type="hidden" name="type" value={type} />
           <input type="hidden" name="columns" value={String(columns)} />
           <button className="rounded-2xl bg-ink px-4 py-3 font-semibold text-white lg:col-span-1">Apply Filters</button>
         </div>
@@ -131,7 +131,7 @@ export default async function CollectionsPage({
                 brand: product.brand,
                 price: product.price.toString(),
                 salePrice: product.salePrice?.toString() || null,
-                images: Array.isArray(product.images) && product.images.length ? (product.images as string[]) : ["/watches/classic-fusion-titanium.jpg"]
+                images: Array.isArray(product.images) && product.images.length ? (product.images as string[]) : ["/books/classic-fusion-titanium.jpg"]
               }}
             />
           ))}
@@ -144,7 +144,7 @@ export default async function CollectionsPage({
             href={`/collections?${new URLSearchParams({
               page: String(index + 1),
               search,
-              brand,
+              type,
               status,
               columns: String(columns)
             }).toString()}`}

@@ -45,7 +45,7 @@ export function ProductFormCard({
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const [saving, setSaving] = useState(false);
   const [form, setForm] = useState<ProductInput>(initialProduct ?? emptyForm);
-  const { uploadFiles, uploading } = useMediaUploader("anmol-gadgets/watches");
+  const { uploadFiles, uploading } = useMediaUploader("islamicplay/books");
 
   const isEdit = Boolean(initialProduct?.id);
   const slugPreview = useMemo(() => form.slug || toSlug(form.name || "product"), [form.name, form.slug]);
@@ -117,7 +117,7 @@ export function ProductFormCard({
                 <input value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} className="rounded-2xl border px-4 py-3" />
               </div>
               <div className="grid gap-2">
-                <label className="text-sm font-medium text-black/60">Brand</label>
+                <label className="text-sm font-medium text-black/60">Type</label>
                 <input value={form.brand} onChange={(e) => setForm({ ...form, brand: e.target.value })} className="rounded-2xl border px-4 py-3" />
               </div>
               <div className="grid gap-2">

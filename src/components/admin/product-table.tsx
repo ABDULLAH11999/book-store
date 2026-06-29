@@ -105,7 +105,7 @@ export function ProductTable({ initialProducts }: { initialProducts: Product[] }
             <thead className="sticky top-0 bg-white text-black/50">
               <tr>
                 <th className="px-4 py-3 font-medium">Product</th>
-                <th className="px-4 py-3 font-medium">Brand</th>
+                <th className="px-4 py-3 font-medium">Type</th>
                 <th className="px-4 py-3 font-medium">Price</th>
                 <th className="px-4 py-3 font-medium">Status</th>
                 <th className="px-4 py-3 font-medium">Stock</th>

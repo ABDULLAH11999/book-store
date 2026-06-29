@@ -29,7 +29,7 @@ export function FeaturedProductsGrid({
               name: product.name,
               brand: product.brand,
               slug: product.slug,
-              image: product.images?.[0] || "/watches/classic-fusion-titanium.jpg",
+              image: product.images?.[0] || "/books/classic-fusion-titanium.jpg",
               price: Number(product.price),
               salePrice: product.salePrice ? Number(product.salePrice) : null
             })

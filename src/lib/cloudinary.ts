@@ -20,7 +20,7 @@ function isProduction() {
 function normalizeFolder(folder = "anmol-gadgets") {
   const clean = folder.replace(/\\/g, "/").replace(/^\/+|\/+$/g, "");
   if (clean.includes("testimonial")) return "testimonials";
-  if (clean.includes("product") || clean.includes("watch")) return "watches";
+  if (clean.includes("product") || clean.includes("watch")) return "books";
   return clean.split("/").filter(Boolean).pop() || "assets";
 }
 

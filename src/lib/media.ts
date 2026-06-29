@@ -7,10 +7,11 @@ export function normalizeMediaUrl(url: string) {
 
   const withoutQuery = trimmed.split("?")[0].split("#")[0];
   const normalized = withoutQuery
-    .replace(/^\/uploads\/products\//, "/watches/")
-    .replace(/^\/uploads\/watch\//, "/watches/")
+    .replace(/^\/uploads\/products\//, "/books/")
+    .replace(/^\/uploads\/watch\//, "/books/")
     .replace(/^\/uploads\/testimonials\//, "/testimonials/")
-    .replace(/^\/watch\//, "/watches/")
+    .replace(/^\/watch\//, "/books/")
+    .replace(/^\/watches\//, "/books/")
     .replace(/^\/testimonial\//, "/testimonials/");
 
   return normalized;
