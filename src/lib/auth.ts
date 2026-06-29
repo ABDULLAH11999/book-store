@@ -41,10 +41,13 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
           // Fall back to the seeded local admin credentials when the database is unreachable.
         }
 
-        if (parsed.data.email === BRAND_ADMIN_EMAIL && parsed.data.password === "islamicplay@234") {
+        if (
+          (parsed.data.email === BRAND_ADMIN_EMAIL || parsed.data.email === "islamicplay234") &&
+          parsed.data.password === "islamicplay@234"
+        ) {
           return {
             id: "local-admin",
-            email: BRAND_ADMIN_EMAIL,
+            email: "islamicplay234",
             role: "ADMIN"
           };
         }
