@@ -66,7 +66,7 @@ export default async function ProductDetailPage({ params }: { params: { slug: st
     <div className="mx-auto max-w-7xl px-4 py-12 lg:px-8">
       <div className="grid gap-10 lg:grid-cols-2">
         <ProductGallery
-          images={Array.isArray(product.images) && product.images.length ? (product.images as string[]) : ["/books/asan-tarjuma-quran-1.jpg"]}
+          images={Array.isArray(product.images) && product.images.length ? (product.images as string[]) : ["/books/asan-tarjuma-quran-1.webp"]}
           videoUrl={product.videoUrl}
           name={product.name}
         />
@@ -79,7 +79,7 @@ export default async function ProductDetailPage({ params }: { params: { slug: st
             price: product.price.toString(),
             salePrice: product.salePrice?.toString() || null,
             stock: product.stock ?? 0,
-            image: (Array.isArray(product.images) && product.images.length ? (product.images as string[]) : ["/books/asan-tarjuma-quran-1.jpg"])[0]
+            image: (Array.isArray(product.images) && product.images.length ? (product.images as string[]) : ["/books/asan-tarjuma-quran-1.webp"])[0]
           }}
         />
       </div>
@@ -110,7 +110,7 @@ export default async function ProductDetailPage({ params }: { params: { slug: st
                 brand: item.brand,
                 price: item.price.toString(),
                 salePrice: item.salePrice?.toString() || null,
-                images: Array.isArray(item.images) && item.images.length ? (item.images as string[]) : ["/books/asan-tarjuma-quran-1.jpg"]
+                images: Array.isArray(item.images) && item.images.length ? (item.images as string[]) : ["/books/asan-tarjuma-quran-1.webp"]
               }}
             />
           ))}

@@ -21,8 +21,8 @@ const products: SeedProduct[] = [
     price: 2499,
     salePrice: 1999,
     slug: "asan-tarjuma-quran",
-    imageUrl: "/books/asan-tarjuma-quran-1.jpg",
-    imageUrlAlt: "/books/asan-tarjuma-quran-2.jpg",
+    imageUrl: "/books/asan-tarjuma-quran-1.webp",
+    imageUrlAlt: "/books/asan-tarjuma-quran-2.webp",
     description:
       "<p>An easy-to-read Urdu translation of the Holy Quran by Dr. Israr Ahmed, designed for daily recitation, reflection, and understanding.</p>"
   },
@@ -31,7 +31,7 @@ const products: SeedProduct[] = [
     brand: "Quran",
     price: 1899,
     slug: "bayan-ul-quran-by-dr-israr-ahmed",
-    imageUrl: "/books/bayan-ul-quran-by-dr-israr-ahmed-1.jpg",
+    imageUrl: "/books/bayan-ul-quran-by-dr-israr-ahmed-1.webp",
     description:
       "<p>A respected Quranic commentary from Dr. Israr Ahmed, presented in a clear format for readers who want deeper insight into the meanings of the Quran.</p>"
   },
@@ -41,8 +41,8 @@ const products: SeedProduct[] = [
     price: 2999,
     salePrice: 2499,
     slug: "beautiful-quran-kareem-luxury-islamic-gift-edition",
-    imageUrl: "/books/beautiful-quran-kareem-luxury-islamic-gift-edition-1.jpg",
-    imageUrlAlt: "/books/beautiful-quran-kareem-luxury-islamic-gift-edition-2.jpg",
+    imageUrl: "/books/beautiful-quran-kareem-luxury-islamic-gift-edition-1.webp",
+    imageUrlAlt: "/books/beautiful-quran-kareem-luxury-islamic-gift-edition-2.webp",
     description:
       "<p>A premium Quran Kareem gift edition with elegant presentation, suitable for gifting and personal recitation.</p>"
   },
@@ -51,8 +51,8 @@ const products: SeedProduct[] = [
     brand: "Book",
     price: 1399,
     slug: "seerat-un-nabi-by-dr-israr-ahmad-buy-online",
-    imageUrl: "/books/seerat-un-nabi-by-dr-israr-ahmad-buy-online-1.jpg",
-    imageUrlAlt: "/books/seerat-un-nabi-by-dr-israr-ahmad-buy-online-2.jpg",
+    imageUrl: "/books/seerat-un-nabi-by-dr-israr-ahmad-buy-online-1.webp",
+    imageUrlAlt: "/books/seerat-un-nabi-by-dr-israr-ahmad-buy-online-2.webp",
     description:
       "<p>An insightful Urdu book on the Seerah of the Prophet ﷺ with thoughtful commentary and accessible language.</p>"
   },
@@ -61,8 +61,8 @@ const products: SeedProduct[] = [
     brand: "Book",
     price: 1199,
     slug: "waqia-karbala-the-historic-story-of-imam-hussain-ra-islamic-urdu-book",
-    imageUrl: "/books/waqia-karbala-the-historic-story-of-imam-hussain-ra-islamic-urdu-book-1.jpg",
-    imageUrlAlt: "/books/waqia-karbala-the-historic-story-of-imam-hussain-ra-islamic-urdu-book-2.jpg",
+    imageUrl: "/books/waqia-karbala-the-historic-story-of-imam-hussain-ra-islamic-urdu-book-1.webp",
+    imageUrlAlt: "/books/waqia-karbala-the-historic-story-of-imam-hussain-ra-islamic-urdu-book-2.webp",
     description:
       "<p>A concise Islamic Urdu book covering the historic events of Karbala and the sacrifice of Imam Hussain (RA).</p>"
   }

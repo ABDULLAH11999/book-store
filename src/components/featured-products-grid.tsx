@@ -29,7 +29,7 @@ export function FeaturedProductsGrid({
               name: product.name,
               brand: product.brand,
               slug: product.slug,
-              image: product.images?.[0] || "/books/classic-fusion-titanium.jpg",
+              image: product.images?.[0] || "/books/asan-tarjuma-quran-1.webp",
               price: Number(product.price),
               salePrice: product.salePrice ? Number(product.salePrice) : null
             })

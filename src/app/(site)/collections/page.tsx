@@ -131,7 +131,7 @@ export default async function CollectionsPage({
                 brand: product.brand,
                 price: product.price.toString(),
                 salePrice: product.salePrice?.toString() || null,
-                images: Array.isArray(product.images) && product.images.length ? (product.images as string[]) : ["/books/classic-fusion-titanium.jpg"]
+                images: Array.isArray(product.images) && product.images.length ? (product.images as string[]) : ["/books/asan-tarjuma-quran-1.webp"]
               }}
             />
           ))}

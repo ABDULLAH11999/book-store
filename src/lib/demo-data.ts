@@ -6,7 +6,7 @@ export const demoProducts = [
     brand: "Quran",
     price: "2499",
     salePrice: "1999",
-    images: ["/books/asan-tarjuma-quran-1.jpg", "/books/asan-tarjuma-quran-2.jpg"]
+    images: ["/books/asan-tarjuma-quran-1.webp", "/books/asan-tarjuma-quran-2.webp"]
   },
   {
     id: "demo-bayan-ul-quran",
@@ -15,7 +15,7 @@ export const demoProducts = [
     brand: "Quran",
     price: "1899",
     salePrice: null,
-    images: ["/books/bayan-ul-quran-by-dr-israr-ahmed-1.jpg"]
+    images: ["/books/bayan-ul-quran-by-dr-israr-ahmed-1.webp"]
   },
   {
     id: "demo-beautiful-quran-kareem",
@@ -25,8 +25,8 @@ export const demoProducts = [
     price: "2999",
     salePrice: "2499",
     images: [
-      "/books/beautiful-quran-kareem-luxury-islamic-gift-edition-1.jpg",
-      "/books/beautiful-quran-kareem-luxury-islamic-gift-edition-2.jpg"
+      "/books/beautiful-quran-kareem-luxury-islamic-gift-edition-1.webp",
+      "/books/beautiful-quran-kareem-luxury-islamic-gift-edition-2.webp"
     ]
   },
   {
@@ -37,8 +37,8 @@ export const demoProducts = [
     price: "1399",
     salePrice: null,
     images: [
-      "/books/seerat-un-nabi-by-dr-israr-ahmad-buy-online-1.jpg",
-      "/books/seerat-un-nabi-by-dr-israr-ahmad-buy-online-2.jpg"
+      "/books/seerat-un-nabi-by-dr-israr-ahmad-buy-online-1.webp",
+      "/books/seerat-un-nabi-by-dr-israr-ahmad-buy-online-2.webp"
     ]
   },
   {
@@ -49,8 +49,8 @@ export const demoProducts = [
     price: "1199",
     salePrice: null,
     images: [
-      "/books/waqia-karbala-the-historic-story-of-imam-hussain-ra-islamic-urdu-book-1.jpg",
-      "/books/waqia-karbala-the-historic-story-of-imam-hussain-ra-islamic-urdu-book-2.jpg"
+      "/books/waqia-karbala-the-historic-story-of-imam-hussain-ra-islamic-urdu-book-1.webp",
+      "/books/waqia-karbala-the-historic-story-of-imam-hussain-ra-islamic-urdu-book-2.webp"
     ]
   },
 ] as const;
