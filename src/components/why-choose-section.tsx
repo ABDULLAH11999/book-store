@@ -4,8 +4,8 @@ import { motion } from "framer-motion";
 import { Check } from "lucide-react";
 
 const benefits = [
-  "اسلامی انداز کے ساتھ صاف presentation",
-  "شریعت کے مطابق trust-first shopping",
+  "Clear Islamic presentation with respectful product details",
+  "Trust-first shopping backed by transparent policies",
   "Cash on delivery across Pakistan",
   "WhatsApp support for quick help",
   "Careful packing and reliable delivery"
@@ -19,7 +19,7 @@ export function WhyChooseSection() {
           <p className="text-xs uppercase tracking-[0.35em] text-black/45 sm:text-sm">Why Choose</p>
           <h2 className="mt-2 font-heading text-3xl leading-tight sm:text-4xl">Why people choose IslamicPlay</h2>
           <p className="mt-4 max-w-xl text-sm leading-7 text-black/60 sm:text-base">
-            We keep the buying experience simple, trustworthy, and premium. Every order is handled with care so the storefront feels calm, respectful, and dependable.
+            We keep the buying experience simple, trustworthy, and affordable. Every order is handled with care so the storefront feels calm, respectful, and dependable.
           </p>
         </div>
 

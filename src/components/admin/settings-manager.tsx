@@ -181,6 +181,9 @@ export function SettingsManager({ initialSettings }: { initialSettings: Settings
           >
             {backingUp ? "Preparing Backup..." : "Backup DB"}
           </button>
+          <a href="/admin/banner" className="rounded-2xl border border-black/10 px-6 py-3 font-semibold">
+            Banner Settings
+          </a>
           <a href="/admin/backup-db" className="rounded-2xl border border-black/10 px-6 py-3 font-semibold">
             Open Backup Page
           </a>

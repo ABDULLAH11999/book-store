@@ -35,7 +35,7 @@ export function SiteFooter() {
         <div className="space-y-4">
           <div className="font-heading text-3xl text-white">{BRAND_NAME}</div>
           <p className="max-w-sm text-sm leading-6 text-white/80">
-            {BRAND_TAGLINE}. A calm storefront built around clarity, trust, and a premium Islamic shopping experience.
+            {BRAND_TAGLINE}. A calm storefront built around clarity, trust, and a premium Islamic reading experience at fair prices.
           </p>
         </div>
         <div>
@@ -45,8 +45,6 @@ export function SiteFooter() {
             <Link href="/contact">Contact</Link>
             <Link href="/privacy-policy">Privacy Policy</Link>
             <Link href="/shipping-policy">Shipping Policy</Link>
-            <Link href="/return-policy">Return Policy</Link>
-            <Link href="/terms-conditions">Terms</Link>
           </div>
         </div>
         <div>

@@ -61,28 +61,28 @@ export const demoTestimonials = [
     customerName: "Ali Hassan",
     customerImage: "/testimonials/ali-hassan.jpg",
     rating: 5,
-    reviewText: "The packaging and presentation were exactly what I expected from a luxury watch store."
+    reviewText: "The packaging and presentation felt thoughtful and professional from start to finish."
   },
   {
     id: "demo-testimonial-2",
     customerName: "Fatima Khan",
     customerImage: "/testimonials/fatima-khan.jpg",
     rating: 5,
-    reviewText: "Beautiful product photos, very smooth communication, and the watch arrived in perfect condition."
+    reviewText: "Beautiful product photos, smooth communication, and a very reliable buying experience."
   },
   {
     id: "demo-testimonial-3",
     customerName: "Usman Malik",
     customerImage: "/testimonials/usman-malik.jpg",
     rating: 5,
-    reviewText: "Premium service from order to delivery. The detail on the watch is incredible."
+    reviewText: "Premium service from order to delivery. The attention to detail really stood out."
   },
   {
     id: "demo-testimonial-4",
     customerName: "Zara Ahmed",
     customerImage: "/testimonials/zara-ahmed.jpg",
     rating: 5,
-    reviewText: "The site feels polished and the collection looks exactly like a high-end boutique."
+    reviewText: "The site feels polished and the collection is presented in a very trustworthy way."
   },
   {
     id: "demo-testimonial-5",
@@ -96,21 +96,21 @@ export const demoTestimonials = [
     customerName: "Sana Malik",
     customerImage: "/testimonials/sana-malik.jpg",
     rating: 5,
-    reviewText: "A very premium browsing experience, especially on mobile. Loved the watch cards."
+    reviewText: "A very premium browsing experience, especially on mobile. Everything felt easy to use."
   },
   {
     id: "demo-testimonial-7",
     customerName: "Omar Sheikh",
     customerImage: "/testimonials/omar-sheikh.jpg",
     rating: 5,
-    reviewText: "The luxury feel is strong throughout the site. It looks trustworthy and elegant."
+    reviewText: "The overall feel is elegant, respectful, and very trustworthy."
   },
   {
     id: "demo-testimonial-8",
     customerName: "Ayesha Butt",
     customerImage: "/testimonials/ayesha-butt.jpg",
     rating: 5,
-    reviewText: "Really liked the clean layout and how the watches are presented with premium styling."
+    reviewText: "Really liked the clean layout and how the products are presented with premium styling."
   }
 ] as const;
 

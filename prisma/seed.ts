@@ -1,4 +1,4 @@
-import { PrismaClient, Prisma, ProductStatus, TestimonialStatus, AdminRole } from "@prisma/client";
+import { PrismaClient, Prisma, ProductStatus, AdminRole } from "@prisma/client";
 import bcrypt from "bcryptjs";
 
 const prisma = new PrismaClient();
@@ -47,17 +47,17 @@ const products: SeedProduct[] = [
       "<p>A premium Quran Kareem gift edition with elegant presentation, suitable for gifting and personal recitation.</p>"
   },
   {
-    name: "Seerat-un-Nabi ﷺ by Dr. Israr Ahmad",
+    name: "Seerat-un-Nabi by Dr. Israr Ahmad",
     brand: "Book",
     price: 1399,
     slug: "seerat-un-nabi-by-dr-israr-ahmad-buy-online",
     imageUrl: "/books/seerat-un-nabi-by-dr-israr-ahmad-buy-online-1.webp",
     imageUrlAlt: "/books/seerat-un-nabi-by-dr-israr-ahmad-buy-online-2.webp",
     description:
-      "<p>An insightful Urdu book on the Seerah of the Prophet ﷺ with thoughtful commentary and accessible language.</p>"
+      "<p>An insightful Urdu book on the Seerah of the Prophet with thoughtful commentary and accessible language.</p>"
   },
   {
-    name: "Waqia Karbala – The Historic Story of Imam Hussain (RA)",
+    name: "Waqia Karbala - The Historic Story of Imam Hussain (RA)",
     brand: "Book",
     price: 1199,
     slug: "waqia-karbala-the-historic-story-of-imam-hussain-ra-islamic-urdu-book",
@@ -66,13 +66,6 @@ const products: SeedProduct[] = [
     description:
       "<p>A concise Islamic Urdu book covering the historic events of Karbala and the sacrifice of Imam Hussain (RA).</p>"
   }
-];
-
-const testimonials = [
-  { customerName: "Ali Hassan", rating: 5, reviewText: "The watch was delivered exactly as shown. Packaging, service, and communication were all first class.", imageUrl: "/testimonials/1.webp", sortOrder: 1 },
-  { customerName: "Fatima Khan", rating: 5, reviewText: "Anmol Gadgets feels like a true luxury boutique. The team was helpful and very professional.", imageUrl: "/testimonials/2.webp", sortOrder: 2 },
-  { customerName: "Usman Malik", rating: 5, reviewText: "Authentic pieces, quick responses, and premium presentation. Highly recommended.", imageUrl: "/testimonials/3.webp", sortOrder: 3 },
-  { customerName: "Zara Ahmed", rating: 5, reviewText: "The site looks elegant and the collection feels very premium on mobile.", imageUrl: "/testimonials/4.webp", sortOrder: 4 }
 ];
 
 async function main() {
@@ -119,6 +112,11 @@ async function main() {
     fromEmail: "no-reply@islamicplay.store"
   };
 
+  const bannerSettings = {
+    desktopImages: ["/ui-image/banner.png"],
+    mobileImages: ["/ui-image/banner.png"]
+  };
+
   await prisma.siteSettings.upsert({
     where: { key: "businessInfo" },
     create: { key: "businessInfo", value: JSON.stringify(businessInfo) },
@@ -133,6 +131,11 @@ async function main() {
     where: { key: "emailSettings" },
     create: { key: "emailSettings", value: JSON.stringify(emailSettings) },
     update: { value: JSON.stringify(emailSettings) }
+  });
+  await prisma.siteSettings.upsert({
+    where: { key: "bannerSettings" },
+    create: { key: "bannerSettings", value: JSON.stringify(bannerSettings) },
+    update: { value: JSON.stringify(bannerSettings) }
   });
 
   for (const product of products) {
@@ -166,23 +169,7 @@ async function main() {
     });
   }
 
-  for (const testimonial of testimonials) {
-    const existingTestimonial = await prisma.testimonial.findFirst({
-      where: { customerName: testimonial.customerName }
-    });
-    if (!existingTestimonial) {
-      await prisma.testimonial.create({
-        data: {
-          customerName: testimonial.customerName,
-          customerImage: testimonial.imageUrl,
-          rating: testimonial.rating,
-          reviewText: testimonial.reviewText,
-          status: TestimonialStatus.PUBLISHED,
-          sortOrder: testimonial.sortOrder
-        }
-      });
-    }
-  }
+  await prisma.testimonial.deleteMany({});
 }
 
 main()
