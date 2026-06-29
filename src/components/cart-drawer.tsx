@@ -20,7 +20,7 @@ export function CartDrawer({ open, onClose }: { open: boolean; onClose: () => vo
         <div className="max-h-[calc(100vh-180px)] space-y-4 overflow-y-auto p-5">
           {items.length === 0 ? (
             <div className="rounded-3xl border border-dashed border-black/15 p-8 text-center text-sm text-black/60">
-              Your cart is empty. Explore collections to add a luxury watch.
+              Your cart is empty. Explore the catalog to add a meaningful Islamic book or Quran.
             </div>
           ) : (
             items.map((item) => (
@@ -28,7 +28,7 @@ export function CartDrawer({ open, onClose }: { open: boolean; onClose: () => vo
                 <MediaImage src={item.image} alt={item.name} width={88} height={88} className="h-20 w-20 rounded-2xl object-cover" />
                 <div className="flex-1">
                   <h3 className="font-medium">{item.name}</h3>
-                  <p className="text-xs text-black/50">{item.brand}</p>
+                  <p className="text-xs text-black/50">Type: {item.brand}</p>
                   <p className="mt-1 text-sm font-semibold">{formatPKR(item.salePrice ?? item.price)}</p>
                   <div className="mt-3 flex items-center gap-2">
                     <button className="rounded-full border p-1" onClick={() => updateQuantity(item.productId, item.quantity - 1)}><Minus className="h-4 w-4" /></button>

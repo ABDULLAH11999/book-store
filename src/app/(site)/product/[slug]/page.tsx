@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import { ProductGallery } from "@/components/product-gallery";
@@ -6,6 +7,30 @@ import { ProductCard } from "@/components/product-card";
 import { demoProducts } from "@/lib/demo-data";
 
 export const dynamic = "force-dynamic";
+
+function stripHtml(value: string) {
+  return value.replace(/<[^>]*>/g, "").replace(/\s+/g, " ").trim();
+}
+
+export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
+  const product = await prisma.product.findUnique({ where: { slug: params.slug } }).catch(() => null);
+  const fallback = demoProducts.find((item) => item.slug === params.slug) ?? null;
+  const current = product ?? fallback;
+
+  if (!current) {
+    return {};
+  }
+
+  const description =
+    "description" in current && typeof current.description === "string"
+      ? stripHtml(current.description).slice(0, 160)
+      : `${current.name} from IslamicPlay.`;
+
+  return {
+    title: `${current.name} | IslamicPlay`,
+    description
+  };
+}
 
 export default async function ProductDetailPage({ params }: { params: { slug: string } }) {
   let product: any = null;
@@ -41,7 +66,7 @@ export default async function ProductDetailPage({ params }: { params: { slug: st
     <div className="mx-auto max-w-7xl px-4 py-12 lg:px-8">
       <div className="grid gap-10 lg:grid-cols-2">
         <ProductGallery
-          images={Array.isArray(product.images) && product.images.length ? (product.images as string[]) : ["/watches/classic-fusion-titanium.jpg"]}
+          images={Array.isArray(product.images) && product.images.length ? (product.images as string[]) : ["/books/asan-tarjuma-quran-1.jpg"]}
           videoUrl={product.videoUrl}
           name={product.name}
         />
@@ -54,7 +79,7 @@ export default async function ProductDetailPage({ params }: { params: { slug: st
             price: product.price.toString(),
             salePrice: product.salePrice?.toString() || null,
             stock: product.stock ?? 0,
-            image: (Array.isArray(product.images) && product.images.length ? (product.images as string[]) : ["/watches/classic-fusion-titanium.jpg"])[0]
+            image: (Array.isArray(product.images) && product.images.length ? (product.images as string[]) : ["/books/asan-tarjuma-quran-1.jpg"])[0]
           }}
         />
       </div>
@@ -66,7 +91,7 @@ export default async function ProductDetailPage({ params }: { params: { slug: st
             dangerouslySetInnerHTML={{
               __html:
                 product.description ||
-                `<p>${product.name} is a signature ${product.brand} masterpiece, crafted for collectors who value precision and prestige.</p>`
+                `<p>${product.name} is part of the IslamicPlay collection, thoughtfully selected for readers and gift buyers looking for meaningful Islamic content.</p>`
             }}
           />
         </div>
@@ -85,7 +110,7 @@ export default async function ProductDetailPage({ params }: { params: { slug: st
                 brand: item.brand,
                 price: item.price.toString(),
                 salePrice: item.salePrice?.toString() || null,
-                images: Array.isArray(item.images) && item.images.length ? (item.images as string[]) : ["/watches/classic-fusion-titanium.jpg"]
+                images: Array.isArray(item.images) && item.images.length ? (item.images as string[]) : ["/books/asan-tarjuma-quran-1.jpg"]
               }}
             />
           ))}

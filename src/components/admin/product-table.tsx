@@ -79,7 +79,7 @@ export function ProductTable({ initialProducts }: { initialProducts: Product[] }
               <div className="min-w-0 flex-1">
                 <p className="truncate text-sm font-semibold sm:text-base">{product.name}</p>
                 <p className="mt-1 text-xs text-black/45">{product.slug}</p>
-                <p className="mt-2 text-sm text-black/60">{product.brand}</p>
+                <p className="mt-2 text-sm text-black/60">Type: {product.brand}</p>
                 <p className="mt-1 text-sm font-semibold">{formatPKR(product.price)}</p>
               </div>
             </div>

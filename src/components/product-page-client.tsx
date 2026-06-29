@@ -53,7 +53,7 @@ export function ProductPageClient({
     <div className="space-y-6 lg:sticky lg:top-24">
       <div className="space-y-4">
         <span className="rounded-full bg-black/5 px-3 py-1 text-xs font-semibold uppercase tracking-[0.3em] text-brown">
-          {product.brand}
+          Type: {product.brand}
         </span>
         <h1 className="font-heading text-4xl md:text-6xl">{product.name}</h1>
         <div className="flex items-center gap-3">

@@ -1,94 +1,58 @@
 export const demoProducts = [
   {
-    id: "demo-classic-fusion",
-    name: "Classic Fusion Titanium",
-    slug: "classic-fusion-titanium",
-    brand: "HUBLOT",
-    price: "4850000",
-    salePrice: "4200000",
-    images: ["/books/classic-fusion-titanium.jpg"]
+    id: "demo-asan-tarjuma-quran",
+    name: "Asan Tarjuma Quran",
+    slug: "asan-tarjuma-quran",
+    brand: "Quran",
+    price: "2499",
+    salePrice: "1999",
+    images: ["/books/asan-tarjuma-quran-1.jpg", "/books/asan-tarjuma-quran-2.jpg"]
   },
   {
-    id: "demo-big-bang-unico-black",
-    name: "Big Bang Unico Black",
-    slug: "big-bang-unico-black",
-    brand: "HUBLOT",
-    price: "6200000",
+    id: "demo-bayan-ul-quran",
+    name: "Bayan-Ul-Quran by Dr. Israr Ahmed",
+    slug: "bayan-ul-quran-by-dr-israr-ahmed",
+    brand: "Quran",
+    price: "1899",
     salePrice: null,
-    images: ["/books/big-bang-unico-black.jpg"]
+    images: ["/books/bayan-ul-quran-by-dr-israr-ahmed-1.jpg"]
   },
   {
-    id: "demo-spirit-of-big-bang",
-    name: "Spirit of Big Bang",
-    slug: "spirit-of-big-bang",
-    brand: "HUBLOT",
-    price: "5500000",
-    salePrice: "4900000",
-    images: ["/books/big-bang-unico-black.jpg"]
+    id: "demo-beautiful-quran-kareem",
+    name: "Beautiful Quran Kareem | Luxury Islamic Gift Edition",
+    slug: "beautiful-quran-kareem-luxury-islamic-gift-edition",
+    brand: "Quran",
+    price: "2999",
+    salePrice: "2499",
+    images: [
+      "/books/beautiful-quran-kareem-luxury-islamic-gift-edition-1.jpg",
+      "/books/beautiful-quran-kareem-luxury-islamic-gift-edition-2.jpg"
+    ]
   },
   {
-    id: "demo-mp-05-laferrari",
-    name: "MP-05 LaFerrari",
-    slug: "mp-05-laferrari",
-    brand: "HUBLOT",
-    price: "9800000",
+    id: "demo-seerat-un-nabi",
+    name: "Seerat-un-Nabi ﷺ by Dr. Israr Ahmad",
+    slug: "seerat-un-nabi-by-dr-israr-ahmad-buy-online",
+    brand: "Book",
+    price: "1399",
     salePrice: null,
-    images: ["/books/mp-05-laferrari.jpg"]
+    images: [
+      "/books/seerat-un-nabi-by-dr-israr-ahmad-buy-online-1.jpg",
+      "/books/seerat-un-nabi-by-dr-israr-ahmad-buy-online-2.jpg"
+    ]
   },
   {
-    id: "demo-nautilus-5711",
-    name: "Nautilus 5711",
-    slug: "nautilus-5711",
-    brand: "PATEK PHILIPPE",
-    price: "12500000",
+    id: "demo-waqia-karbala",
+    name: "Waqia Karbala – The Historic Story of Imam Hussain (RA)",
+    slug: "waqia-karbala-the-historic-story-of-imam-hussain-ra-islamic-urdu-book",
+    brand: "Book",
+    price: "1199",
     salePrice: null,
-    images: ["/books/nautilus-5711.jpg"]
+    images: [
+      "/books/waqia-karbala-the-historic-story-of-imam-hussain-ra-islamic-urdu-book-1.jpg",
+      "/books/waqia-karbala-the-historic-story-of-imam-hussain-ra-islamic-urdu-book-2.jpg"
+    ]
   },
-  {
-    id: "demo-aquanaut-5167",
-    name: "Aquanaut 5167",
-    slug: "aquanaut-5167",
-    brand: "PATEK PHILIPPE",
-    price: "8900000",
-    salePrice: "7800000",
-    images: ["/books/aquanaut-5167.jpg"]
-  },
-  {
-    id: "demo-grand-complications-5270",
-    name: "Grand Complications 5270",
-    slug: "grand-complications-5270",
-    brand: "PATEK PHILIPPE",
-    price: "18000000",
-    salePrice: null,
-    images: ["/books/grand-complications-5270.jpg"]
-  },
-  {
-    id: "demo-calatrava-5196",
-    name: "Calatrava 5196",
-    slug: "calatrava-5196",
-    brand: "PATEK PHILIPPE",
-    price: "7200000",
-    salePrice: null,
-    images: ["/books/calatrava-5196.jpg"]
-  },
-  {
-    id: "demo-classic-fusion-blue",
-    name: "Classic Fusion Blue",
-    slug: "classic-fusion-blue",
-    brand: "HUBLOT",
-    price: "5150000",
-    salePrice: null,
-    images: ["/books/classic-fusion-titanium.jpg"]
-  },
-  {
-    id: "demo-nautilus-rose",
-    name: "Nautilus Rose Gold",
-    slug: "nautilus-rose-gold",
-    brand: "PATEK PHILIPPE",
-    price: "13200000",
-    salePrice: "12100000",
-    images: ["/books/nautilus-5711.jpg"]
-  }
 ] as const;
 
 export const demoTestimonials = [
@@ -151,9 +115,9 @@ export const demoTestimonials = [
 ] as const;
 
 export const demoSocialProof = [
-  { name: "Ali Hassan", city: "Lahore", product: "Classic Fusion Titanium" },
-  { name: "Fatima Khan", city: "Karachi", product: "Nautilus 5711" },
-  { name: "Usman Malik", city: "Islamabad", product: "Aquanaut 5167" },
-  { name: "Zara Ahmed", city: "Rawalpindi", product: "Big Bang Unico Black" },
-  { name: "Ahmed Raza", city: "Peshawar", product: "Grand Complications 5270" }
+  { name: "Ali Hassan", city: "Lahore", product: "Asan Tarjuma Quran" },
+  { name: "Fatima Khan", city: "Karachi", product: "Beautiful Quran Kareem" },
+  { name: "Usman Malik", city: "Islamabad", product: "Seerat-un-Nabi" },
+  { name: "Zara Ahmed", city: "Rawalpindi", product: "Bayan-Ul-Quran" },
+  { name: "Ahmed Raza", city: "Peshawar", product: "Waqia Karbala" }
 ] as const;

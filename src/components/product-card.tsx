@@ -53,7 +53,7 @@ export function ProductCard({
       </Link>
       <div className="space-y-2.5 p-3 sm:space-y-3 sm:p-4">
         <span className="inline-flex rounded-full bg-black/5 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.2em] text-brown sm:px-3 sm:text-xs sm:tracking-[0.24em]">
-          {product.brand}
+          Type: {product.brand}
         </span>
         <Link href={`/product/${product.slug}`} className="block font-heading text-lg text-ink sm:text-xl">
           {product.name}
