@@ -42,7 +42,7 @@ export function SiteHeader() {
   const whatsappNumber = business.whatsappNumber || business.contactPhone || "";
 
   return (
-    <header className="sticky top-0 z-50 bg-[color:var(--brand-dark-green)] text-white shadow-sm" style={{ ["--brand-dark-green" as never]: BRAND_DARK_GREEN }}>
+    <header className="sticky top-0 z-50 text-white shadow-sm" style={{ backgroundColor: BRAND_DARK_GREEN }}>
       <div className="border-b border-white/10 py-2 text-center text-sm font-semibold tracking-wide text-white">
         Whatsapp : {whatsappNumber || "Not set"}
       </div>
@@ -51,9 +51,9 @@ export function SiteHeader() {
           <Image
             src={BRAND_LOGO_PATH}
             alt={`${BRAND_NAME} logo`}
-            width={70}
-            height={70}
-            className="h-11 w-11 shrink-0 object-contain sm:h-12 sm:w-12"
+            width={69}
+            height={69}
+            className="h-[4.3rem] w-[4.3rem] shrink-0 object-contain"
             priority
           />
         </Link>
@@ -70,7 +70,7 @@ export function SiteHeader() {
           <Link href="/checkout" className="relative rounded-full border border-white/20 p-3 text-white transition hover:border-white hover:text-white">
             <ShoppingBag className="h-5 w-5" />
             {count > 0 && (
-              <span className="absolute -right-1 -top-1 min-w-5 rounded-full bg-white px-1.5 py-0.5 text-[10px] font-semibold text-[color:var(--brand-dark-green)]" style={{ ["--brand-dark-green" as never]: BRAND_DARK_GREEN }}>
+              <span className="absolute -right-1 -top-1 min-w-5 rounded-full bg-white px-1.5 py-0.5 text-[10px] font-semibold text-[#2f3c2f]">
                 {count}
               </span>
             )}
@@ -82,7 +82,7 @@ export function SiteHeader() {
       </div>
 
       {open && (
-        <div className="border-t border-white/10 bg-[color:var(--brand-dark-green)] px-4 py-4 text-white md:hidden" style={{ ["--brand-dark-green" as never]: BRAND_DARK_GREEN }}>
+        <div className="border-t border-white/10 px-4 py-4 text-white md:hidden" style={{ backgroundColor: BRAND_DARK_GREEN }}>
           <nav className="flex flex-col gap-3">
             {navLinks.map((link) => (
               <Link key={link.href} href={link.href} className="text-base font-medium text-white" onClick={() => setOpen(false)}>
