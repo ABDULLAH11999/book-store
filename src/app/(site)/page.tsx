@@ -84,10 +84,6 @@ export default async function HomePage() {
           <HeroVideo />
         </div>
 
-        <div className="order-2">
-          <BrandShowcase />
-        </div>
-
         <div className="order-3">
           <BrandStrip />
         </div>
