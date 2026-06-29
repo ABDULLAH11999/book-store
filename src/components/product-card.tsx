@@ -1,6 +1,7 @@
- "use client";
+"use client";
 
 import Link from "next/link";
+import { useMemo } from "react";
 import { formatPKR } from "@/lib/utils";
 import { ShoppingCart } from "lucide-react";
 import { normalizeMediaUrl } from "@/lib/media";
@@ -20,8 +21,12 @@ export function ProductCard({
     images: string[];
   };
   onAddToCart?: () => void;
-}) {
+  }) {
   const image = normalizeMediaUrl(product.images?.[0] || "/watches/classic-fusion-titanium.jpg");
+  const hoverImage = useMemo(
+    () => normalizeMediaUrl(product.images?.[1] || product.images?.[0] || "/watches/classic-fusion-titanium.jpg"),
+    [product.images]
+  );
   const salePrice = product.salePrice ? Number(product.salePrice) : null;
   const price = Number(product.price);
   return (
@@ -32,9 +37,18 @@ export function ProductCard({
             src={image}
             alt={product.name}
             fill
-            className="object-cover transition duration-500 group-hover:scale-110"
+            className="object-cover transition duration-500 group-hover:scale-110 group-hover:opacity-0"
             sizes="(max-width: 768px) 50vw, 25vw"
           />
+          {hoverImage && hoverImage !== image ? (
+            <MediaImage
+              src={hoverImage}
+              alt={`${product.name} alternate view`}
+              fill
+              className="object-cover opacity-0 transition duration-500 group-hover:scale-110 group-hover:opacity-100"
+              sizes="(max-width: 768px) 50vw, 25vw"
+            />
+          ) : null}
         </div>
       </Link>
       <div className="space-y-2.5 p-3 sm:space-y-3 sm:p-4">
