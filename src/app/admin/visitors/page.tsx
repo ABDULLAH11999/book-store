@@ -8,6 +8,15 @@ export default async function AdminVisitorsPage() {
   const siteUrl = getSiteUrl();
 
   const visitors = await prisma.visitorSession.findMany({
+    where: {
+      NOT: {
+        OR: [
+          { entryDomain: { contains: "localhost", mode: "insensitive" } },
+          { entryDomain: { contains: "127.0.0.1", mode: "insensitive" } },
+          { ipAddress: "::1" }
+        ]
+      }
+    },
     orderBy: { createdAt: "desc" }
   });
 
@@ -22,8 +31,6 @@ export default async function AdminVisitorsPage() {
     ipAddress: visitor.ipAddress,
     countryCode: visitor.countryCode,
     countryName: visitor.countryName,
-    state: visitor.state,
-    city: visitor.city,
     userAgent: visitor.userAgent,
     pageViews: visitor.pageViews,
     createdAt: visitor.createdAt.toISOString(),

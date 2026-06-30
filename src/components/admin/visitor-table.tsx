@@ -14,8 +14,6 @@ type VisitorRow = {
   ipAddress: string | null;
   countryCode: string | null;
   countryName: string | null;
-  state: string | null;
-  city: string | null;
   userAgent: string | null;
   pageViews: number;
   createdAt: string;
@@ -33,22 +31,14 @@ export function VisitorTable({
   visitors: VisitorRow[];
   siteUrl: string;
 }) {
-  const [stateFilter, setStateFilter] = useState("ALL");
   const [platformFilter, setPlatformFilter] = useState("ALL");
-
-  const stateOptions = useMemo(() => {
-    return Array.from(new Set(visitors.map((visitor) => visitor.state?.trim()).filter(Boolean) as string[])).sort((a, b) =>
-      a.localeCompare(b)
-    );
-  }, [visitors]);
 
   const filteredVisitors = useMemo(() => {
     return visitors.filter((visitor) => {
-      const matchesState = stateFilter === "ALL" || (visitor.state || "Unknown") === stateFilter;
       const matchesPlatform = platformFilter === "ALL" || visitor.platform === platformFilter;
-      return matchesState && matchesPlatform;
+      return matchesPlatform;
     });
-  }, [platformFilter, stateFilter, visitors]);
+  }, [platformFilter, visitors]);
 
   return (
     <div className="space-y-5 rounded-3xl border border-black/10 bg-white p-4 shadow-sm lg:p-6">
@@ -58,15 +48,6 @@ export function VisitorTable({
           <h2 className="mt-2 font-heading text-2xl sm:text-3xl">Site Visitors</h2>
         </div>
         <div className="flex flex-col gap-3 sm:flex-row">
-          <select value={stateFilter} onChange={(e) => setStateFilter(e.target.value)} className="w-full rounded-2xl border border-black/10 px-4 py-3 sm:w-56">
-            <option value="ALL">All States</option>
-            <option value="Unknown">Unknown</option>
-            {stateOptions.map((state) => (
-              <option key={state} value={state}>
-                {state}
-              </option>
-            ))}
-          </select>
           <select value={platformFilter} onChange={(e) => setPlatformFilter(e.target.value)} className="w-full rounded-2xl border border-black/10 px-4 py-3 sm:w-56">
             <option value="ALL">All Platforms</option>
             <option value="GOOGLE_SEARCH">Google Search</option>
@@ -100,7 +81,6 @@ export function VisitorTable({
                 <th className="px-4 py-3 font-medium">First Page</th>
                 <th className="px-4 py-3 font-medium">IP</th>
                 <th className="px-4 py-3 font-medium">Country</th>
-                <th className="px-4 py-3 font-medium">State</th>
                 <th className="px-4 py-3 font-medium">Platform</th>
                 <th className="px-4 py-3 font-medium">Referrer</th>
                 <th className="px-4 py-3 font-medium">Views</th>
@@ -113,7 +93,6 @@ export function VisitorTable({
                 <tr key={visitor.id} className="border-t border-black/5">
                   <td className="px-4 py-4 font-medium">
                     <div>{shorten(visitor.sessionId)}</div>
-                    <div className="text-xs text-black/45">{visitor.city || "Unknown city"}</div>
                   </td>
                   <td className="px-4 py-4">
                     <div className="font-medium">{formatEntryUrl(visitor.entryUrl, siteUrl)}</div>
@@ -121,7 +100,6 @@ export function VisitorTable({
                   </td>
                   <td className="px-4 py-4">{visitor.ipAddress || "Unknown"}</td>
                   <td className="px-4 py-4">{visitor.countryName || visitor.countryCode || "Unknown"}</td>
-                  <td className="px-4 py-4">{visitor.state || "Unknown"}</td>
                   <td className="px-4 py-4">
                     <span className="rounded-full border border-black/10 px-3 py-1 text-xs font-semibold">{formatPlatformLabel(visitor.platform)}</span>
                   </td>
@@ -135,7 +113,7 @@ export function VisitorTable({
               ))}
               {filteredVisitors.length === 0 ? (
                 <tr>
-                  <td colSpan={10} className="px-4 py-10 text-center text-black/50">
+                  <td colSpan={9} className="px-4 py-10 text-center text-black/50">
                     No visitor sessions match the selected filters.
                   </td>
                 </tr>
