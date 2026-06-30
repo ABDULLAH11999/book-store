@@ -20,12 +20,13 @@ export function CinematicBanner() {
 
           <div className="flex items-center bg-white px-5 py-8 sm:px-8 sm:py-10 lg:px-10 lg:py-12">
             <div className="max-w-xl">
-              <p className="text-xs uppercase tracking-[0.35em] text-black/45 sm:text-sm sm:tracking-[0.4em]">Excellence, Refined</p>
+              <p className="text-xs uppercase tracking-[0.35em] text-black/45 sm:text-sm sm:tracking-[0.4em]">Our Mission</p>
               <h2 className="mt-3 font-heading text-3xl leading-tight text-black sm:mt-4 sm:text-4xl lg:text-5xl">
-                Crafted for the {BRAND_NAME} Experience
+                Making the Quran Easy to Read and Understand
               </h2>
               <p className="mt-3 max-w-lg text-sm leading-6 text-black/60 sm:mt-4 sm:text-base">
-                A clean editorial banner designed to keep the hero fast, clear, and focused on the new brand identity.
+                Our mission is to present the Quran and Islamic books in a simple, respectful way so every person can understand, reflect,
+                and benefit with ease.
               </p>
             </div>
           </div>
