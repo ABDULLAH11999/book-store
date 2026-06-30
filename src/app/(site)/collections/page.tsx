@@ -17,30 +17,31 @@ export default async function CollectionsPage({
   const columns = Math.min(4, Math.max(2, Number(searchParams?.columns || 4)));
   const take = 12;
 
-  const filters: Prisma.ProductWhereInput[] = [
-    search
-      ? {
-          OR: [
-            { name: { contains: search, mode: "insensitive" as const } },
-            { brand: { contains: search, mode: "insensitive" as const } }
-          ]
-        }
-      : null,
-    type
-      ? {
-          brand: { contains: type, mode: "insensitive" as const }
-        }
-      : null,
-    status === "sale"
-      ? { salePrice: { not: null } }
-      : status === "stock"
-        ? { stock: { gt: 0 } }
-        : null
-  ].filter(Boolean);
+  const filters: Prisma.ProductWhereInput[] = [];
 
-  const activeFilters = filters.filter((filter): filter is Prisma.ProductWhereInput => Boolean(filter));
-  const hasFilters = activeFilters.length > 0;
-  const where: Prisma.ProductWhereInput | undefined = hasFilters ? { AND: activeFilters } : undefined;
+  if (search) {
+    filters.push({
+      OR: [
+        { name: { contains: search, mode: "insensitive" as const } },
+        { brand: { contains: search, mode: "insensitive" as const } }
+      ]
+    });
+  }
+
+  if (type) {
+    filters.push({
+      brand: { contains: type, mode: "insensitive" as const }
+    });
+  }
+
+  if (status === "sale") {
+    filters.push({ salePrice: { not: null } });
+  } else if (status === "stock") {
+    filters.push({ stock: { gt: 0 } });
+  }
+
+  const hasFilters = filters.length > 0;
+  const where: Prisma.ProductWhereInput | undefined = hasFilters ? { AND: filters } : undefined;
 
   let products: Array<any> = [];
   let total = 0;
