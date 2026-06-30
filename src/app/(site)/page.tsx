@@ -1,14 +1,41 @@
 import { prisma } from "@/lib/prisma";
+import dynamic from "next/dynamic";
 import { HeroVideo } from "@/components/hero-video";
 import { BrandStrip } from "@/components/brand-strip";
 import { FeaturedProductsGrid } from "@/components/featured-products-grid";
 import { CinematicBanner } from "@/components/cinematic-banner";
-import { TestimonialCarousel } from "@/components/swiper-testimonials";
-import { WhyChooseSection } from "@/components/why-choose-section";
-import { FaqSection } from "@/components/faq-section";
 import { demoProducts, demoTestimonials } from "@/lib/demo-data";
+import { Suspense } from "react";
+
+const TestimonialCarousel = dynamic(
+  () => import("@/components/swiper-testimonials").then((module) => module.TestimonialCarousel),
+  {
+    loading: () => <SectionSkeleton title="What Our Customers Say" />
+  }
+);
+
+const WhyChooseSection = dynamic(() => import("@/components/why-choose-section").then((module) => module.WhyChooseSection), {
+  loading: () => <SectionSkeleton title="Why people choose IslamicPlay" />
+});
+
+const FaqSection = dynamic(() => import("@/components/faq-section").then((module) => module.FaqSection), {
+  loading: () => <SectionSkeleton title="Frequently Asked Questions" />
+});
 
 export const revalidate = 300;
+
+function SectionSkeleton({ title }: { title: string }) {
+  return (
+    <section className="mx-auto max-w-7xl px-4 py-6 sm:py-8 lg:px-8 lg:py-16">
+      <div className="rounded-[2rem] border border-black/10 bg-white p-6 shadow-sm">
+        <div className="h-3 w-32 rounded-full bg-black/10" />
+        <div className="mt-4 h-10 w-3/5 rounded-2xl bg-black/10" />
+        <div className="mt-6 h-24 rounded-3xl bg-black/[0.04]" />
+      </div>
+      <span className="sr-only">{title}</span>
+    </section>
+  );
+}
 
 export default async function HomePage() {
   let featured: Array<{
@@ -94,25 +121,31 @@ export default async function HomePage() {
           <FeaturedProductsGrid products={featured} />
         </section>
 
-        <div className="order-5">
-          <WhyChooseSection />
-        </div>
+        <Suspense fallback={<SectionSkeleton title="Why people choose IslamicPlay" />}>
+          <div className="order-5">
+            <WhyChooseSection />
+          </div>
+        </Suspense>
 
         <div className="order-6">
           <CinematicBanner />
         </div>
 
-        <section className="order-7 mx-auto max-w-7xl px-4 py-6 sm:py-8 lg:px-8 lg:py-16">
-          <div className="mb-4 sm:mb-8">
-            <p className="text-xs uppercase tracking-[0.35em] text-gold sm:text-sm sm:tracking-[0.4em]">Testimonials</p>
-            <h2 className="mt-1 font-heading text-2xl sm:mt-2 sm:text-4xl">What Our Customers Say</h2>
-          </div>
-          <TestimonialCarousel items={testimonials} />
-        </section>
+        <Suspense fallback={<SectionSkeleton title="What Our Customers Say" />}>
+          <section className="order-7 mx-auto max-w-7xl px-4 py-6 sm:py-8 lg:px-8 lg:py-16">
+            <div className="mb-4 sm:mb-8">
+              <p className="text-xs uppercase tracking-[0.35em] text-gold sm:text-sm sm:tracking-[0.4em]">Testimonials</p>
+              <h2 className="mt-1 font-heading text-2xl sm:mt-2 sm:text-4xl">What Our Customers Say</h2>
+            </div>
+            <TestimonialCarousel items={testimonials} />
+          </section>
+        </Suspense>
 
-        <div className="order-8">
-          <FaqSection />
-        </div>
+        <Suspense fallback={<SectionSkeleton title="Frequently Asked Questions" />}>
+          <div className="order-8">
+            <FaqSection />
+          </div>
+        </Suspense>
       </div>
     </>
   );

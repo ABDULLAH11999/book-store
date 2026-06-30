@@ -12,6 +12,7 @@ type MediaImageProps = Omit<ImageProps, "src"> & {
 export function MediaImage({ src, fallbackSrc = "/ui-image/Logo.avif", alt, ...props }: MediaImageProps) {
   const normalized = useMemo(() => normalizeMediaUrl(src), [src]);
   const [currentSrc, setCurrentSrc] = useState(normalized || fallbackSrc);
+  const loading = props.priority ? "eager" : props.loading || "lazy";
 
   useEffect(() => {
     setCurrentSrc(normalized || fallbackSrc);
@@ -20,9 +21,11 @@ export function MediaImage({ src, fallbackSrc = "/ui-image/Logo.avif", alt, ...p
   return (
     <Image
       {...props}
+      loading={loading}
       src={currentSrc || fallbackSrc}
       alt={alt}
       unoptimized
+      decoding="async"
       onError={() => setCurrentSrc(fallbackSrc)}
     />
   );

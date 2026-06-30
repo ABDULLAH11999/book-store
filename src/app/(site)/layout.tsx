@@ -11,11 +11,17 @@ const getLatestProductTitles = unstable_cache(
         where: { status: "PUBLISHED" },
         orderBy: { createdAt: "desc" },
         take: 5,
-        select: { name: true }
+        select: { name: true, slug: true }
       });
-      return products.map((product) => product.name).filter(Boolean);
+      return {
+        titles: products.map((product) => product.name).filter(Boolean),
+        routes: ["/collections", ...products.map((product) => `/product/${product.slug}`)]
+      };
     } catch {
-      return [] as string[];
+      return {
+        titles: [] as string[],
+        routes: ["/collections"]
+      };
     }
   },
   ["site-latest-product-titles"],
@@ -23,6 +29,6 @@ const getLatestProductTitles = unstable_cache(
 );
 
 export default async function SiteLayout({ children }: { children: React.ReactNode }) {
-  const latestProductTitles = await getLatestProductTitles();
-  return <SiteChrome latestProductTitles={latestProductTitles}>{children}</SiteChrome>;
+  const { titles, routes } = await getLatestProductTitles();
+  return <SiteChrome latestProductTitles={titles} prefetchRoutes={routes}>{children}</SiteChrome>;
 }
