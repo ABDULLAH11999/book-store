@@ -1,3 +1,4 @@
+import { Prisma } from "@prisma/client";
 import { prisma } from "@/lib/prisma";
 import { ProductCard } from "@/components/product-card";
 import { demoProducts } from "@/lib/demo-data";
@@ -16,28 +17,30 @@ export default async function CollectionsPage({
   const columns = Math.min(4, Math.max(2, Number(searchParams?.columns || 4)));
   const take = 12;
 
-  const where: any = {
-    AND: [
-      search
-        ? {
-            OR: [
-              { name: { contains: search, mode: "insensitive" } },
-              { brand: { contains: search, mode: "insensitive" } }
-            ]
-          }
-        : {},
-      type
-        ? {
-            brand: { contains: type, mode: "insensitive" }
-          }
-        : {},
-      status === "sale"
-        ? { salePrice: { not: null } }
-        : status === "stock"
-          ? { stock: { gt: 0 } }
-          : {}
-    ]
-  };
+  const filters: Prisma.ProductWhereInput[] = [
+    search
+      ? {
+          OR: [
+            { name: { contains: search, mode: "insensitive" as const } },
+            { brand: { contains: search, mode: "insensitive" as const } }
+          ]
+        }
+      : null,
+    type
+      ? {
+          brand: { contains: type, mode: "insensitive" as const }
+        }
+      : null,
+    status === "sale"
+      ? { salePrice: { not: null } }
+      : status === "stock"
+        ? { stock: { gt: 0 } }
+        : null
+  ].filter(Boolean);
+
+  const activeFilters = filters.filter((filter): filter is Prisma.ProductWhereInput => Boolean(filter));
+  const hasFilters = activeFilters.length > 0;
+  const where: Prisma.ProductWhereInput | undefined = hasFilters ? { AND: activeFilters } : undefined;
 
   let products: Array<any> = [];
   let total = 0;
@@ -63,6 +66,15 @@ export default async function CollectionsPage({
     });
     products = filtered.slice((page - 1) * take, page * take);
     total = filtered.length;
+  }
+
+  if (!hasFilters && products.length === 0) {
+    products = demoProducts.slice((page - 1) * take, page * take).map((product) => ({
+      ...product,
+      price: product.price,
+      salePrice: product.salePrice
+    }));
+    total = demoProducts.length;
   }
 
   return (
