@@ -1,5 +1,6 @@
 import { getSetting } from "@/lib/settings";
 import { BRAND_NAME, BRAND_SITE_URL } from "@/lib/branding";
+import { unstable_cache } from "next/cache";
 
 export type SeoSettings = {
   siteTitle: string;
@@ -41,7 +42,15 @@ export function getSiteUrl(seo?: Partial<SeoSettings>) {
   }
 }
 
+const cachedSeoSettings = unstable_cache(
+  async () => {
+    const seo = await getSetting<SeoSettings>("seoSettings", defaultSeoSettings);
+    return { ...defaultSeoSettings, ...seo };
+  },
+  ["seo-settings"],
+  { revalidate: 300 }
+);
+
 export async function getSeoSettings() {
-  const seo = await getSetting<SeoSettings>("seoSettings", defaultSeoSettings);
-  return { ...defaultSeoSettings, ...seo };
+  return cachedSeoSettings();
 }

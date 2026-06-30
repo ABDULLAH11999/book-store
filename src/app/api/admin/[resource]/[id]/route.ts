@@ -31,6 +31,7 @@ export async function GET(_: Request, context: { params: Promise<{ resource: str
   }
   if (resource === "orders") {
     const item = await prisma.order.findUnique({ where: { id }, include: { customer: true } });
+    if (!item) return NextResponse.json({ error: "Order not found" }, { status: 404 });
     return NextResponse.json({ item });
   }
   return NextResponse.json({ error: "Unknown resource" }, { status: 404 });
@@ -108,18 +109,7 @@ export async function PUT(request: Request, context: { params: Promise<{ resourc
     if (!status.success) return NextResponse.json({ error: "Invalid order status" }, { status: 400 });
     const existing = await prisma.order.findUnique({ where: { id }, include: { customer: true } });
     if (!existing) {
-      return NextResponse.json({
-        item: {
-          id,
-          orderNumber: id.toUpperCase(),
-          status: status.data,
-          subtotal: "0",
-          total: "0",
-          customer: { name: "Demo Customer", phone: "0000000000", email: null },
-          createdAt: new Date().toISOString(),
-          items: []
-        }
-      });
+      return NextResponse.json({ error: "Order not found" }, { status: 404 });
     }
 
     const item = await prisma.order.update({
@@ -161,15 +151,9 @@ export async function DELETE(_: Request, context: { params: Promise<{ resource: 
     return NextResponse.json({ ok: true });
   }
   if (resource === "orders") {
-    if (id.startsWith("demo-order-")) {
-      return NextResponse.json({ ok: true });
-    }
-    const existing = await prisma.order.findUnique({ where: { id } });
-    if (!existing) {
-      return NextResponse.json({ ok: true });
-    }
-    await prisma.order.delete({ where: { id } });
-    return NextResponse.json({ ok: true });
+    const deleted = await prisma.order.deleteMany({ where: { id } });
+    if (!deleted.count) return NextResponse.json({ error: "Order not found" }, { status: 404 });
+    return NextResponse.json({ ok: true, deleted: deleted.count });
   }
   return NextResponse.json({ error: "Unknown resource" }, { status: 404 });
 }

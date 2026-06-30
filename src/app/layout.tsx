@@ -5,8 +5,6 @@ import type { Metadata } from "next";
 import { getSeoSettings, getSiteUrl } from "@/lib/seo";
 import { BRAND_LOGO_PATH, BRAND_NAME } from "@/lib/branding";
 
-export const dynamic = "force-dynamic";
-
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 const playfair = Playfair_Display({ subsets: ["latin"], variable: "--font-playfair" });
 

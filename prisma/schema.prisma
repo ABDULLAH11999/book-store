@@ -36,6 +36,12 @@ enum AdminRole {
   STAFF
 }
 
+enum VisitorPlatform {
+  TIKTOK
+  GOOGLE_SEARCH
+  SHARED_LINK
+}
+
 model Sequence {
   id         Int      @id
   lastNumber Int      @default(999)
@@ -86,15 +92,15 @@ model Order {
 }
 
 model Testimonial {
-  id            String             @id @default(cuid())
+  id            String            @id @default(cuid())
   customerName  String
   customerImage String
   rating        Int
-  reviewText    String             @db.Text
-  status        TestimonialStatus  @default(DRAFT)
-  sortOrder     Int                @default(0)
-  createdAt     DateTime           @default(now())
-  updatedAt     DateTime           @updatedAt
+  reviewText    String            @db.Text
+  status        TestimonialStatus @default(DRAFT)
+  sortOrder     Int               @default(0)
+  createdAt     DateTime          @default(now())
+  updatedAt     DateTime          @updatedAt
 }
 
 model SiteSettings {
@@ -104,12 +110,12 @@ model SiteSettings {
 }
 
 model EmailLog {
-  id        String      @id @default(cuid())
-  toEmail   String
-  subject   String
-  template  String
-  status    EmailStatus
-  sentAt    DateTime    @default(now())
+  id       String      @id @default(cuid())
+  toEmail  String
+  subject  String
+  template String
+  status   EmailStatus
+  sentAt   DateTime    @default(now())
 }
 
 model AdminUser {
@@ -119,4 +125,23 @@ model AdminUser {
   role         AdminRole @default(SUPERADMIN)
   createdAt    DateTime  @default(now())
   updatedAt    DateTime  @updatedAt
+}
+
+model VisitorSession {
+  id          String          @id @default(cuid())
+  sessionId   String          @unique
+  entryUrl    String          @db.Text
+  entryPath   String
+  entryDomain String
+  referrer    String?         @db.Text
+  platform    VisitorPlatform @default(TIKTOK)
+  ipAddress   String?
+  countryCode String?
+  countryName String?
+  state       String?
+  city        String?
+  userAgent   String?         @db.Text
+  pageViews   Int             @default(1)
+  createdAt   DateTime        @default(now())
+  lastSeenAt  DateTime        @updatedAt
 }

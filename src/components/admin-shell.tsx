@@ -33,6 +33,7 @@ const sidebarItems: NavLink[] = [
   { href: "/admin/products", label: "Product", icon: Package },
   { href: "/admin/testimonials", label: "Testimonial", icon: MessageSquareText },
   { href: "/admin/customers", label: "Customer", icon: Users },
+  { href: "/admin/visitors", label: "Visitors", icon: LayoutDashboard },
   { href: "/admin/settings", label: "Settings", icon: Settings }
 ];
 
@@ -51,6 +52,7 @@ function getPageMeta(pathname: string | null) {
   if (pathname?.startsWith("/admin/orders")) return { title: "Orders", crumb: "Sales / Orders" };
   if (pathname?.startsWith("/admin/customers")) return { title: "Customers", crumb: "CRM / Customers" };
   if (pathname?.startsWith("/admin/testimonials")) return { title: "Testimonials", crumb: "Content / Testimonials" };
+  if (pathname?.startsWith("/admin/visitors")) return { title: "Visitors", crumb: "Analytics / Visitors" };
   if (pathname?.startsWith("/admin/settings")) return { title: "Settings", crumb: "Configuration / Settings" };
   return { title: "Dashboard", crumb: "Overview / Dashboard" };
 }

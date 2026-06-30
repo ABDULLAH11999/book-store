@@ -11,10 +11,11 @@ export default async function AdminDashboardPage() {
   let revenue: any = { _sum: { total: 0 } };
   let totalCustomers = 0;
   let pendingOrders = 0;
+  let totalVisitors = 0;
   let recentOrders: Array<any> = [];
 
   try {
-    [totalOrders, revenue, totalCustomers, pendingOrders, recentOrders] = await Promise.all([
+    [totalOrders, revenue, totalCustomers, pendingOrders, recentOrders, totalVisitors] = await Promise.all([
       prisma.order.count(),
       prisma.order.aggregate({ _sum: { total: true } }),
       prisma.customer.count(),
@@ -23,12 +24,14 @@ export default async function AdminDashboardPage() {
         include: { customer: true },
         orderBy: { createdAt: "desc" },
         take: 10
-      })
+      }),
+      prisma.visitorSession.count()
     ]);
   } catch {
     totalOrders = demoProducts.length;
     totalCustomers = demoTestimonials.length;
     pendingOrders = Math.max(1, Math.ceil(demoProducts.length / 4));
+    totalVisitors = 0;
     revenue = { _sum: { total: demoProducts.reduce((sum, product) => sum + Number(product.salePrice ?? product.price), 0) } };
     recentOrders = demoProducts.slice(0, 5).map((product, index) => ({
       id: product.id,
@@ -57,11 +60,12 @@ export default async function AdminDashboardPage() {
           Track orders, revenue, customers, and content health from one luxury-styled admin console.
         </p>
       </div>
-      <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
+      <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-5">
         <StatCard label="Total Orders" value={String(totalOrders)} />
         <StatCard label="Total Revenue" value={formatPKR(Number(revenue._sum.total || 0))} />
         <StatCard label="Total Customers" value={String(totalCustomers)} />
         <StatCard label="Pending Orders" value={String(pendingOrders)} />
+        <StatCard label="Site Visitors" value={String(totalVisitors)} href="/admin/visitors" />
       </div>
       <div className="space-y-4">
         <RevenueChart data={chartData} />
