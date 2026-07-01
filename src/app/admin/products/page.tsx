@@ -1,5 +1,4 @@
 import { prisma } from "@/lib/prisma";
-import { demoProducts } from "@/lib/demo-data";
 import { ProductTable } from "@/components/admin/product-table";
 
 export const dynamic = "force-dynamic";
@@ -8,19 +7,6 @@ export default async function AdminProductsPage() {
   const products = await (async () => {
     try {
       const rows = await prisma.product.findMany({ orderBy: { createdAt: "desc" } });
-      if (rows.length === 0) {
-        return demoProducts.map((product) => ({
-          id: product.id,
-          name: product.name,
-          brand: product.brand,
-          price: product.price,
-          salePrice: product.salePrice || null,
-          images: [...product.images],
-          stock: 5,
-          status: "PUBLISHED",
-          slug: product.slug
-        }));
-      }
       return rows.map((product) => ({
         id: product.id,
         name: product.name,
@@ -33,17 +19,7 @@ export default async function AdminProductsPage() {
         slug: product.slug
       }));
     } catch {
-      return demoProducts.map((product) => ({
-        id: product.id,
-        name: product.name,
-        brand: product.brand,
-        price: product.price,
-        salePrice: product.salePrice || null,
-        images: [...product.images],
-        stock: 5,
-        status: "PUBLISHED",
-        slug: product.slug
-      }));
+      return [];
     }
   })();
 

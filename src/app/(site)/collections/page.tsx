@@ -1,7 +1,6 @@
 import { Prisma } from "@prisma/client";
 import { prisma } from "@/lib/prisma";
 import { ProductCard } from "@/components/product-card";
-import { demoProducts } from "@/lib/demo-data";
 
 export const revalidate = 300;
 
@@ -56,26 +55,8 @@ export default async function CollectionsPage({
       prisma.product.count({ where })
     ]);
   } catch {
-    const filtered = demoProducts.filter((product) => {
-      const matchesSearch =
-        !search ||
-        product.name.toLowerCase().includes(search.toLowerCase()) ||
-        product.brand.toLowerCase().includes(search.toLowerCase());
-      const matchesType = !type || product.brand.toLowerCase().includes(type.toLowerCase());
-      const matchesStatus = status === "sale" ? Boolean(product.salePrice) : status === "stock" ? true : true;
-      return matchesSearch && matchesType && matchesStatus;
-    });
-    products = filtered.slice((page - 1) * take, page * take);
-    total = filtered.length;
-  }
-
-  if (!hasFilters && products.length === 0) {
-    products = demoProducts.slice((page - 1) * take, page * take).map((product) => ({
-      ...product,
-      price: product.price,
-      salePrice: product.salePrice
-    }));
-    total = demoProducts.length;
+    products = [];
+    total = 0;
   }
 
   return (

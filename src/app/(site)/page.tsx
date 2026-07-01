@@ -4,7 +4,6 @@ import { HeroVideo } from "@/components/hero-video";
 import { BrandStrip } from "@/components/brand-strip";
 import { FeaturedProductsGrid } from "@/components/featured-products-grid";
 import { CinematicBanner } from "@/components/cinematic-banner";
-import { demoProducts, demoTestimonials } from "@/lib/demo-data";
 import { Suspense } from "react";
 
 const TestimonialCarousel = dynamic(
@@ -81,25 +80,6 @@ export default async function HomePage() {
   } catch {
     featured = [];
     testimonials = [];
-  }
-
-  if (featured.length === 0) {
-    featured = demoProducts.slice(0, 10).map((product) => ({
-      id: product.id,
-      name: product.name,
-      slug: product.slug,
-      brand: product.brand,
-      price: product.price,
-      salePrice: product.salePrice,
-      images: [...product.images]
-    }));
-    testimonials = demoTestimonials.map((item) => ({
-      id: item.id,
-      customerName: item.customerName,
-      customerImage: item.customerImage,
-      rating: item.rating,
-      reviewText: item.reviewText
-    }));
   }
 
   return (

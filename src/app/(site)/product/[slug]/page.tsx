@@ -4,10 +4,8 @@ import { prisma } from "@/lib/prisma";
 import { ProductGallery } from "@/components/product-gallery";
 import { ProductPageClient } from "@/components/product-page-client";
 import { ProductCard } from "@/components/product-card";
-import { demoProducts } from "@/lib/demo-data";
 import { MediaImage } from "@/components/media-image";
 import { StarRating } from "@/components/star-rating";
-import { demoTestimonials } from "@/lib/demo-data";
 
 export const revalidate = 300;
 
@@ -17,20 +15,14 @@ function stripHtml(value: string) {
 
 export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
   const product = await prisma.product.findUnique({ where: { slug: params.slug } }).catch(() => null);
-  const fallback = demoProducts.find((item) => item.slug === params.slug) ?? null;
-  const current = product ?? fallback;
-
-  if (!current) {
+  if (!product || product.status !== "PUBLISHED") {
     return {};
   }
 
-  const description =
-    "description" in current && typeof current.description === "string"
-      ? stripHtml(current.description).slice(0, 160)
-      : `${current.name} from IslamicPlay.`;
+  const description = stripHtml(product.description).slice(0, 160) || `${product.name} from IslamicPlay.`;
 
   return {
-    title: `${current.name} | IslamicPlay`,
+    title: `${product.name} | IslamicPlay`,
     description
   };
 }
@@ -56,19 +48,9 @@ export default async function ProductDetailPage({ params }: { params: { slug: st
         orderBy: { createdAt: "desc" },
         take: 8
       });
-    } else if (!product) {
-      product = demoProducts.find((item) => item.slug === params.slug) ?? null;
-      if (product) {
-        related = demoProducts.filter((item) => item.brand === product.brand && item.slug !== product.slug).slice(0, 4);
-        testimonials = demoTestimonials.slice(0, 8);
-      }
     }
   } catch {
-    product = demoProducts.find((item) => item.slug === params.slug) ?? null;
-    if (product) {
-      related = demoProducts.filter((item) => item.brand === product.brand && item.slug !== product.slug).slice(0, 4);
-      testimonials = demoTestimonials.slice(0, 8);
-    }
+    product = null;
   }
 
   if (!product) return notFound();

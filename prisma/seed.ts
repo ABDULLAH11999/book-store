@@ -14,6 +14,14 @@ type SeedProduct = {
   description: string;
 };
 
+type SeedTestimonial = {
+  customerName: string;
+  customerImage: string;
+  rating: number;
+  reviewText: string;
+  sortOrder: number;
+};
+
 const products: SeedProduct[] = [
   {
     name: "Asan Tarjuma Quran",
@@ -65,6 +73,65 @@ const products: SeedProduct[] = [
     imageUrlAlt: "/books/waqia-karbala-the-historic-story-of-imam-hussain-ra-islamic-urdu-book-2.webp",
     description:
       "<p>A concise Islamic Urdu book covering the historic events of Karbala and the sacrifice of Imam Hussain (RA).</p>"
+  }
+];
+
+const testimonials: SeedTestimonial[] = [
+  {
+    customerName: "Ali Hassan",
+    customerImage: "/testimonials/ali-hassan.jpg",
+    rating: 5,
+    reviewText: "The shopping experience felt polished, clear, and trustworthy from the start.",
+    sortOrder: 1
+  },
+  {
+    customerName: "Fatima Khan",
+    customerImage: "/testimonials/fatima-khan.jpg",
+    rating: 5,
+    reviewText: "Great product presentation and helpful service throughout the order.",
+    sortOrder: 2
+  },
+  {
+    customerName: "Usman Malik",
+    customerImage: "/testimonials/usman-malik.jpg",
+    rating: 5,
+    reviewText: "Fast responses and a very reliable buying experience overall.",
+    sortOrder: 3
+  },
+  {
+    customerName: "Zara Ahmed",
+    customerImage: "/testimonials/zara-ahmed.jpg",
+    rating: 5,
+    reviewText: "The site feels premium and easy to navigate on both mobile and desktop.",
+    sortOrder: 4
+  },
+  {
+    customerName: "Ahmed Raza",
+    customerImage: "/testimonials/ahmed-raza.jpg",
+    rating: 5,
+    reviewText: "Clear photos, smooth communication, and a trustworthy checkout flow.",
+    sortOrder: 5
+  },
+  {
+    customerName: "Sana Malik",
+    customerImage: "/testimonials/sana-malik.jpg",
+    rating: 5,
+    reviewText: "Everything felt clean, simple, and premium while browsing the catalog.",
+    sortOrder: 6
+  },
+  {
+    customerName: "Omar Sheikh",
+    customerImage: "/testimonials/omar-sheikh.jpg",
+    rating: 5,
+    reviewText: "Reliable service and a respectful presentation of the products.",
+    sortOrder: 7
+  },
+  {
+    customerName: "Ayesha Butt",
+    customerImage: "/testimonials/ayesha-butt.jpg",
+    rating: 5,
+    reviewText: "The layout feels refined and the product cards are easy to browse.",
+    sortOrder: 8
   }
 ];
 
@@ -169,7 +236,30 @@ async function main() {
     });
   }
 
-  await prisma.testimonial.deleteMany({});
+  for (const testimonial of testimonials) {
+    await prisma.testimonial.upsert({
+      where: {
+        id: `seed-${testimonial.sortOrder}`
+      },
+      create: {
+        id: `seed-${testimonial.sortOrder}`,
+        customerName: testimonial.customerName,
+        customerImage: testimonial.customerImage,
+        rating: testimonial.rating,
+        reviewText: testimonial.reviewText,
+        status: "PUBLISHED",
+        sortOrder: testimonial.sortOrder
+      },
+      update: {
+        customerName: testimonial.customerName,
+        customerImage: testimonial.customerImage,
+        rating: testimonial.rating,
+        reviewText: testimonial.reviewText,
+        status: "PUBLISHED",
+        sortOrder: testimonial.sortOrder
+      }
+    });
+  }
 }
 
 main()
