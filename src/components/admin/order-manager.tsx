@@ -128,18 +128,9 @@ export function OrderManager({ initialOrders }: { initialOrders: Order[] }) {
       </div>
 
       <div className="grid gap-2 sm:grid-cols-2 lg:hidden">
-        {durationOptions.map((option) => (
-          <button
-            key={option.value}
-            type="button"
-            onClick={() => setDurationFilter(option.value)}
-            className={`rounded-2xl border px-3 py-2 text-sm font-semibold ${
-              durationFilter === option.value ? "border-black bg-black text-white" : "border-black/10 bg-white text-black/70"
-            }`}
-          >
-            {option.label}
-          </button>
-        ))}
+        <div className="rounded-2xl border border-black/10 bg-black/[0.03] px-4 py-3 text-sm font-medium text-black/60">
+          Showing {durationOptions.find((option) => option.value === durationFilter)?.label || "Overall orders"}
+        </div>
       </div>
 
       <div className="grid gap-4 lg:hidden">

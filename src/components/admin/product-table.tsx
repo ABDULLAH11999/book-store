@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import { formatPKR } from "@/lib/utils";
 import { MediaImage } from "@/components/media-image";
+import { Edit3, Trash2 } from "lucide-react";
 
 type Product = {
   id: string;
@@ -90,15 +91,19 @@ export function ProductTable({ initialProducts }: { initialProducts: Product[] }
             <div className="mt-4 grid grid-cols-2 gap-2">
               <Link
                 href={`/admin/products/${product.id}`}
-                className="flex w-full min-h-9 min-w-0 items-center justify-center rounded-2xl border border-black px-2 py-2 text-center text-[11px] font-semibold leading-none sm:min-h-11 sm:px-3 sm:py-3 sm:text-sm"
+                className="inline-flex w-full items-center justify-center gap-2 rounded-2xl border border-black px-2 py-2 text-[11px] font-semibold leading-none sm:min-h-11 sm:px-3 sm:py-3 sm:text-sm"
+                aria-label={`Edit ${product.name}`}
               >
-                Edit
+                <Edit3 className="h-4 w-4 sm:hidden" />
+                <span className="hidden sm:inline">Edit</span>
               </Link>
               <button
                 onClick={() => remove(product.id)}
-                className="flex w-full min-h-9 min-w-0 items-center justify-center rounded-2xl border border-black px-2 py-2 text-[11px] font-semibold leading-none text-black sm:min-h-11 sm:px-3 sm:py-3 sm:text-sm"
+                className="inline-flex w-full items-center justify-center gap-2 rounded-2xl border border-black px-2 py-2 text-[11px] font-semibold leading-none text-black sm:min-h-11 sm:px-3 sm:py-3 sm:text-sm"
+                aria-label={`Delete ${product.name}`}
               >
-                Delete
+                <Trash2 className="h-4 w-4 sm:hidden" />
+                <span className="hidden sm:inline">Delete</span>
               </button>
             </div>
           </div>
@@ -142,11 +147,21 @@ export function ProductTable({ initialProducts }: { initialProducts: Product[] }
                   <td className="px-4 py-4">{product.stock}</td>
                   <td className="px-4 py-4">
                     <div className="flex justify-end gap-2">
-                      <Link href={`/admin/products/${product.id}`} className="rounded-full border border-black px-2 py-1.5 text-[11px] font-semibold sm:px-3 sm:py-2 sm:text-xs">
-                        Edit
+                      <Link
+                        href={`/admin/products/${product.id}`}
+                        className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-black text-black sm:h-auto sm:w-auto sm:rounded-full sm:px-2 sm:py-1.5 sm:text-[11px] sm:font-semibold sm:text-xs"
+                        aria-label={`Edit ${product.name}`}
+                      >
+                        <Edit3 className="h-4 w-4 sm:hidden" />
+                        <span className="hidden sm:inline">Edit</span>
                       </Link>
-                      <button onClick={() => remove(product.id)} className="rounded-full border border-black px-2 py-1.5 text-[11px] font-semibold sm:px-3 sm:py-2 sm:text-xs">
-                        Delete
+                      <button
+                        onClick={() => remove(product.id)}
+                        className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-black text-black sm:h-auto sm:w-auto sm:rounded-full sm:px-2 sm:py-1.5 sm:text-[11px] sm:font-semibold sm:text-xs"
+                        aria-label={`Delete ${product.name}`}
+                      >
+                        <Trash2 className="h-4 w-4 sm:hidden" />
+                        <span className="hidden sm:inline">Delete</span>
                       </button>
                     </div>
                   </td>
