@@ -15,9 +15,17 @@ export function getRequestIp(headers: Headers) {
 
 export function classifyVisitorPlatform(referrer?: string | null) {
   const source = referrer?.toLowerCase().trim() || "";
-  if (!source) return "TIKTOK" satisfies VisitorPlatform;
+  if (!source) return "SHARED_LINK" satisfies VisitorPlatform;
 
-  if (source.includes("google.") || source.includes("google.com") || source.includes("gclid=") || source.includes("search")) {
+  if (
+    source.includes("google.") ||
+    source.includes("google.com") ||
+    source.includes("gclid=") ||
+    source.includes("search") ||
+    source.includes("bing.") ||
+    source.includes("duckduckgo.") ||
+    source.includes("yahoo.")
+  ) {
     return "GOOGLE_SEARCH" satisfies VisitorPlatform;
   }
 
@@ -36,7 +44,11 @@ export function classifyVisitorPlatform(referrer?: string | null) {
     return "SHARED_LINK" satisfies VisitorPlatform;
   }
 
-  return "TIKTOK" satisfies VisitorPlatform;
+  if (source.includes("tiktok")) {
+    return "TIKTOK" satisfies VisitorPlatform;
+  }
+
+  return "SHARED_LINK" satisfies VisitorPlatform;
 }
 
 export function resolveCountryName(countryCode?: string | null) {
@@ -89,5 +101,5 @@ export function formatEntryUrl(entryUrl: string, siteUrl?: string) {
 export function formatPlatformLabel(platform: string) {
   if (platform === "GOOGLE_SEARCH") return "Google Search";
   if (platform === "SHARED_LINK") return "Shared Link";
-  return "Tiktok";
+  return "TikTok";
 }

@@ -8,6 +8,19 @@ export default async function AdminTestimonialsPage() {
   const serialized = await (async () => {
     try {
       const testimonials = await prisma.testimonial.findMany({ orderBy: { sortOrder: "asc" } });
+      if (testimonials.length === 0) {
+        return demoTestimonials.map((item, index) => ({
+          id: item.id,
+          customerName: item.customerName,
+          customerImage: item.customerImage,
+          rating: item.rating,
+          reviewText: item.reviewText,
+          status: index % 2 === 0 ? "PUBLISHED" : "DRAFT",
+          sortOrder: index + 1,
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString()
+        }));
+      }
       return testimonials.map((item) => ({
         ...item,
         createdAt: item.createdAt.toISOString(),

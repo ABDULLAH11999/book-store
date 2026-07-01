@@ -8,6 +8,19 @@ export default async function AdminProductsPage() {
   const products = await (async () => {
     try {
       const rows = await prisma.product.findMany({ orderBy: { createdAt: "desc" } });
+      if (rows.length === 0) {
+        return demoProducts.map((product) => ({
+          id: product.id,
+          name: product.name,
+          brand: product.brand,
+          price: product.price,
+          salePrice: product.salePrice || null,
+          images: [...product.images],
+          stock: 5,
+          status: "PUBLISHED",
+          slug: product.slug
+        }));
+      }
       return rows.map((product) => ({
         id: product.id,
         name: product.name,
