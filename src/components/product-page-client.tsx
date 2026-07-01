@@ -116,12 +116,34 @@ export function ProductPageClient({
 
   const actionButtons = (
     <div className="space-y-3">
-      <div className="flex items-center rounded-2xl border border-black/10 bg-white">
-        <button type="button" onClick={() => setQuantity((current) => Math.max(1, current - 1))} className="px-5 py-4 text-2xl">
+      <div
+        className={
+          variant === "desktop"
+            ? "flex items-center rounded-2xl border border-black/10 bg-white"
+            : "grid grid-cols-[3rem_minmax(0,1fr)_3rem] items-stretch overflow-hidden rounded-2xl border border-black/10 bg-white"
+        }
+      >
+        <button
+          type="button"
+          onClick={() => setQuantity((current) => Math.max(1, current - 1))}
+          className={variant === "desktop" ? "px-5 py-4 text-2xl" : "flex h-12 items-center justify-center text-xl font-semibold"}
+        >
           -
         </button>
-        <span className="min-w-12 px-4 text-center text-lg font-semibold">{quantity}</span>
-        <button type="button" onClick={() => setQuantity((current) => current + 1)} className="px-5 py-4 text-2xl">
+        <span
+          className={
+            variant === "desktop"
+              ? "min-w-12 px-4 text-center text-lg font-semibold"
+              : "flex min-w-0 items-center justify-center px-2 text-base font-semibold"
+          }
+        >
+          {quantity}
+        </span>
+        <button
+          type="button"
+          onClick={() => setQuantity((current) => current + 1)}
+          className={variant === "desktop" ? "px-5 py-4 text-2xl" : "flex h-12 items-center justify-center text-xl font-semibold"}
+        >
           +
         </button>
       </div>
