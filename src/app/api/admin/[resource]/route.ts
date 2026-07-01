@@ -228,6 +228,7 @@ export async function POST(request: Request, context: { params: Promise<{ resour
         })
       )
     );
+    refreshStorefront(["/"]);
     return NextResponse.json({ ok: true });
   }
 

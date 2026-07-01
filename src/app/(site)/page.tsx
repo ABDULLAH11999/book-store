@@ -96,7 +96,7 @@ export default async function HomePage() {
         <section className="order-4 mx-auto max-w-7xl px-4 py-6 sm:py-8 lg:px-8 lg:py-16">
           <div className="mb-4 sm:mb-8">
             <p className="text-xs uppercase tracking-[0.35em] text-gold sm:text-sm sm:tracking-[0.4em]">Featured Products</p>
-            <h2 className="mt-1 font-heading text-2xl sm:mt-2 sm:text-4xl">Curated Picks</h2>
+            <h2 className="mt-1 font-heading text-2xl sm:mt-2 sm:text-4xl">Best Selling</h2>
           </div>
           <FeaturedProductsGrid products={featured} />
         </section>
