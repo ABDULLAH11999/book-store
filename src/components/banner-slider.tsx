@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Image from "next/image";
 
 function useRotatingIndex(length: number) {
   const [index, setIndex] = useState(0);
@@ -34,11 +33,31 @@ export function BannerSlider({
 
   return (
     <>
-      <div className="relative hidden min-h-[58svh] overflow-hidden bg-ink md:block md:min-h-[86vh]">
-        <Image src={desktopImage} alt={alt} fill priority sizes="100vw" className="object-cover object-center" />
+      <div
+        className="relative hidden min-h-[58svh] overflow-hidden bg-ink md:block md:min-h-[86vh]"
+        role="img"
+        aria-label={alt}
+        style={{
+          backgroundImage: desktopImage ? `url("${desktopImage}")` : undefined,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          backgroundRepeat: "no-repeat"
+        }}
+      >
+        <span className="sr-only">{alt}</span>
       </div>
-      <div className="relative block min-h-[58svh] overflow-hidden bg-ink md:hidden">
-        <Image src={mobileImage} alt={alt} fill priority sizes="100vw" className="object-cover object-center" />
+      <div
+        className="relative block min-h-[58svh] overflow-hidden bg-ink md:hidden"
+        role="img"
+        aria-label={alt}
+        style={{
+          backgroundImage: mobileImage ? `url("${mobileImage}")` : undefined,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          backgroundRepeat: "no-repeat"
+        }}
+      >
+        <span className="sr-only">{alt}</span>
       </div>
     </>
   );
