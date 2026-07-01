@@ -4,19 +4,19 @@ import { motion } from "framer-motion";
 
 const highlights = [
   {
-    title: "پاکیزہ انتخاب",
+    title: "Refined Selection",
     text: "A calm storefront built to present products with clarity and visual balance."
   },
   {
-    title: "اعتماد",
+    title: "Trust",
     text: "Simple, transparent content that helps visitors feel confident while browsing."
   },
   {
-    title: "تیز رفتار",
+    title: "Fast Performance",
     text: "Static imagery and lighter sections reduce motion overhead for a snappier page."
   },
   {
-    title: "اسلامیPlay",
+    title: "IslamicPlay",
     text: "A branded presentation that keeps the identity aligned across the storefront."
   }
 ];

@@ -14,12 +14,16 @@ export function RoutePrefetcher({ routes }: { routes: string[] }) {
     };
 
     if ("requestIdleCallback" in window) {
-      const id = window.requestIdleCallback(prefetch, { timeout: 2000 });
-      return () => window.cancelIdleCallback(id);
+      const requestIdle = window.requestIdleCallback as typeof window.requestIdleCallback | undefined;
+      const cancelIdle = window.cancelIdleCallback as typeof window.cancelIdleCallback | undefined;
+      if (requestIdle && cancelIdle) {
+        const id = requestIdle(prefetch, { timeout: 2000 });
+        return () => cancelIdle(id);
+      }
     }
 
-    const timer = window.setTimeout(prefetch, 800);
-    return () => window.clearTimeout(timer);
+    const timer: ReturnType<typeof setTimeout> = setTimeout(prefetch, 800);
+    return () => clearTimeout(timer);
   }, [router, routes]);
 
   return null;

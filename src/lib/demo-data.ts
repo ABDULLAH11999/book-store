@@ -31,7 +31,7 @@ export const demoProducts = [
   },
   {
     id: "demo-seerat-un-nabi",
-    name: "Seerat-un-Nabi ﷺ by Dr. Israr Ahmad",
+    name: "Seerat-un-Nabi by Dr. Israr Ahmad",
     slug: "seerat-un-nabi-by-dr-israr-ahmad-buy-online",
     brand: "Book",
     price: "1399",
@@ -43,7 +43,7 @@ export const demoProducts = [
   },
   {
     id: "demo-waqia-karbala",
-    name: "Waqia Karbala – The Historic Story of Imam Hussain (RA)",
+    name: "Waqia Karbala - The Historic Story of Imam Hussain (RA)",
     slug: "waqia-karbala-the-historic-story-of-imam-hussain-ra-islamic-urdu-book",
     brand: "Book",
     price: "1199",
@@ -52,7 +52,7 @@ export const demoProducts = [
       "/books/waqia-karbala-the-historic-story-of-imam-hussain-ra-islamic-urdu-book-1.webp",
       "/books/waqia-karbala-the-historic-story-of-imam-hussain-ra-islamic-urdu-book-2.webp"
     ]
-  },
+  }
 ] as const;
 
 export const demoTestimonials = [
