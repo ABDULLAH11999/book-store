@@ -17,11 +17,29 @@ type Order = {
   items: Array<{ name: string; quantity: number; price: number }>;
 };
 
+type DurationFilter = "24h" | "7d" | "30d" | "all";
+
+const durationOptions: Array<{ value: DurationFilter; label: string }> = [
+  { value: "24h", label: "Last 24 hours" },
+  { value: "7d", label: "Last 7 days" },
+  { value: "30d", label: "Last 30 days" },
+  { value: "all", label: "Overall orders" }
+];
+
+function getDurationStart(duration: DurationFilter) {
+  const now = new Date();
+  if (duration === "24h") return new Date(now.getTime() - 24 * 60 * 60 * 1000);
+  if (duration === "7d") return new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
+  if (duration === "30d") return new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000);
+  return null;
+}
+
 export function OrderManager({ initialOrders }: { initialOrders: Order[] }) {
   const [orders, setOrders] = useState(initialOrders);
   const [selected, setSelected] = useState<Order | null>(null);
   const [search, setSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState("ALL");
+  const [durationFilter, setDurationFilter] = useState<DurationFilter>("all");
   const [page, setPage] = useState(1);
 
   async function updateStatus(id: string, status: string) {
@@ -47,18 +65,28 @@ export function OrderManager({ initialOrders }: { initialOrders: Order[] }) {
     toast.success("Order deleted");
   }
 
-  const filteredOrders = orders.filter((order) => {
+  const filteredOrders = useMemo(() => {
     const query = search.toLowerCase();
-    const matchesSearch = !query || order.orderNumber.toLowerCase().includes(query) || order.customer.name.toLowerCase().includes(query) || order.customer.phone.toLowerCase().includes(query);
-    const matchesStatus = statusFilter === "ALL" || order.status === statusFilter;
-    return matchesSearch && matchesStatus;
-  });
+    const start = getDurationStart(durationFilter);
+    return orders.filter((order) => {
+      const matchesSearch =
+        !query ||
+        order.orderNumber.toLowerCase().includes(query) ||
+        order.customer.name.toLowerCase().includes(query) ||
+        order.customer.phone.toLowerCase().includes(query);
+      const matchesStatus = statusFilter === "ALL" || order.status === statusFilter;
+      const createdAt = new Date(order.createdAt);
+      const matchesDuration = !start || createdAt >= start;
+      return matchesSearch && matchesStatus && matchesDuration;
+    });
+  }, [orders, search, statusFilter, durationFilter]);
 
   const pageSize = 10;
   const totalPages = Math.max(1, Math.ceil(filteredOrders.length / pageSize));
   const pagedOrders = useMemo(() => filteredOrders.slice((page - 1) * pageSize, page * pageSize), [filteredOrders, page]);
+  const exportHref = `/api/admin/orders/export?duration=${durationFilter}`;
 
-  useEffect(() => setPage(1), [search, statusFilter]);
+  useEffect(() => setPage(1), [search, statusFilter, durationFilter]);
 
   return (
     <div className="space-y-5 rounded-3xl border border-black/10 bg-white p-4 shadow-sm lg:p-6">
@@ -68,7 +96,12 @@ export function OrderManager({ initialOrders }: { initialOrders: Order[] }) {
           <h2 className="mt-2 font-heading text-2xl sm:text-3xl">Orders</h2>
         </div>
         <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap">
-          <input value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Search orders" className="w-full rounded-2xl border border-black/10 px-4 py-3 sm:min-w-[220px] md:w-72" />
+          <input
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            placeholder="Search orders"
+            className="w-full rounded-2xl border border-black/10 px-4 py-3 sm:min-w-[220px] md:w-72"
+          />
           <select value={statusFilter} onChange={(e) => setStatusFilter(e.target.value)} className="w-full rounded-2xl border border-black/10 px-4 py-3 sm:min-w-[180px] md:w-48">
             <option value="ALL">All Status</option>
             {["PENDING", "CONFIRMED", "SHIPPED", "DELIVERED", "CANCELLED"].map((status) => (
@@ -77,10 +110,36 @@ export function OrderManager({ initialOrders }: { initialOrders: Order[] }) {
               </option>
             ))}
           </select>
-          <a href="/api/admin/orders/export" className="w-full rounded-2xl bg-black px-4 py-3 text-center text-sm font-semibold text-white sm:w-auto">
+          <select
+            value={durationFilter}
+            onChange={(e) => setDurationFilter(e.target.value as DurationFilter)}
+            className="w-full rounded-2xl border border-black/10 px-4 py-3 sm:min-w-[180px] md:w-52"
+          >
+            {durationOptions.map((option) => (
+              <option key={option.value} value={option.value}>
+                {option.label}
+              </option>
+            ))}
+          </select>
+          <a href={exportHref} className="w-full rounded-2xl bg-black px-4 py-3 text-center text-sm font-semibold text-white sm:w-auto">
             Export CSV
           </a>
         </div>
+      </div>
+
+      <div className="grid gap-2 sm:grid-cols-2 lg:hidden">
+        {durationOptions.map((option) => (
+          <button
+            key={option.value}
+            type="button"
+            onClick={() => setDurationFilter(option.value)}
+            className={`rounded-2xl border px-3 py-2 text-sm font-semibold ${
+              durationFilter === option.value ? "border-black bg-black text-white" : "border-black/10 bg-white text-black/70"
+            }`}
+          >
+            {option.label}
+          </button>
+        ))}
       </div>
 
       <div className="grid gap-4 lg:hidden">
@@ -98,22 +157,22 @@ export function OrderManager({ initialOrders }: { initialOrders: Order[] }) {
               <span>Total</span>
               <span className="font-semibold">{formatPKR(order.total)}</span>
             </div>
-            <div className="mt-4 grid gap-3 sm:grid-cols-3">
-              <select value={order.status} onChange={(e) => updateStatus(order.id, e.target.value)} className="rounded-2xl border border-black/10 px-4 py-3 text-sm">
+            <div className="mt-4 grid gap-2 sm:grid-cols-3">
+              <select value={order.status} onChange={(e) => updateStatus(order.id, e.target.value)} className="rounded-2xl border border-black/10 px-3 py-2 text-xs">
                 {["PENDING", "CONFIRMED", "SHIPPED", "DELIVERED", "CANCELLED"].map((status) => (
                   <option key={status} value={status}>
                     {status}
                   </option>
                 ))}
               </select>
-              <button onClick={() => setSelected(order)} className="rounded-2xl border border-black px-3 py-3 text-sm font-semibold">
+              <button onClick={() => setSelected(order)} className="rounded-2xl border border-black px-3 py-2 text-xs font-semibold">
                 View
               </button>
               <button
                 onClick={() => removeOrder(order.id)}
-                className="inline-flex items-center justify-center gap-2 rounded-2xl border border-red-500 px-3 py-3 text-sm font-semibold text-red-600"
+                className="inline-flex items-center justify-center gap-2 rounded-2xl border border-red-500 px-3 py-2 text-xs font-semibold text-red-600"
               >
-                <Trash2 className="h-4 w-4" />
+                <Trash2 className="h-3.5 w-3.5" />
                 Delete
               </button>
             </div>
@@ -167,7 +226,7 @@ export function OrderManager({ initialOrders }: { initialOrders: Order[] }) {
                       </button>
                     </div>
                   </td>
-              </tr>
+                </tr>
               ))}
             </tbody>
           </table>
@@ -179,13 +238,23 @@ export function OrderManager({ initialOrders }: { initialOrders: Order[] }) {
           Showing {filteredOrders.length === 0 ? 0 : (page - 1) * pageSize + 1}-{Math.min(page * pageSize, filteredOrders.length)} of {filteredOrders.length}
         </p>
         <div className="flex items-center gap-2">
-          <button type="button" onClick={() => setPage((current) => Math.max(1, current - 1))} disabled={page === 1} className="rounded-full border border-black/10 px-3 py-2 font-semibold disabled:opacity-40">
+          <button
+            type="button"
+            onClick={() => setPage((current) => Math.max(1, current - 1))}
+            disabled={page === 1}
+            className="rounded-full border border-black/10 px-3 py-2 font-semibold disabled:opacity-40"
+          >
             Prev
           </button>
           <span className="rounded-full bg-black/5 px-3 py-2 font-semibold text-black/70">
             {page} / {totalPages}
           </span>
-          <button type="button" onClick={() => setPage((current) => Math.min(totalPages, current + 1))} disabled={page === totalPages} className="rounded-full border border-black/10 px-3 py-2 font-semibold disabled:opacity-40">
+          <button
+            type="button"
+            onClick={() => setPage((current) => Math.min(totalPages, current + 1))}
+            disabled={page === totalPages}
+            className="rounded-full border border-black/10 px-3 py-2 font-semibold disabled:opacity-40"
+          >
             Next
           </button>
         </div>

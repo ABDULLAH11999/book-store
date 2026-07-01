@@ -62,6 +62,13 @@ function formatCurrency(value: number) {
   return `PKR ${Number(value).toLocaleString("en-PK")}`;
 }
 
+function formatPhoneDisplay(value: string) {
+  const digits = String(value || "").replace(/\D/g, "");
+  if (!digits) return "";
+  if (digits.startsWith("92")) return `+${digits}`;
+  return `+${digits}`;
+}
+
 function getFromEmail() {
   return process.env.RESEND_FROM || `${BRAND_NAME} <${BRAND_NO_REPLY_EMAIL}>`;
 }
@@ -135,12 +142,12 @@ function shell(title: string, body: string) {
       <meta name="viewport" content="width=device-width, initial-scale=1" />
       <title>${escapeHtml(title)}</title>
     </head>
-    <body style="margin:0;background:#f5f5f5;color:#111;font-family:Arial,Helvetica,sans-serif;">
+    <body style="margin:0;background:#f4f1ea;color:#111;font-family:Arial,Helvetica,sans-serif;">
       <div style="display:none;max-height:0;overflow:hidden;opacity:0;">${escapeHtml(title)}</div>
-      <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="background:#f5f5f5;padding:24px 12px;">
+      <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="background:#f4f1ea;padding:24px 12px;">
         <tr>
           <td align="center">
-            <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="max-width:700px;background:#ffffff;border:1px solid #111;border-radius:20px;overflow:hidden;">
+            <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="max-width:720px;background:#ffffff;border:1px solid #d9d4c7;border-radius:24px;overflow:hidden;box-shadow:0 12px 40px rgba(17,17,17,.06);">
               <tr>
                 <td style="padding:24px 32px 0;">
                   <img src="${logoUrl}" alt="${BRAND_NAME}" width="96" height="96" style="display:block;width:96px;height:96px;object-fit:contain;" />
@@ -160,16 +167,25 @@ function itemRows(items: OrderEmailItem[]) {
     .map(
       (item) => `
         <tr>
-          <td style="padding:14px 0;border-bottom:1px solid #eaeaea;">
-            <div style="font-weight:700;color:#111">${escapeHtml(item.name)}</div>
-            <div style="font-size:12px;color:#666;margin-top:4px;">Qty: ${item.quantity}</div>
+          <td style="padding:16px 0;border-bottom:1px solid #ece7de;">
+            <div style="font-weight:700;color:#111;line-height:1.5;">${escapeHtml(item.name)}</div>
+            <div style="font-size:12px;color:#7a7268;margin-top:5px;letter-spacing:.04em;">Qty: ${item.quantity}</div>
           </td>
-          <td align="right" style="padding:14px 0;border-bottom:1px solid #eaeaea;font-weight:700;color:#111;">${formatCurrency(
+          <td align="right" style="padding:16px 0;border-bottom:1px solid #ece7de;font-weight:700;color:#111;">${formatCurrency(
             getBundlePricing(item.quantity, item.price).discountedTotal
           )}</td>
         </tr>`
     )
     .join("");
+}
+
+function summaryRow(label: string, value: string, emphasize = false) {
+  return `
+    <tr>
+      <td style="padding-top:8px;font-size:${emphasize ? "18px" : "14px"};font-weight:${emphasize ? "900" : "700"};color:#111;">${escapeHtml(label)}</td>
+      <td align="right" style="padding-top:8px;font-size:${emphasize ? "18px" : "14px"};font-weight:${emphasize ? "900" : "700"};color:#111;">${escapeHtml(value)}</td>
+    </tr>
+  `;
 }
 
 export async function sendMail(params: EmailPayload) {
@@ -231,51 +247,50 @@ export function buildOrderConfirmationEmail(input: OrderConfirmationInput) {
       `Order Confirmation ${input.orderNumber}`,
       `
         <tr>
-          <td style="background:#111;color:#fff;padding:28px 32px;border-bottom:1px solid #111;">
+          <td style="background:linear-gradient(135deg,#111 0%,#26211b 100%);color:#fff;padding:28px 32px;border-bottom:1px solid #111;">
             <div style="font-size:12px;letter-spacing:.24em;text-transform:uppercase;color:#d4a843;font-weight:700;">${BRAND_NAME}</div>
-            <div style="font-size:28px;font-weight:800;margin-top:10px;">Your order is confirmed</div>
-            <div style="margin-top:10px;color:#ddd;line-height:1.6;">Order <strong>${escapeHtml(
-              input.orderNumber
-            )}</strong> has been received. We will call you shortly to confirm delivery.</div>
+            <div style="font-size:30px;line-height:1.15;font-weight:800;margin-top:10px;">Your order is confirmed</div>
+            <div style="margin-top:12px;color:#e7e0d6;line-height:1.7;font-size:15px;">
+              Order <strong>${escapeHtml(input.orderNumber)}</strong> has been received and is now in our processing queue.
+            </div>
+            <div style="margin-top:22px;display:inline-block;background:#d4a843;color:#111;padding:10px 16px;border-radius:999px;font-weight:700;font-size:13px;">
+              Cash on Delivery
+            </div>
           </td>
         </tr>
         <tr>
           <td style="padding:28px 32px;">
             <table role="presentation" width="100%" cellspacing="0" cellpadding="0">
               <tr>
-                <td style="background:#fafafa;border:1px solid #e5e5e5;border-radius:16px;padding:18px 20px;">
-                  <div style="font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:#777;">Customer</div>
-                  <div style="font-size:20px;font-weight:800;margin-top:6px;">${escapeHtml(input.customerName)}</div>
-                  <div style="color:#555;margin-top:8px;line-height:1.7;">
-                    ${escapeHtml(input.phone)}<br/>
-                    ${escapeHtml(input.address)}, ${escapeHtml(input.city)}
+                <td style="background:#faf8f3;border:1px solid #ece7de;border-radius:18px;padding:20px;">
+                  <div style="font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:#7a7268;">Customer</div>
+                  <div style="font-size:22px;font-weight:800;margin-top:8px;">${escapeHtml(input.customerName)}</div>
+                  <div style="color:#5b5348;margin-top:10px;line-height:1.8;font-size:14px;">
+                    ${escapeHtml(formatPhoneDisplay(input.phone))}<br/>
+                    ${escapeHtml(input.address)}<br/>
+                    ${escapeHtml(input.city)}
                   </div>
                 </td>
               </tr>
             </table>
             <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="margin-top:24px;">
               <tr>
-                <td style="font-size:14px;font-weight:800;padding-bottom:10px;">Order Summary</td>
+                <td style="font-size:14px;font-weight:800;padding-bottom:10px;letter-spacing:.12em;text-transform:uppercase;color:#7a7268;">Order Summary</td>
               </tr>
               ${rows}
-              <tr>
-                <td style="padding-top:16px;font-weight:700;">Subtotal</td>
-                <td align="right" style="padding-top:16px;font-weight:700;">${formatCurrency(input.subtotal)}</td>
-              </tr>
-              <tr>
-                <td style="padding-top:8px;font-size:18px;font-weight:900;">Total</td>
-                <td align="right" style="padding-top:8px;font-size:18px;font-weight:900;color:#111;">${formatCurrency(
-                  input.total
-                )}</td>
-              </tr>
+              ${summaryRow("Subtotal", formatCurrency(input.subtotal))}
+              ${summaryRow("Total", formatCurrency(input.total), true)}
             </table>
-            <div style="margin-top:26px;padding:16px 18px;border-left:4px solid #d4a843;background:#fff9ec;border-radius:12px;color:#4c3b10;line-height:1.7;">
-              Cash on Delivery order. Our team will contact you before dispatch.
+            <div style="margin-top:26px;padding:18px;border-left:4px solid #d4a843;background:#fff9ec;border-radius:14px;color:#4c3b10;line-height:1.75;">
+              Thank you for shopping with IslamicPlay. Our team will contact you before dispatch if needed.
             </div>
-            <div style="margin-top:26px;font-size:13px;color:#666;line-height:1.8;">
+            <div style="margin-top:26px;font-size:13px;color:#666;line-height:1.9;">
               Contact: ${escapeHtml(input.business.phone)}<br/>
               Email: ${escapeHtml(input.business.email)}<br/>
               Address: ${escapeHtml(input.business.address)}
+            </div>
+            <div style="margin-top:22px;">
+              <a href="${getSiteUrl()}" style="display:inline-block;background:#111;color:#fff;text-decoration:none;padding:12px 18px;border-radius:999px;font-weight:700;font-size:13px;">Visit Store</a>
             </div>
           </td>
         </tr>
@@ -293,47 +308,37 @@ export function buildAdminOrderAlertEmail(input: AdminOrderAlertInput) {
       `New Order Received ${input.orderNumber}`,
       `
         <tr>
-          <td style="background:#111;color:#fff;padding:28px 32px;border-bottom:1px solid #111;">
+          <td style="background:linear-gradient(135deg,#111 0%,#26211b 100%);color:#fff;padding:28px 32px;border-bottom:1px solid #111;">
             <div style="font-size:12px;letter-spacing:.24em;text-transform:uppercase;color:#d4a843;font-weight:700;">Admin Alert</div>
-            <div style="font-size:28px;font-weight:800;margin-top:10px;">New order placed</div>
-            <div style="margin-top:10px;color:#ddd;line-height:1.6;">Order <strong>${escapeHtml(
-              input.orderNumber
-            )}</strong> is ready for review.</div>
+            <div style="font-size:30px;line-height:1.15;font-weight:800;margin-top:10px;">New order placed</div>
+            <div style="margin-top:12px;color:#e7e0d6;line-height:1.7;font-size:15px;">Order <strong>${escapeHtml(input.orderNumber)}</strong> is ready for review.</div>
           </td>
         </tr>
         <tr>
           <td style="padding:28px 32px;">
             <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;">
-              <div style="border:1px solid #e5e5e5;border-radius:16px;padding:16px;background:#fafafa;">
-                <div style="font-size:12px;color:#777;text-transform:uppercase;letter-spacing:.16em;">Customer</div>
-                <div style="font-size:18px;font-weight:800;margin-top:6px;">${escapeHtml(input.customerName)}</div>
-                <div style="color:#555;margin-top:6px;line-height:1.7;">${escapeHtml(input.phone)}<br/>${escapeHtml(
+              <div style="border:1px solid #ece7de;border-radius:18px;padding:18px;background:#faf8f3;">
+                <div style="font-size:12px;color:#7a7268;text-transform:uppercase;letter-spacing:.16em;">Customer</div>
+                <div style="font-size:18px;font-weight:800;margin-top:8px;">${escapeHtml(input.customerName)}</div>
+                <div style="color:#5b5348;margin-top:8px;line-height:1.7;font-size:14px;">${escapeHtml(formatPhoneDisplay(input.phone))}<br/>${escapeHtml(
                   input.customerEmail || "No email provided"
                 )}</div>
               </div>
-              <div style="border:1px solid #e5e5e5;border-radius:16px;padding:16px;background:#fafafa;">
-                <div style="font-size:12px;color:#777;text-transform:uppercase;letter-spacing:.16em;">Delivery</div>
-                <div style="font-size:18px;font-weight:800;margin-top:6px;">${escapeHtml(input.city)}</div>
-                <div style="color:#555;margin-top:6px;line-height:1.7;">${escapeHtml(input.address)}</div>
+              <div style="border:1px solid #ece7de;border-radius:18px;padding:18px;background:#faf8f3;">
+                <div style="font-size:12px;color:#7a7268;text-transform:uppercase;letter-spacing:.16em;">Delivery</div>
+                <div style="font-size:18px;font-weight:800;margin-top:8px;">${escapeHtml(input.city)}</div>
+                <div style="color:#5b5348;margin-top:8px;line-height:1.7;font-size:14px;">${escapeHtml(input.address)}</div>
               </div>
             </div>
             <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="margin-top:24px;">
               <tr>
-                <td style="font-size:14px;font-weight:800;padding-bottom:10px;">Items</td>
+                <td style="font-size:14px;font-weight:800;padding-bottom:10px;letter-spacing:.12em;text-transform:uppercase;color:#7a7268;">Items</td>
               </tr>
               ${rows}
-              <tr>
-                <td style="padding-top:16px;font-weight:700;">Subtotal</td>
-                <td align="right" style="padding-top:16px;font-weight:700;">${formatCurrency(input.subtotal)}</td>
-              </tr>
-              <tr>
-                <td style="padding-top:8px;font-size:18px;font-weight:900;">Total</td>
-                <td align="right" style="padding-top:8px;font-size:18px;font-weight:900;color:#111;">${formatCurrency(
-                  input.total
-                )}</td>
-              </tr>
+              ${summaryRow("Subtotal", formatCurrency(input.subtotal))}
+              ${summaryRow("Total", formatCurrency(input.total), true)}
             </table>
-            <div style="margin-top:26px;padding:16px 18px;border-left:4px solid #111;background:#f7f7f7;border-radius:12px;color:#333;line-height:1.7;">
+            <div style="margin-top:26px;padding:16px 18px;border-left:4px solid #111;background:#f7f7f7;border-radius:14px;color:#333;line-height:1.75;">
               <strong>Notes:</strong> ${escapeHtml(input.notes || "No additional notes provided.")}
             </div>
           </td>
@@ -350,10 +355,10 @@ export function buildTestEmail(input: { title?: string; message?: string; busine
       input.title || `${BRAND_NAME} Test Email`,
       `
         <tr>
-          <td style="background:#111;color:#fff;padding:28px 32px;border-bottom:1px solid #111;">
+          <td style="background:linear-gradient(135deg,#111 0%,#26211b 100%);color:#fff;padding:28px 32px;border-bottom:1px solid #111;">
             <div style="font-size:12px;letter-spacing:.24em;text-transform:uppercase;color:#d4a843;font-weight:700;">Email System</div>
-            <div style="font-size:28px;font-weight:800;margin-top:10px;">Test email delivered</div>
-            <div style="margin-top:10px;color:#ddd;line-height:1.6;">${escapeHtml(
+            <div style="font-size:30px;line-height:1.15;font-weight:800;margin-top:10px;">Test email delivered</div>
+            <div style="margin-top:12px;color:#e7e0d6;line-height:1.7;font-size:15px;">${escapeHtml(
               input.message || `This is a test message from ${BRAND_NAME}.`
             )}</div>
           </td>

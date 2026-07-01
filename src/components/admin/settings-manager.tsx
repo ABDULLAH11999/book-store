@@ -19,6 +19,9 @@ type BusinessInfo = {
   shopAddress: string;
   whatsappNumber: string;
   instagramLink: string;
+  orderPlacedMessage: string;
+  orderConfirmedMessage: string;
+  orderCancelledMessage: string;
 };
 
 const defaultEmailSettings: EmailSettings = {
@@ -32,7 +35,13 @@ const defaultBusinessInfo: BusinessInfo = {
   contactEmail: "",
   shopAddress: "",
   whatsappNumber: "",
-  instagramLink: ""
+  instagramLink: "",
+  orderPlacedMessage:
+    "Assalam o Alaikum {{customerName}}, your order {{orderNumber}} has been placed successfully. Items: {{items}}. Total: {{total}}. We will contact you soon.",
+  orderConfirmedMessage:
+    "Assalam o Alaikum {{customerName}}, your order {{orderNumber}} has been confirmed. Items: {{items}}. Total: {{total}}.",
+  orderCancelledMessage:
+    "Assalam o Alaikum {{customerName}}, your order {{orderNumber}} has been cancelled. If you need help, contact us at {{supportNumber}}."
 };
 
 export function SettingsManager({ initialSettings }: { initialSettings: SettingsMap }) {
@@ -143,6 +152,36 @@ export function SettingsManager({ initialSettings }: { initialSettings: Settings
                 onChange={(e) => setBusinessInfo({ ...businessInfo, instagramLink: e.target.value })}
                 placeholder="https://instagram.com/yourprofile"
                 className="rounded-2xl border px-4 py-3"
+              />
+            </label>
+            <label className="grid gap-2">
+              <span className="text-sm font-medium text-black/60">Order Placed WhatsApp Message</span>
+              <textarea
+                value={businessInfo.orderPlacedMessage}
+                onChange={(e) => setBusinessInfo({ ...businessInfo, orderPlacedMessage: e.target.value })}
+                rows={4}
+                className="rounded-2xl border px-4 py-3"
+                placeholder="Use placeholders like {{customerName}}, {{orderNumber}}, {{items}}, {{total}}"
+              />
+            </label>
+            <label className="grid gap-2">
+              <span className="text-sm font-medium text-black/60">Order Confirmed WhatsApp Message</span>
+              <textarea
+                value={businessInfo.orderConfirmedMessage}
+                onChange={(e) => setBusinessInfo({ ...businessInfo, orderConfirmedMessage: e.target.value })}
+                rows={4}
+                className="rounded-2xl border px-4 py-3"
+                placeholder="Use placeholders like {{customerName}}, {{orderNumber}}, {{items}}, {{total}}"
+              />
+            </label>
+            <label className="grid gap-2">
+              <span className="text-sm font-medium text-black/60">Order Cancelled WhatsApp Message</span>
+              <textarea
+                value={businessInfo.orderCancelledMessage}
+                onChange={(e) => setBusinessInfo({ ...businessInfo, orderCancelledMessage: e.target.value })}
+                rows={4}
+                className="rounded-2xl border px-4 py-3"
+                placeholder="Use placeholders like {{customerName}}, {{orderNumber}}, {{items}}, {{supportNumber}}"
               />
             </label>
           </div>

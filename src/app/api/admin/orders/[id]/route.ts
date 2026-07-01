@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { requireAdmin } from "@/lib/admin";
 import { orderStatusSchema } from "@/lib/validators";
+import { sendOrderWhatsAppNotification } from "@/lib/whatsapp";
 
 export const dynamic = "force-dynamic";
 
@@ -45,6 +46,20 @@ export async function PUT(request: Request, context: { params: Promise<{ id: str
     },
     include: { customer: true }
   });
+
+  if ((status.data === "CONFIRMED" || status.data === "CANCELLED") && status.data !== existing.status) {
+    const businessSetting = await prisma.siteSettings.findUnique({ where: { key: "businessInfo" } });
+    const business = businessSetting ? JSON.parse(businessSetting.value) : {};
+    await sendOrderWhatsAppNotification(status.data, {
+      orderNumber: item.orderNumber,
+      customerName: item.customer.name,
+      phone: item.customer.phone,
+      items: Array.isArray(item.items) ? (item.items as Array<{ name: string; quantity: number; price: number }>) : [],
+      subtotal: Number(item.subtotal),
+      total: Number(item.total),
+      business
+    });
+  }
 
   return NextResponse.json({ item });
 }

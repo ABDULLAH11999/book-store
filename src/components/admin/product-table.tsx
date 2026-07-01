@@ -90,13 +90,13 @@ export function ProductTable({ initialProducts }: { initialProducts: Product[] }
             <div className="mt-4 grid grid-cols-2 gap-2">
               <Link
                 href={`/admin/products/${product.id}`}
-                className="flex w-full min-h-11 min-w-0 items-center justify-center rounded-2xl border border-black px-3 py-3 text-center text-sm font-semibold leading-none"
+                className="flex w-full min-h-9 min-w-0 items-center justify-center rounded-2xl border border-black px-2 py-2 text-center text-[11px] font-semibold leading-none sm:min-h-11 sm:px-3 sm:py-3 sm:text-sm"
               >
                 Edit
               </Link>
               <button
                 onClick={() => remove(product.id)}
-                className="flex w-full min-h-11 min-w-0 items-center justify-center rounded-2xl border border-black px-3 py-3 text-sm font-semibold leading-none text-black"
+                className="flex w-full min-h-9 min-w-0 items-center justify-center rounded-2xl border border-black px-2 py-2 text-[11px] font-semibold leading-none text-black sm:min-h-11 sm:px-3 sm:py-3 sm:text-sm"
               >
                 Delete
               </button>
@@ -142,10 +142,10 @@ export function ProductTable({ initialProducts }: { initialProducts: Product[] }
                   <td className="px-4 py-4">{product.stock}</td>
                   <td className="px-4 py-4">
                     <div className="flex justify-end gap-2">
-                      <Link href={`/admin/products/${product.id}`} className="rounded-full border border-black px-3 py-2 text-xs font-semibold">
+                      <Link href={`/admin/products/${product.id}`} className="rounded-full border border-black px-2 py-1.5 text-[11px] font-semibold sm:px-3 sm:py-2 sm:text-xs">
                         Edit
                       </Link>
-                      <button onClick={() => remove(product.id)} className="rounded-full border border-black px-3 py-2 text-xs font-semibold">
+                      <button onClick={() => remove(product.id)} className="rounded-full border border-black px-2 py-1.5 text-[11px] font-semibold sm:px-3 sm:py-2 sm:text-xs">
                         Delete
                       </button>
                     </div>

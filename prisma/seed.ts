@@ -153,7 +153,13 @@ async function main() {
     contactPhone: "+92 300 1234567",
     contactEmail: "hello@islamicplay.pk",
     shopAddress: "Clifton, Karachi, Pakistan",
-    whatsappNumber: "+923001234567"
+    whatsappNumber: "+923001234567",
+    orderPlacedMessage:
+      "Assalam o Alaikum {{customerName}}, your order {{orderNumber}} has been placed successfully. Items: {{items}}. Total: {{total}}. We will contact you soon.",
+    orderConfirmedMessage:
+      "Assalam o Alaikum {{customerName}}, your order {{orderNumber}} has been confirmed. Items: {{items}}. Total: {{total}}.",
+    orderCancelledMessage:
+      "Assalam o Alaikum {{customerName}}, your order {{orderNumber}} has been cancelled. For help, contact us at {{supportNumber}}."
   };
 
   const seoSettings = {

@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { checkoutSchema } from "@/lib/validators";
 import { prisma } from "@/lib/prisma";
 import { createCheckoutOrder } from "@/lib/order";
+import { sendOrderWhatsAppNotification } from "@/lib/whatsapp";
 
 export const dynamic = "force-dynamic";
 
@@ -51,6 +52,22 @@ export async function POST(request: Request) {
         salePrice: item.salePrice ?? null
       })),
       notes: parsed.data.notes
+    });
+
+    const businessSetting = await prisma.siteSettings.findUnique({ where: { key: "businessInfo" } });
+    const business = businessSetting ? JSON.parse(businessSetting.value) : {};
+    await sendOrderWhatsAppNotification("PENDING", {
+      orderNumber: order.orderNumber,
+      customerName: parsed.data.customer.name,
+      phone: parsed.data.customer.phone,
+      items: items.map((item) => ({
+        name: item.name,
+        quantity: item.quantity,
+        price: item.price
+      })),
+      subtotal: Number(order.subtotal),
+      total: Number(order.total),
+      business
     });
 
     return NextResponse.json({ ok: true, orderNumber: order.orderNumber });

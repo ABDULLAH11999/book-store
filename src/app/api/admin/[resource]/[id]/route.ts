@@ -5,6 +5,7 @@ import { customerSchema, productSchema, testimonialSchema, orderStatusSchema } f
 import { toSlug } from "@/lib/utils";
 import { revalidatePath } from "next/cache";
 import { ZodError } from "zod";
+import { sendOrderWhatsAppNotification } from "@/lib/whatsapp";
 
 export const dynamic = "force-dynamic";
 
@@ -133,6 +134,20 @@ export async function PUT(request: Request, context: { params: Promise<{ resourc
       },
       include: { customer: true }
     });
+
+    if ((status.data === "CONFIRMED" || status.data === "CANCELLED") && status.data !== existing.status) {
+      const businessSetting = await prisma.siteSettings.findUnique({ where: { key: "businessInfo" } });
+      const business = businessSetting ? JSON.parse(businessSetting.value) : {};
+      await sendOrderWhatsAppNotification(status.data, {
+        orderNumber: item.orderNumber,
+        customerName: item.customer.name,
+        phone: item.customer.phone,
+        items: Array.isArray(item.items) ? (item.items as Array<{ name: string; quantity: number; price: number }>) : [],
+        subtotal: Number(item.subtotal),
+        total: Number(item.total),
+        business
+      });
+    }
     return NextResponse.json({ item });
   }
 

@@ -9,7 +9,10 @@ export async function GET() {
     contactEmail: "",
     shopAddress: "",
     whatsappNumber: "",
-    instagramLink: ""
+    instagramLink: "",
+    orderPlacedMessage: "",
+    orderConfirmedMessage: "",
+    orderCancelledMessage: ""
   });
   return NextResponse.json(business);
 }
