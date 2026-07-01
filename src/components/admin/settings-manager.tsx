@@ -18,6 +18,8 @@ type BusinessInfo = {
   contactEmail: string;
   shopAddress: string;
   whatsappNumber: string;
+  metaAccessToken: string;
+  metaPhoneNumberId: string;
   instagramLink: string;
   orderPlacedMessage: string;
   orderConfirmedMessage: string;
@@ -35,6 +37,8 @@ const defaultBusinessInfo: BusinessInfo = {
   contactEmail: "",
   shopAddress: "",
   whatsappNumber: "",
+  metaAccessToken: "",
+  metaPhoneNumberId: "",
   instagramLink: "",
   orderPlacedMessage:
     "Assalam o Alaikum {{customerName}}, your order {{orderNumber}} has been placed successfully. Items: {{items}}. Total: {{total}}. We will contact you soon.",
@@ -142,6 +146,24 @@ export function SettingsManager({ initialSettings }: { initialSettings: Settings
               <input
                 value={businessInfo.whatsappNumber}
                 onChange={(e) => setBusinessInfo({ ...businessInfo, whatsappNumber: e.target.value })}
+                className="rounded-2xl border px-4 py-3"
+              />
+            </label>
+            <label className="grid gap-2">
+              <span className="text-sm font-medium text-black/60">Meta WhatsApp Access Token</span>
+              <input
+                value={businessInfo.metaAccessToken}
+                onChange={(e) => setBusinessInfo({ ...businessInfo, metaAccessToken: e.target.value })}
+                placeholder="EAA..."
+                className="rounded-2xl border px-4 py-3"
+              />
+            </label>
+            <label className="grid gap-2">
+              <span className="text-sm font-medium text-black/60">Meta WhatsApp Phone Number ID</span>
+              <input
+                value={businessInfo.metaPhoneNumberId}
+                onChange={(e) => setBusinessInfo({ ...businessInfo, metaPhoneNumberId: e.target.value })}
+                placeholder="123456789012345"
                 className="rounded-2xl border px-4 py-3"
               />
             </label>

@@ -154,6 +154,8 @@ async function main() {
     contactEmail: "hello@islamicplay.pk",
     shopAddress: "Clifton, Karachi, Pakistan",
     whatsappNumber: "+923001234567",
+    metaAccessToken: "",
+    metaPhoneNumberId: "",
     orderPlacedMessage:
       "Assalam o Alaikum {{customerName}}, your order {{orderNumber}} has been placed successfully. Items: {{items}}. Total: {{total}}. We will contact you soon.",
     orderConfirmedMessage:

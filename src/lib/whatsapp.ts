@@ -3,6 +3,8 @@ import { safeJsonParse } from "@/lib/utils";
 export type WhatsAppBusinessInfo = {
   whatsappNumber?: string;
   contactPhone?: string;
+  metaAccessToken?: string;
+  metaPhoneNumberId?: string;
   orderPlacedMessage?: string;
   orderConfirmedMessage?: string;
   orderCancelledMessage?: string;
@@ -43,6 +45,10 @@ function formatItems(items: WhatsAppOrderItem[]) {
 
 function renderTemplate(template: string, context: Record<string, string>) {
   return template.replace(/\{\{\s*([\w.-]+)\s*\}\}/g, (_, key: string) => context[key] || "");
+}
+
+function firstNonEmpty(...values: Array<string | undefined | null>) {
+  return values.map((value) => String(value || "").trim()).find((value) => value.length > 0) || "";
 }
 
 function buildDefaultTemplate(status: WhatsAppOrderStatus) {
@@ -96,20 +102,27 @@ export function buildWhatsAppOrderMessage(status: WhatsAppOrderStatus, input: Wh
   }).trim();
 }
 
-export async function sendWhatsAppText(params: { to: string; message: string }) {
+export async function sendWhatsAppText(params: {
+  to: string;
+  message: string;
+  accessToken?: string;
+  phoneNumberId?: string;
+}) {
   const recipient = normalizePhoneNumber(params.to);
   if (!recipient) return { ok: false as const, reason: "missing-recipient" };
 
-  const accessToken =
-    process.env.WHATSAPP_ACCESS_TOKEN ||
-    process.env.META_WHATSAPP_TOKEN ||
-    process.env.WHATSAPP_TOKEN ||
-    "";
-  const phoneNumberId =
-    process.env.WHATSAPP_PHONE_NUMBER_ID ||
-    process.env.META_WHATSAPP_PHONE_NUMBER_ID ||
-    process.env.WHATSAPP_SENDER_PHONE_NUMBER_ID ||
-    "";
+  const accessToken = firstNonEmpty(
+    params.accessToken,
+    process.env.WHATSAPP_ACCESS_TOKEN,
+    process.env.META_WHATSAPP_TOKEN,
+    process.env.WHATSAPP_TOKEN
+  );
+  const phoneNumberId = firstNonEmpty(
+    params.phoneNumberId,
+    process.env.WHATSAPP_PHONE_NUMBER_ID,
+    process.env.META_WHATSAPP_PHONE_NUMBER_ID,
+    process.env.WHATSAPP_SENDER_PHONE_NUMBER_ID
+  );
 
   if (!accessToken || !phoneNumberId) {
     return { ok: false as const, reason: "missing-config" };
@@ -142,8 +155,17 @@ export async function sendWhatsAppText(params: { to: string; message: string }) 
 
 export async function sendOrderWhatsAppNotification(status: WhatsAppOrderStatus, input: WhatsAppOrderContext) {
   const message = buildWhatsAppOrderMessage(status, input);
+  const accessToken = String(input.business.metaAccessToken || "").trim();
+  const phoneNumberId = String(input.business.metaPhoneNumberId || "").trim();
+
+  if (!accessToken || !phoneNumberId) {
+    return { ok: false as const, reason: "missing-config" };
+  }
+
   return sendWhatsAppText({
     to: input.phone,
-    message
+    message,
+    accessToken,
+    phoneNumberId
   });
 }

@@ -9,6 +9,8 @@ export async function GET() {
     contactEmail: "",
     shopAddress: "",
     whatsappNumber: "",
+    metaAccessToken: "",
+    metaPhoneNumberId: "",
     instagramLink: "",
     orderPlacedMessage: "",
     orderConfirmedMessage: "",
