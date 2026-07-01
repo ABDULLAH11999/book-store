@@ -5,9 +5,9 @@ export async function CinematicBanner() {
     <section className="mx-auto max-w-7xl px-4 py-6 sm:py-8 lg:px-8 lg:py-14">
       <div className="overflow-hidden rounded-[2rem] border border-black/10 bg-white shadow-sm">
         <div className="grid lg:grid-cols-[1.08fr_0.92fr]">
-          <div className="relative min-h-[240px] overflow-hidden bg-black sm:min-h-[320px] lg:min-h-[420px]">
+          <div className="relative h-[170px] overflow-hidden bg-black sm:min-h-[320px] lg:min-h-[420px] md:h-auto">
             <div
-              className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+              className="absolute inset-0 bg-cover bg-center bg-no-repeat md:bg-center"
               style={{ backgroundImage: `url("${BRAND_BANNER_PATH}")` }}
               aria-hidden="true"
             />
