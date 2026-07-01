@@ -52,7 +52,7 @@ export function VisitorTable({
             <option value="ALL">All Platforms</option>
             <option value="GOOGLE_SEARCH">Google Search</option>
             <option value="SHARED_LINK">Shared Link</option>
-            <option value="TIKTOK">Tiktok</option>
+            <option value="TIKTOK">TikTok</option>
           </select>
         </div>
       </div>

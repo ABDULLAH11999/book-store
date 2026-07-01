@@ -9,6 +9,7 @@ import {
   getVisitorLocation,
   normalizeEntryUrl
 } from "@/lib/visitor-tracking";
+import { getSiteUrl } from "@/lib/seo";
 
 export const dynamic = "force-dynamic";
 
@@ -27,7 +28,7 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Invalid visitor payload" }, { status: 400 });
   }
 
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL?.trim() || "http://localhost:3000";
+  const siteUrl = getSiteUrl();
   const sessionId = parsed.data.sessionId || randomUUID();
   const headers = request.headers;
   const entryUrl = normalizeEntryUrl(siteUrl, parsed.data.url);
@@ -36,8 +37,12 @@ export async function POST(request: Request) {
   const referrer = parsed.data.referrer?.trim() || null;
   const ipAddress = getRequestIp(headers);
   const location = getVisitorLocation(headers);
-  const platform = classifyVisitorPlatform(referrer);
   const userAgent = (parsed.data.userAgent?.trim() || headers.get("user-agent") || "").slice(0, 1000) || null;
+  const platform = classifyVisitorPlatform({
+    referrer,
+    url: parsed.data.url,
+    userAgent
+  });
 
   const existing = await prisma.visitorSession.findUnique({ where: { sessionId } });
 

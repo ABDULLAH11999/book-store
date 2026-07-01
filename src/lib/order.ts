@@ -2,6 +2,7 @@ import { prisma } from "@/lib/prisma";
 import { toSlug } from "@/lib/utils";
 import { adminOrderAlertEmail, orderConfirmationEmail, resolveMailConfig, sendMail } from "@/lib/email";
 import type { Prisma } from "@prisma/client";
+import { getBundlePricing } from "@/lib/bundle-pricing";
 
 export type CheckoutItem = {
   productId: string;
@@ -47,7 +48,10 @@ export async function createCheckoutOrder(input: {
   });
 
   const orderNumber = await nextOrderNumber();
-  const subtotal = input.items.reduce((sum, item) => sum + Number(item.price) * item.quantity, 0);
+  const subtotal = input.items.reduce((sum, item) => {
+    const pricing = getBundlePricing(item.quantity, Number(item.price));
+    return sum + pricing.discountedTotal;
+  }, 0);
   const total = subtotal;
   const order = await prisma.order.create({
     data: {

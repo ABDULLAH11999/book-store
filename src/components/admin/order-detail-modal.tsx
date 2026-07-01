@@ -2,6 +2,7 @@
 
 import { formatPKR } from "@/lib/utils";
 import { Trash2, X } from "lucide-react";
+import { getBundlePricing } from "@/lib/bundle-pricing";
 
 type Order = {
   id: string;
@@ -73,7 +74,7 @@ export function OrderDetailModal({
                 <span>
                   {item.name} x {item.quantity}
                 </span>
-                <span>{formatPKR(item.price * item.quantity)}</span>
+                <span>{formatPKR(getBundlePricing(item.quantity, item.price).discountedTotal)}</span>
               </div>
             ))}
           </div>

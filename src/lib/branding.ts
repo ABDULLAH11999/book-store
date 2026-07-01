@@ -1,6 +1,6 @@
 export const BRAND_NAME = "IslamicPlay";
 export const BRAND_TAGLINE = "Islamic-inspired shopping";
-export const BRAND_DOMAIN = "islamicplay.store";
+export const BRAND_DOMAIN = "islamicplay.pk";
 export const BRAND_SITE_URL = `https://${BRAND_DOMAIN}`;
 export const BRAND_DARK_GREEN = "#2f3c2f";
 export const BRAND_LOGO_PATH = "/ui-image/Logo.avif";

@@ -1,5 +1,11 @@
 export type VisitorPlatform = "TIKTOK" | "GOOGLE_SEARCH" | "SHARED_LINK";
 
+type VisitorSource = {
+  referrer?: string | null;
+  url?: string | null;
+  userAgent?: string | null;
+};
+
 export function getRequestIp(headers: Headers) {
   const candidates = [
     headers.get("cf-connecting-ip"),
@@ -13,39 +19,95 @@ export function getRequestIp(headers: Headers) {
   return ip?.split(",")[0]?.trim() || null;
 }
 
-export function classifyVisitorPlatform(referrer?: string | null) {
-  const source = referrer?.toLowerCase().trim() || "";
-  if (!source) return "SHARED_LINK" satisfies VisitorPlatform;
+function normalizeSource(input?: string | VisitorSource | null) {
+  if (!input) {
+    return {
+      referrer: "",
+      url: "",
+      userAgent: ""
+    };
+  }
 
-  if (
-    source.includes("google.") ||
-    source.includes("google.com") ||
-    source.includes("gclid=") ||
-    source.includes("search") ||
-    source.includes("bing.") ||
-    source.includes("duckduckgo.") ||
-    source.includes("yahoo.")
-  ) {
+  if (typeof input === "string") {
+    return {
+      referrer: input.toLowerCase().trim(),
+      url: "",
+      userAgent: ""
+    };
+  }
+
+  return {
+    referrer: input.referrer?.toLowerCase().trim() || "",
+    url: input.url?.toLowerCase().trim() || "",
+    userAgent: input.userAgent?.toLowerCase().trim() || ""
+  };
+}
+
+function hasSearchSignals(referrer: string, url: string) {
+  return (
+    referrer.includes("google.") ||
+    referrer.includes("google.com") ||
+    referrer.includes("bing.") ||
+    referrer.includes("duckduckgo.") ||
+    referrer.includes("yahoo.") ||
+    referrer.includes("search") ||
+    url.includes("gclid=") ||
+    url.includes("gbraid=") ||
+    url.includes("wbraid=") ||
+    url.includes("utm_source=google") ||
+    url.includes("utm_medium=cpc") ||
+    url.includes("utm_medium=organic")
+  );
+}
+
+function hasTikTokSignals(referrer: string, url: string, userAgent: string) {
+  return (
+    referrer.includes("tiktok") ||
+    url.includes("ttclid=") ||
+    url.includes("utm_source=tiktok") ||
+    url.includes("utm_campaign=tiktok") ||
+    userAgent.includes("tiktok")
+  );
+}
+
+function hasSharedLinkSignals(referrer: string, url: string) {
+  return (
+    referrer.includes("whatsapp") ||
+    referrer.includes("wa.me") ||
+    referrer.includes("facebook") ||
+    referrer.includes("messenger") ||
+    referrer.includes("instagram") ||
+    referrer.includes("t.me") ||
+    referrer.includes("telegram") ||
+    referrer.includes("linkedin") ||
+    referrer.includes("share") ||
+    referrer.includes("direct") ||
+    url.includes("utm_source=whatsapp") ||
+    url.includes("utm_source=facebook") ||
+    url.includes("utm_source=instagram") ||
+    url.includes("utm_source=telegram") ||
+    url.includes("utm_source=linkedin")
+  );
+}
+
+export function classifyVisitorPlatform(input?: string | VisitorSource | null) {
+  const { referrer, url, userAgent } = normalizeSource(input);
+  const sourceIsEmpty = !referrer && !url && !userAgent;
+
+  if (hasTikTokSignals(referrer, url, userAgent)) {
+    return "TIKTOK" satisfies VisitorPlatform;
+  }
+
+  if (hasSearchSignals(referrer, url)) {
     return "GOOGLE_SEARCH" satisfies VisitorPlatform;
   }
 
-  if (
-    source.includes("whatsapp") ||
-    source.includes("wa.me") ||
-    source.includes("facebook") ||
-    source.includes("messenger") ||
-    source.includes("instagram") ||
-    source.includes("t.me") ||
-    source.includes("telegram") ||
-    source.includes("linkedin") ||
-    source.includes("share") ||
-    source.includes("direct")
-  ) {
+  if (hasSharedLinkSignals(referrer, url)) {
     return "SHARED_LINK" satisfies VisitorPlatform;
   }
 
-  if (source.includes("tiktok")) {
-    return "TIKTOK" satisfies VisitorPlatform;
+  if (sourceIsEmpty) {
+    return "SHARED_LINK" satisfies VisitorPlatform;
   }
 
   return "SHARED_LINK" satisfies VisitorPlatform;

@@ -151,7 +151,7 @@ async function main() {
 
   const businessInfo = {
     contactPhone: "+92 300 1234567",
-    contactEmail: "hello@islamicplay.store",
+    contactEmail: "hello@islamicplay.pk",
     shopAddress: "Clifton, Karachi, Pakistan",
     whatsappNumber: "+923001234567"
   };
@@ -160,7 +160,7 @@ async function main() {
     siteTitle: "IslamicPlay",
     titleTemplate: "%s | IslamicPlay",
     metaDescription: "Elegant IslamicPlay shopping with a refined, premium experience.",
-    canonicalUrl: "https://islamicplay.store",
+    canonicalUrl: "https://islamicplay.pk",
     metaKeywords: "quran, islamic books, urdu books, islamicplay, pakistan",
     ogTitle: "IslamicPlay",
     ogDescription: "Elegant IslamicPlay shopping with a refined, premium experience.",
@@ -176,7 +176,7 @@ async function main() {
     user: "",
     password: "",
     fromName: "IslamicPlay",
-    fromEmail: "no-reply@islamicplay.store"
+    fromEmail: "no-reply@islamicplay.pk"
   };
 
   const bannerSettings = {

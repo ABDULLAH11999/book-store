@@ -2,6 +2,7 @@
 
 import React, { createContext, useContext, useEffect, useMemo, useState } from "react";
 import toast from "react-hot-toast";
+import { getBundlePricing } from "@/lib/bundle-pricing";
 
 export type CartItem = {
   productId: string;
@@ -39,7 +40,10 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
   }, [items]);
 
   const value = useMemo<CartContextValue>(() => {
-    const subtotal = items.reduce((sum, item) => sum + Number(item.salePrice ?? item.price) * item.quantity, 0);
+    const subtotal = items.reduce((sum, item) => {
+      const pricing = getBundlePricing(item.quantity, Number(item.salePrice ?? item.price));
+      return sum + pricing.discountedTotal;
+    }, 0);
     return {
       items,
       count: items.reduce((sum, item) => sum + item.quantity, 0),

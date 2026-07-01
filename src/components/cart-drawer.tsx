@@ -5,6 +5,7 @@ import { Minus, Plus, X } from "lucide-react";
 import { useCart } from "@/components/cart-context";
 import { formatPKR } from "@/lib/utils";
 import { MediaImage } from "@/components/media-image";
+import { getBundlePricing } from "@/lib/bundle-pricing";
 
 export function CartDrawer({ open, onClose }: { open: boolean; onClose: () => void }) {
   const { items, subtotal, updateQuantity, removeItem } = useCart();
@@ -29,7 +30,9 @@ export function CartDrawer({ open, onClose }: { open: boolean; onClose: () => vo
                 <div className="flex-1">
                   <h3 className="font-medium">{item.name}</h3>
                   <p className="text-xs text-black/50">Type: {item.brand}</p>
-                  <p className="mt-1 text-sm font-semibold">{formatPKR(item.salePrice ?? item.price)}</p>
+                  <p className="mt-1 text-sm font-semibold">
+                    {formatPKR(getBundlePricing(item.quantity, Number(item.salePrice ?? item.price)).discountedTotal)}
+                  </p>
                   <div className="mt-3 flex items-center gap-2">
                     <button className="rounded-full border p-1" onClick={() => updateQuantity(item.productId, item.quantity - 1)}><Minus className="h-4 w-4" /></button>
                     <span className="w-8 text-center text-sm">{item.quantity}</span>

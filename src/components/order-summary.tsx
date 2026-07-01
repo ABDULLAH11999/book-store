@@ -2,6 +2,7 @@
 
 import { Minus, Plus, Trash2 } from "lucide-react";
 import { formatPKR } from "@/lib/utils";
+import { getBundlePricing } from "@/lib/bundle-pricing";
 
 export function OrderSummary({
   items,
@@ -25,7 +26,9 @@ export function OrderSummary({
                 <p className="truncate text-sm font-medium sm:text-base">{item.name}</p>
                 <p className="mt-1 text-xs text-black/50">Qty: {item.quantity}</p>
               </div>
-              <span className="shrink-0 text-sm font-semibold">{formatPKR((item.salePrice ?? item.price) * item.quantity)}</span>
+              <span className="shrink-0 text-sm font-semibold">
+                {formatPKR(getBundlePricing(item.quantity, Number(item.salePrice ?? item.price)).discountedTotal)}
+              </span>
             </div>
             <div className="mt-3 flex items-center justify-between gap-2">
               <div className="inline-flex items-center rounded-full border border-black/10 bg-white">

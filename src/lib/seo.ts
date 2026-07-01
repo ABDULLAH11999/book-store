@@ -33,7 +33,20 @@ const defaultSeoSettings: SeoSettings = {
 export function getSiteUrl(seo?: Partial<SeoSettings>) {
   const configured = seo?.canonicalUrl?.trim();
   const envUrl = process.env.NEXT_PUBLIC_SITE_URL?.trim();
-  const fallback = configured || envUrl || BRAND_SITE_URL;
+  const candidates = [configured, envUrl, BRAND_SITE_URL].filter(Boolean) as string[];
+
+  for (const candidate of candidates) {
+    try {
+      const normalized = new URL(candidate);
+      if (normalized.hostname === "islamicplay.pk" || normalized.hostname.endsWith(".islamicplay.pk")) {
+        return normalized.origin;
+      }
+    } catch {
+      continue;
+    }
+  }
+
+  const fallback = BRAND_SITE_URL;
   try {
     const normalized = new URL(fallback);
     return normalized.origin;

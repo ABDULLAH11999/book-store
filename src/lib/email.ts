@@ -2,6 +2,7 @@ import { prisma } from "@/lib/prisma";
 import { safeJsonParse } from "@/lib/utils";
 import { BRAND_NAME, BRAND_NO_REPLY_EMAIL } from "@/lib/branding";
 import { getSiteUrl } from "@/lib/seo";
+import { getBundlePricing } from "@/lib/bundle-pricing";
 
 type EmailStatus = "SENT" | "FAILED";
 
@@ -164,7 +165,7 @@ function itemRows(items: OrderEmailItem[]) {
             <div style="font-size:12px;color:#666;margin-top:4px;">Qty: ${item.quantity}</div>
           </td>
           <td align="right" style="padding:14px 0;border-bottom:1px solid #eaeaea;font-weight:700;color:#111;">${formatCurrency(
-            item.price * item.quantity
+            getBundlePricing(item.quantity, item.price).discountedTotal
           )}</td>
         </tr>`
     )

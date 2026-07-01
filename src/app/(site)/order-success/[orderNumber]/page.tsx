@@ -1,6 +1,7 @@
 import { prisma } from "@/lib/prisma";
 import Link from "next/link";
 import { formatPKR } from "@/lib/utils";
+import { getBundlePricing } from "@/lib/bundle-pricing";
 
 export const dynamic = "force-dynamic";
 
@@ -39,7 +40,7 @@ export default async function OrderSuccessPage({ params }: { params: { orderNumb
               <span>
                 {item.name} x {item.quantity}
               </span>
-              <span>{formatPKR(item.price * item.quantity)}</span>
+              <span>{formatPKR(getBundlePricing(item.quantity, item.price).discountedTotal)}</span>
             </div>
           ))}
         </div>
