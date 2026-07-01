@@ -72,13 +72,13 @@ export function ProductTable({ initialProducts }: { initialProducts: Product[] }
 
       <div className="grid gap-4 lg:hidden">
         {pagedProducts.map((product) => (
-          <div key={product.id} className="rounded-3xl border border-black/10 p-4">
+          <div key={product.id} className="rounded-3xl border border-black/10 p-3 sm:p-4">
             <div className="flex gap-3">
-              <div className="h-20 w-20 shrink-0 overflow-hidden rounded-2xl border border-black/10 bg-black/5">
+              <div className="h-18 w-18 shrink-0 overflow-hidden rounded-2xl border border-black/10 bg-black/5 sm:h-20 sm:w-20">
                 {product.images?.[0] ? <MediaImage src={product.images[0]} alt={product.name} width={80} height={80} className="h-full w-full object-cover" /> : null}
               </div>
               <div className="min-w-0 flex-1">
-                <p className="truncate text-sm font-semibold sm:text-base">{product.name}</p>
+                <p className="whitespace-normal break-words text-sm font-semibold leading-snug sm:truncate sm:text-base">{product.name}</p>
                 <p className="mt-1 text-xs text-black/45">{product.slug}</p>
                 <p className="mt-2 text-sm text-black/60">Type: {product.brand}</p>
                 <p className="mt-1 text-sm font-semibold">{formatPKR(product.price)}</p>
@@ -91,18 +91,18 @@ export function ProductTable({ initialProducts }: { initialProducts: Product[] }
             <div className="mt-4 grid grid-cols-2 gap-2">
               <Link
                 href={`/admin/products/${product.id}`}
-                className="inline-flex w-full items-center justify-center gap-2 rounded-2xl border border-black px-2 py-2 text-[11px] font-semibold leading-none sm:min-h-11 sm:px-3 sm:py-3 sm:text-sm"
+                className="inline-flex h-10 w-full items-center justify-center rounded-2xl border border-black px-2 text-black"
                 aria-label={`Edit ${product.name}`}
               >
-                <Edit3 className="h-4 w-4 sm:hidden" />
+                <Edit3 className="h-4 w-4" />
                 <span className="hidden sm:inline">Edit</span>
               </Link>
               <button
                 onClick={() => remove(product.id)}
-                className="inline-flex w-full items-center justify-center gap-2 rounded-2xl border border-black px-2 py-2 text-[11px] font-semibold leading-none text-black sm:min-h-11 sm:px-3 sm:py-3 sm:text-sm"
+                className="inline-flex h-10 w-full items-center justify-center rounded-2xl border border-black px-2 text-black"
                 aria-label={`Delete ${product.name}`}
               >
-                <Trash2 className="h-4 w-4 sm:hidden" />
+                <Trash2 className="h-4 w-4" />
                 <span className="hidden sm:inline">Delete</span>
               </button>
             </div>
