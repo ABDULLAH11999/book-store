@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { WhatsAppIcon } from "@/components/icons/whatsapp-icon";
 
 export const dynamic = "force-dynamic";
 
@@ -48,8 +49,9 @@ export default function ContactPage() {
             href={`https://wa.me/${String(business.whatsappNumber || business.contactPhone || "").replace(/\D/g, "")}`}
             target="_blank"
             rel="noreferrer"
-            className="mt-6 inline-flex rounded-full bg-[#25D366] px-5 py-3 font-semibold text-white"
+            className="mt-6 inline-flex items-center gap-2 rounded-full bg-[#25D366] px-5 py-3 font-semibold text-white"
           >
+            <WhatsAppIcon className="h-5 w-5" />
             WhatsApp Us
           </a>
         </div>

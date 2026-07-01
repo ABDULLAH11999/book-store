@@ -1,8 +1,9 @@
 "use client";
 
-import { Instagram, MessageCircle } from "lucide-react";
+import { Instagram } from "lucide-react";
 import { BRAND_NAME } from "@/lib/branding";
 import { useEffect, useState } from "react";
+import { WhatsAppIcon } from "@/components/icons/whatsapp-icon";
 
 type Props = {
   productName?: string;
@@ -54,7 +55,7 @@ export function WhatsAppButton({ productName, productUrl }: Props) {
           aria-label="WhatsApp"
         >
           <span className="absolute inset-0 animate-ping rounded-full bg-[#25D366]/40" />
-          <MessageCircle className="relative h-7 w-7" />
+          <WhatsAppIcon className="relative h-7 w-7" />
         </a>
       ) : null}
     </div>

@@ -2,8 +2,9 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { Instagram, MessageCircle } from "lucide-react";
+import { Instagram } from "lucide-react";
 import { BRAND_DARK_GREEN, BRAND_NAME, BRAND_TAGLINE } from "@/lib/branding";
+import { WhatsAppIcon } from "@/components/icons/whatsapp-icon";
 
 type BusinessInfo = {
   contactPhone?: string;
@@ -71,7 +72,7 @@ export function SiteFooter() {
               target={business.whatsappNumber ? "_blank" : undefined}
               rel={business.whatsappNumber ? "noreferrer" : undefined}
             >
-              <MessageCircle />
+              <WhatsAppIcon className="h-6 w-6" />
             </Link>
           </div>
         </div>
