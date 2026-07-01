@@ -188,8 +188,8 @@ async function main() {
   };
 
   const bannerSettings = {
-    desktopImages: ["/ui-image/banner.png"],
-    mobileImages: ["/ui-image/banner.png"]
+    desktopImages: ["/ui-image/banner.webp"],
+    mobileImages: ["/ui-image/banner.webp"]
   };
 
   await prisma.siteSettings.upsert({
