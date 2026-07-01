@@ -74,7 +74,7 @@ export function ProductTable({ initialProducts }: { initialProducts: Product[] }
         {pagedProducts.map((product) => (
           <div key={product.id} className="rounded-3xl border border-black/10 p-3 sm:p-4">
             <div className="flex gap-3">
-              <div className="h-18 w-18 shrink-0 overflow-hidden rounded-2xl border border-black/10 bg-black/5 sm:h-20 sm:w-20">
+              <div className="h-16 w-16 shrink-0 overflow-hidden rounded-2xl border border-black/10 bg-black/5 sm:h-20 sm:w-20">
                 {product.images?.[0] ? <MediaImage src={product.images[0]} alt={product.name} width={80} height={80} className="h-full w-full object-cover" /> : null}
               </div>
               <div className="min-w-0 flex-1">
