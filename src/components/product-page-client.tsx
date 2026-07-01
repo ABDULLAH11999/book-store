@@ -8,8 +8,11 @@ import { SaleCountdown } from "@/components/sale-countdown";
 import { StarRating } from "@/components/star-rating";
 import { bundleTiers, getBundlePricing } from "@/lib/bundle-pricing";
 
+type ProductVariant = "mobile" | "desktop";
+
 export function ProductPageClient({
-  product
+  product,
+  variant = "mobile"
 }: {
   product: {
     id: string;
@@ -21,6 +24,7 @@ export function ProductPageClient({
     stock: number;
     image: string;
   };
+  variant?: ProductVariant;
 }) {
   const router = useRouter();
   const { addItem } = useCart();
@@ -52,8 +56,169 @@ export function ProductPageClient({
     router.push("/checkout");
   }
 
+  const bundleCards = (
+    <div className={variant === "desktop" ? "grid gap-3 xl:grid-cols-3" : "grid gap-3 md:grid-cols-3"}>
+      {bundleTiers.map((tier) => {
+        const tierPricing = getBundlePricing(tier.quantity, activeUnitPrice);
+        const selected = quantity === tier.quantity;
+
+        return (
+          <button
+            key={tier.quantity}
+            type="button"
+            onClick={() => setQuantity(tier.quantity)}
+            className={`rounded-3xl border p-4 text-left transition ${
+              selected ? "border-black bg-black/5 shadow-sm" : "border-black/10 bg-white hover:border-black/30"
+            }`}
+          >
+            <div className="flex items-start justify-between gap-3">
+              <div className="flex items-center gap-3">
+                <span
+                  className={`mt-1 inline-flex h-5 w-5 items-center justify-center rounded-full border ${
+                    selected ? "border-black bg-black" : "border-black/25"
+                  }`}
+                >
+                  <span className={`h-2.5 w-2.5 rounded-full ${selected ? "bg-white" : "bg-transparent"}`} />
+                </span>
+                <div>
+                  <div className="text-lg font-semibold text-black">{tier.label}</div>
+                  <div className="mt-1 text-sm text-black/55">{tier.badge}</div>
+                </div>
+              </div>
+              <span className="rounded-full bg-black/5 px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-black/60">
+                {tier.quantity === 1 ? "Popular" : "Bundle"}
+              </span>
+            </div>
+            <div className="mt-4 flex items-end justify-between gap-3">
+              <div className="text-xs uppercase tracking-[0.3em] text-black/45">Total</div>
+              <div className="text-right">
+                {tier.discountPercent > 0 ? (
+                  <div className="text-xs text-black/45 line-through">{formatPKR(tierPricing.regularTotal)}</div>
+                ) : null}
+                <div className="font-heading text-2xl">{formatPKR(tierPricing.discountedTotal)}</div>
+              </div>
+            </div>
+          </button>
+        );
+      })}
+    </div>
+  );
+
+  const bundleSummary = (
+    <div className="flex items-center justify-between rounded-2xl bg-black/[0.03] px-4 py-3 text-sm">
+      <span className="text-black/60">
+        {pricing.tier.label}
+        {pricing.savings > 0 ? ` and save ${formatPKR(pricing.savings)}` : ""}
+      </span>
+      <span className="font-semibold">{formatPKR(pricing.discountedTotal)}</span>
+    </div>
+  );
+
+  const actionButtons = (
+    <div className="space-y-3">
+      <div className="flex items-center rounded-2xl border border-black/10 bg-white">
+        <button type="button" onClick={() => setQuantity((current) => Math.max(1, current - 1))} className="px-5 py-4 text-2xl">
+          -
+        </button>
+        <span className="min-w-12 px-4 text-center text-lg font-semibold">{quantity}</span>
+        <button type="button" onClick={() => setQuantity((current) => current + 1)} className="px-5 py-4 text-2xl">
+          +
+        </button>
+      </div>
+      <button
+        onClick={handleAddToCart}
+        className="w-full rounded-2xl border-2 border-black bg-black px-6 py-4 font-semibold tracking-[0.2em] text-white transition hover:bg-zinc-800"
+      >
+        ADD TO CART
+      </button>
+      <button
+        onClick={handleBuyNow}
+        className="w-full rounded-2xl bg-black px-6 py-4 font-semibold tracking-[0.2em] text-white transition hover:bg-zinc-800"
+      >
+        BUY IT NOW
+      </button>
+      <a
+        href={`https://wa.me/?text=${encodeURIComponent(`I want to order ${product.name}`)}`}
+        className="block rounded-2xl bg-[#25D366] px-6 py-4 text-center font-semibold text-black transition hover:opacity-95"
+        target="_blank"
+        rel="noreferrer"
+      >
+        Order on WhatsApp
+      </a>
+    </div>
+  );
+
+  const trustBadges = (
+    <div className="grid gap-3 rounded-3xl border border-black/10 bg-white p-5 text-sm text-black/70 md:grid-cols-3">
+      <span>100% Authentic</span>
+      <span>Free Delivery</span>
+      <span>Cash on Delivery</span>
+    </div>
+  );
+
+  if (variant === "desktop") {
+    return (
+      <div className="hidden lg:block">
+        <div className="rounded-[2rem] border border-black/10 bg-white p-6 shadow-sm">
+          <div className="mb-5 flex flex-wrap items-end justify-between gap-3">
+            <div>
+              <p className="text-[11px] uppercase tracking-[0.35em] text-black/45">Buy more, save more</p>
+              <h2 className="mt-2 font-heading text-3xl">Choose your bundle</h2>
+            </div>
+            <div className="rounded-full bg-black px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-white">
+              Best value
+            </div>
+          </div>
+
+          <div className="grid gap-6 lg:grid-cols-[minmax(0,1.4fr)_minmax(320px,0.8fr)]">
+            <div className="space-y-4">
+              {bundleCards}
+              {bundleSummary}
+            </div>
+
+            <div className="space-y-4">
+              <div className="rounded-3xl border border-black/10 bg-black/[0.02] p-5">
+                <div className="flex flex-wrap items-end gap-4">
+                  {salePrice ? (
+                    <>
+                      <span className="text-lg text-black/45 line-through">{formatPKR(price)}</span>
+                      <span className="font-heading text-4xl text-gold">{formatPKR(salePrice)}</span>
+                    </>
+                  ) : (
+                    <span className="font-heading text-4xl">{formatPKR(price)}</span>
+                  )}
+                </div>
+                <div className="mt-4">
+                  <SaleCountdown />
+                </div>
+              </div>
+
+              <div className="space-y-3 rounded-3xl border border-black/10 bg-white p-5 text-sm">
+                <div className="flex items-center gap-2 text-black/70">
+                  <span className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-black text-white">O</span>
+                  <span>{viewers} people are viewing this right now</span>
+                </div>
+                <div className="flex items-center gap-2 text-black/70">
+                  <span className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-black text-white">!</span>
+                  <span className="uppercase tracking-[0.2em]">Hurry up! Only {stockLeft} left in stock</span>
+                </div>
+                <div className="h-2 rounded-full bg-black/10">
+                  <div className="h-full rounded-full bg-black" style={{ width: `${Math.max(35, Math.min(92, stockLeft * 2))}%` }} />
+                </div>
+              </div>
+
+              {actionButtons}
+            </div>
+          </div>
+
+          <div className="mt-4">{trustBadges}</div>
+        </div>
+      </div>
+    );
+  }
+
   return (
-    <div className="space-y-6 lg:sticky lg:top-24">
+    <div className="space-y-6 lg:sticky lg:top-24 lg:hidden">
       <div className="space-y-4">
         <span className="rounded-full bg-black/5 px-3 py-1 text-xs font-semibold uppercase tracking-[0.3em] text-brown">
           Type: {product.brand}
@@ -106,89 +271,12 @@ export function ProductPageClient({
           </div>
         </div>
 
-        <div className="grid gap-3 md:grid-cols-3">
-          {bundleTiers.map((tier) => {
-            const tierPricing = getBundlePricing(tier.quantity, activeUnitPrice);
-            const selected = quantity === tier.quantity;
-
-            return (
-              <button
-                key={tier.quantity}
-                type="button"
-                onClick={() => setQuantity(tier.quantity)}
-                className={`rounded-3xl border p-4 text-left transition ${
-                  selected ? "border-black bg-black/5 shadow-sm" : "border-black/10 bg-white hover:border-black/30"
-                }`}
-              >
-                <div className="flex items-start justify-between gap-3">
-                  <div className="flex items-center gap-3">
-                    <span
-                      className={`mt-1 inline-flex h-5 w-5 items-center justify-center rounded-full border ${
-                        selected ? "border-black bg-black" : "border-black/25"
-                      }`}
-                    >
-                      <span className={`h-2.5 w-2.5 rounded-full ${selected ? "bg-white" : "bg-transparent"}`} />
-                    </span>
-                    <div>
-                      <div className="text-lg font-semibold text-black">{tier.label}</div>
-                      <div className="mt-1 text-sm text-black/55">{tier.badge}</div>
-                    </div>
-                  </div>
-                  <span className="rounded-full bg-black/5 px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-black/60">
-                    {tier.quantity === 1 ? "Popular" : "Bundle"}
-                  </span>
-                </div>
-                <div className="mt-4 flex items-end justify-between gap-3">
-                  <div className="text-xs uppercase tracking-[0.3em] text-black/45">Total</div>
-                  <div className="text-right">
-                    {tier.discountPercent > 0 ? (
-                      <div className="text-xs text-black/45 line-through">{formatPKR(tierPricing.regularTotal)}</div>
-                    ) : null}
-                    <div className="font-heading text-2xl">{formatPKR(tierPricing.discountedTotal)}</div>
-                  </div>
-                </div>
-              </button>
-            );
-          })}
-        </div>
-
-        <div className="flex items-center justify-between rounded-2xl bg-black/[0.03] px-4 py-3 text-sm">
-          <span className="text-black/60">
-            {pricing.tier.label}
-            {pricing.savings > 0 ? ` and save ${formatPKR(pricing.savings)}` : ""}
-          </span>
-          <span className="font-semibold">{formatPKR(pricing.discountedTotal)}</span>
-        </div>
-
-        <button
-          onClick={handleAddToCart}
-          className="w-full rounded-2xl border-2 border-black bg-black px-6 py-4 font-semibold tracking-[0.2em] text-white transition hover:bg-zinc-800"
-        >
-          ADD TO CART
-        </button>
+        {bundleCards}
+        {bundleSummary}
+        {actionButtons}
       </div>
 
-      <button
-        onClick={handleBuyNow}
-        className="w-full rounded-2xl bg-black px-6 py-4 font-semibold tracking-[0.2em] text-white transition hover:bg-zinc-800"
-      >
-        BUY IT NOW
-      </button>
-
-      <a
-        href={`https://wa.me/?text=${encodeURIComponent(`I want to order ${product.name}`)}`}
-        className="block rounded-2xl bg-[#25D366] px-6 py-4 text-center font-semibold text-black transition hover:opacity-95"
-        target="_blank"
-        rel="noreferrer"
-      >
-        Order on WhatsApp
-      </a>
-
-      <div className="grid gap-3 rounded-3xl border border-black/10 bg-white p-5 text-sm text-black/70 md:grid-cols-3">
-        <span>Check 100% Authentic</span>
-        <span>Check Free Delivery</span>
-        <span>Check Cash on Delivery</span>
-      </div>
+      {trustBadges}
     </div>
   );
 }

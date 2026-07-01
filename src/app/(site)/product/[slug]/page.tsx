@@ -6,6 +6,8 @@ import { ProductPageClient } from "@/components/product-page-client";
 import { ProductCard } from "@/components/product-card";
 import { MediaImage } from "@/components/media-image";
 import { StarRating } from "@/components/star-rating";
+import { getSeoSettings, getSiteUrl } from "@/lib/seo";
+import { BRAND_NAME } from "@/lib/branding";
 
 export const revalidate = 300;
 
@@ -19,11 +21,53 @@ export async function generateMetadata({ params }: { params: { slug: string } })
     return {};
   }
 
-  const description = stripHtml(product.description).slice(0, 160) || `${product.name} from IslamicPlay.`;
+  const seo = await getSeoSettings();
+  const siteUrl = getSiteUrl(seo);
+  const description = stripHtml(product.description).slice(0, 160) || `${product.name} from ${BRAND_NAME}.`;
+  const productUrl = `${siteUrl}/product/${product.slug}`;
+  const image = Array.isArray(product.images) && product.images.length ? (product.images as string[])[0] : "";
+  const imageUrl = image ? (image.startsWith("http") ? image : `${siteUrl}${image.startsWith("/") ? image : `/${image}`}`) : undefined;
+  const keywords = [
+    product.name,
+    product.brand,
+    BRAND_NAME,
+    "Islamic books",
+    "Quran",
+    "Urdu books",
+    "Pakistan"
+  ];
 
   return {
-    title: `${product.name} | IslamicPlay`,
-    description
+    metadataBase: new URL(siteUrl),
+    title: `${product.name} | ${BRAND_NAME}`,
+    description,
+    keywords,
+    alternates: {
+      canonical: productUrl
+    },
+    openGraph: {
+      title: `${product.name} | ${BRAND_NAME}`,
+      description,
+      url: productUrl,
+      siteName: seo.siteTitle || BRAND_NAME,
+      type: "website",
+      images: imageUrl
+        ? [
+            {
+              url: imageUrl,
+              width: 1200,
+              height: 630,
+              alt: product.name
+            }
+          ]
+        : undefined
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `${product.name} | ${BRAND_NAME}`,
+      description,
+      images: imageUrl ? [imageUrl] : undefined
+    }
   };
 }
 
@@ -57,7 +101,7 @@ export default async function ProductDetailPage({ params }: { params: { slug: st
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-12 lg:px-8">
-      <div className="grid gap-10 lg:grid-cols-2">
+      <div className="grid gap-10">
         <ProductGallery
           images={Array.isArray(product.images) && product.images.length ? (product.images as string[]) : ["/books/asan-tarjuma-quran-1.webp"]}
           videoUrl={product.videoUrl}
@@ -74,6 +118,23 @@ export default async function ProductDetailPage({ params }: { params: { slug: st
             stock: product.stock ?? 0,
             image: (Array.isArray(product.images) && product.images.length ? (product.images as string[]) : ["/books/asan-tarjuma-quran-1.webp"])[0]
           }}
+          variant="mobile"
+        />
+      </div>
+
+      <div className="mt-10">
+        <ProductPageClient
+          product={{
+            id: product.id,
+            name: product.name,
+            slug: product.slug,
+            brand: product.brand,
+            price: product.price.toString(),
+            salePrice: product.salePrice?.toString() || null,
+            stock: product.stock ?? 0,
+            image: (Array.isArray(product.images) && product.images.length ? (product.images as string[]) : ["/books/asan-tarjuma-quran-1.webp"])[0]
+          }}
+          variant="desktop"
         />
       </div>
 

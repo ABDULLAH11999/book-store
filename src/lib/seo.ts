@@ -19,11 +19,14 @@ export type SeoSettings = {
 const defaultSeoSettings: SeoSettings = {
   siteTitle: BRAND_NAME,
   titleTemplate: `%s | ${BRAND_NAME}`,
-  metaDescription: "Elegant IslamicPlay shopping with a refined, premium experience.",
+  metaDescription:
+    "IslamicPlay is an online Islamic bookstore for Quran, Urdu Islamic books, and meaningful gifts in Pakistan.",
   canonicalUrl: "",
-  metaKeywords: "",
+  metaKeywords:
+    "IslamicPlay, Islamic books, Quran, Urdu books, Islamic bookstore Pakistan, buy Quran online, Islamic gifts, Quran shop",
   ogTitle: BRAND_NAME,
-  ogDescription: "Elegant IslamicPlay shopping with a refined, premium experience.",
+  ogDescription:
+    "IslamicPlay is an online Islamic bookstore for Quran, Urdu Islamic books, and meaningful gifts in Pakistan.",
   ogImage: "",
   headerScripts: "",
   footerScripts: "",

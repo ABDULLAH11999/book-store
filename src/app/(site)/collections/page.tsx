@@ -1,8 +1,46 @@
 import { Prisma } from "@prisma/client";
 import { prisma } from "@/lib/prisma";
 import { ProductCard } from "@/components/product-card";
+import type { Metadata } from "next";
+import { getSeoSettings, getSiteUrl } from "@/lib/seo";
+import { BRAND_NAME } from "@/lib/branding";
 
 export const revalidate = 300;
+
+export async function generateMetadata(): Promise<Metadata> {
+  const seo = await getSeoSettings();
+  const siteUrl = getSiteUrl(seo);
+  const title = `Collections | ${BRAND_NAME}`;
+  const description =
+    seo.metaDescription ||
+    "Browse IslamicPlay collections of Quran, Urdu books, and Islamic gifts in Pakistan.";
+  const keywords = [
+    "IslamicPlay",
+    "Islamic books",
+    "Quran",
+    "Urdu books",
+    "Islamic bookstore Pakistan",
+    "buy Quran online",
+    "Islamic gifts"
+  ];
+
+  return {
+    metadataBase: new URL(siteUrl),
+    title,
+    description,
+    keywords,
+    alternates: {
+      canonical: `${siteUrl}/collections`
+    },
+    openGraph: {
+      title,
+      description,
+      url: `${siteUrl}/collections`,
+      siteName: seo.siteTitle || BRAND_NAME,
+      type: "website"
+    }
+  };
+}
 
 export default async function CollectionsPage({
   searchParams
