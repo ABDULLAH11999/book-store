@@ -2,6 +2,7 @@ import { v2 as cloudinary } from "cloudinary";
 import { mkdir, writeFile } from "fs/promises";
 import path from "path";
 import { randomUUID } from "crypto";
+import { Readable } from "stream";
 
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
@@ -48,7 +49,6 @@ export async function uploadToCloudinary(file: File, folder = "anmol-gadgets") {
     return saveLocally(file, folder);
   }
 
-  const buffer = Buffer.from(await file.arrayBuffer());
   try {
     return await new Promise<{ secure_url: string; public_id: string; resource_type: string }>((resolve, reject) => {
       const stream = cloudinary.uploader.upload_stream(
@@ -62,7 +62,8 @@ export async function uploadToCloudinary(file: File, folder = "anmol-gadgets") {
           });
         }
       );
-      stream.end(buffer);
+      const fileStream = Readable.fromWeb(file.stream() as any);
+      fileStream.pipe(stream);
     });
   } catch {
     if (isProduction()) {
