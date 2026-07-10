@@ -73,10 +73,11 @@ export function ProductPageClient({
   }
 
   const bundleCards = (
-    <div className={variant === "desktop" ? "grid gap-3 2xl:grid-cols-3" : "grid gap-3 md:grid-cols-3"}>
+    <div className={variant === "desktop" ? "grid gap-3 xl:grid-cols-2" : "grid gap-3 md:grid-cols-3"}>
       {bundleTiers.map((tier) => {
         const tierPricing = getBundlePricing(tier.quantity, activeUnitPrice);
         const selected = quantity === tier.quantity;
+        const isDesktopWideCard = variant === "desktop" && tier.quantity === 3;
 
         return (
           <button
@@ -85,10 +86,10 @@ export function ProductPageClient({
             onClick={() => setQuantity(tier.quantity)}
             className={`rounded-3xl border p-4 text-left transition ${
               selected ? "border-black bg-black/5 shadow-sm" : "border-black/10 bg-white hover:border-black/30"
-            }`}
+            } ${isDesktopWideCard ? "xl:col-span-2" : ""}`}
           >
             <div className="flex items-start justify-between gap-3">
-              <div className="flex items-center gap-3">
+              <div className="flex min-w-0 items-center gap-3">
                 <span
                   className={`mt-1 inline-flex h-5 w-5 items-center justify-center rounded-full border ${
                     selected ? "border-black bg-black" : "border-black/25"
@@ -96,12 +97,12 @@ export function ProductPageClient({
                 >
                   <span className={`h-2.5 w-2.5 rounded-full ${selected ? "bg-white" : "bg-transparent"}`} />
                 </span>
-                <div>
+                <div className="min-w-0">
                   <div className="text-lg font-semibold text-black">{tier.label}</div>
                   <div className="mt-1 text-sm text-black/55">{tier.badge}</div>
                 </div>
               </div>
-              <span className="rounded-full bg-black/5 px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-black/60">
+              <span className="shrink-0 rounded-full bg-black/5 px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-black/60">
                 {tier.quantity === 1 ? "Popular" : "Bundle"}
               </span>
             </div>
@@ -203,6 +204,19 @@ export function ProductPageClient({
     return (
       <div className="hidden lg:block">
         <div className="rounded-[2rem] border border-black/10 bg-white p-6 shadow-sm">
+          <div className="mb-6 space-y-4 border-b border-black/10 pb-6">
+            <span className="inline-flex rounded-full bg-black/5 px-3 py-1 text-xs font-semibold uppercase tracking-[0.3em] text-brown">
+              Type: {product.brand}
+            </span>
+            <div className="space-y-3">
+              <h1 className="font-heading text-4xl leading-tight text-ink xl:text-5xl">{product.name}</h1>
+              <div className="flex items-center gap-3">
+                <StarRating value={5} />
+                <span className="text-sm text-black/50">(128 reviews)</span>
+              </div>
+            </div>
+          </div>
+
           <div className="mb-5 flex flex-wrap items-end justify-between gap-3">
             <div>
               <p className="text-[11px] uppercase tracking-[0.35em] text-black/45">Buy more, save more</p>
@@ -217,7 +231,7 @@ export function ProductPageClient({
             {bundleCards}
             {bundleSummary}
 
-            <div className="grid gap-4 xl:grid-cols-[minmax(0,1fr)_minmax(280px,0.9fr)] xl:items-start">
+            <div className="grid gap-4 min-[1500px]:grid-cols-[minmax(0,1fr)_minmax(280px,0.9fr)] min-[1500px]:items-start">
               <div className="rounded-3xl border border-black/10 bg-black/[0.02] p-5">
                 <div className="flex flex-wrap items-end gap-4">
                   {salePrice ? (
@@ -248,7 +262,7 @@ export function ProductPageClient({
                 </div>
               </div>
 
-              {actionButtons}
+              <div className="min-[1500px]:col-span-2">{actionButtons}</div>
             </div>
           </div>
 
