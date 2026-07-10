@@ -36,6 +36,10 @@ function SectionSkeleton({ title }: { title: string }) {
   );
 }
 
+function normalizeBrand(brand: string) {
+  return brand.trim().toLowerCase();
+}
+
 export default async function HomePage() {
   let featured: Array<{
     id: string;
@@ -82,6 +86,9 @@ export default async function HomePage() {
     testimonials = [];
   }
 
+  const quranProducts = featured.filter((product) => normalizeBrand(product.brand) === "quran");
+  const bookProducts = featured.filter((product) => normalizeBrand(product.brand) !== "quran");
+
   return (
     <>
       <div className="flex flex-col">
@@ -94,10 +101,26 @@ export default async function HomePage() {
         </div>
 
         <section className="order-4 mx-auto max-w-7xl px-4 py-6 sm:py-8 lg:px-8 lg:py-16">
-          <div className="mb-4 sm:mb-8">
+          <div className="mb-6 sm:mb-8">
             <p className="text-xs uppercase tracking-[0.35em] text-gold sm:text-sm sm:tracking-[0.4em]">Featured Products</p>
           </div>
-          <FeaturedProductsGrid products={featured} />
+          {quranProducts.length ? (
+            <div>
+              <h2 className="font-heading text-3xl text-ink sm:text-4xl">Quran</h2>
+              <div className="mt-5">
+                <FeaturedProductsGrid products={quranProducts} />
+              </div>
+            </div>
+          ) : null}
+
+          {bookProducts.length ? (
+            <div className={quranProducts.length ? "mt-10 sm:mt-14" : ""}>
+              <h2 className="font-heading text-3xl text-ink sm:text-4xl">Books</h2>
+              <div className="mt-5">
+                <FeaturedProductsGrid products={bookProducts} />
+              </div>
+            </div>
+          ) : null}
         </section>
 
         <Suspense fallback={<SectionSkeleton title="Why people choose IslamicPlay" />}>

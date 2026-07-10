@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
+import { BadgeCheck, Banknote, Truck } from "lucide-react";
 import { useCart } from "@/components/cart-context";
 import { formatPKR } from "@/lib/utils";
 import { SaleCountdown } from "@/components/sale-countdown";
@@ -9,6 +10,21 @@ import { StarRating } from "@/components/star-rating";
 import { bundleTiers, getBundlePricing } from "@/lib/bundle-pricing";
 
 type ProductVariant = "mobile" | "desktop";
+
+const trustPoints = [
+  {
+    icon: BadgeCheck,
+    label: "100% Authentic"
+  },
+  {
+    icon: Truck,
+    label: "Free Delivery"
+  },
+  {
+    icon: Banknote,
+    label: "Cash on Delivery"
+  }
+] as const;
 
 export function ProductPageClient({
   product,
@@ -171,10 +187,15 @@ export function ProductPageClient({
   );
 
   const trustBadges = (
-    <div className="grid gap-3 rounded-3xl border border-black/10 bg-white p-5 text-sm text-black/70 md:grid-cols-3">
-      <span>100% Authentic</span>
-      <span>Free Delivery</span>
-      <span>Cash on Delivery</span>
+    <div className="grid gap-3 rounded-3xl border border-black/10 bg-white p-5 sm:grid-cols-3">
+      {trustPoints.map(({ icon: Icon, label }) => (
+        <div key={label} className="flex items-center gap-3 rounded-2xl bg-black/[0.03] px-4 py-3 text-sm text-black/75">
+          <span className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#2fe67d]/15 text-[#0b7a3f]">
+            <Icon className="h-5 w-5" />
+          </span>
+          <span className="font-medium">{label}</span>
+        </div>
+      ))}
     </div>
   );
 

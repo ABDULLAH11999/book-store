@@ -101,41 +101,44 @@ export default async function ProductDetailPage({ params }: { params: { slug: st
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-12 lg:px-8">
-      <div className="grid gap-10">
-        <ProductGallery
-          images={Array.isArray(product.images) && product.images.length ? (product.images as string[]) : ["/books/asan-tarjuma-quran-1.webp"]}
-          videoUrl={product.videoUrl}
-          name={product.name}
-        />
-        <ProductPageClient
-          product={{
-            id: product.id,
-            name: product.name,
-            slug: product.slug,
-            brand: product.brand,
-            price: product.price.toString(),
-            salePrice: product.salePrice?.toString() || null,
-            stock: product.stock ?? 0,
-            image: (Array.isArray(product.images) && product.images.length ? (product.images as string[]) : ["/books/asan-tarjuma-quran-1.webp"])[0]
-          }}
-          variant="mobile"
-        />
-      </div>
+      <div className="grid gap-10 lg:grid-cols-[minmax(0,1.05fr)_minmax(360px,0.95fr)] lg:items-start lg:gap-8 xl:gap-12">
+        <div className="lg:sticky lg:top-24">
+          <ProductGallery
+            images={Array.isArray(product.images) && product.images.length ? (product.images as string[]) : ["/books/asan-tarjuma-quran-1.webp"]}
+            videoUrl={product.videoUrl}
+            name={product.name}
+          />
+        </div>
 
-      <div className="mt-10">
-        <ProductPageClient
-          product={{
-            id: product.id,
-            name: product.name,
-            slug: product.slug,
-            brand: product.brand,
-            price: product.price.toString(),
-            salePrice: product.salePrice?.toString() || null,
-            stock: product.stock ?? 0,
-            image: (Array.isArray(product.images) && product.images.length ? (product.images as string[]) : ["/books/asan-tarjuma-quran-1.webp"])[0]
-          }}
-          variant="desktop"
-        />
+        <div className="space-y-10">
+          <ProductPageClient
+            product={{
+              id: product.id,
+              name: product.name,
+              slug: product.slug,
+              brand: product.brand,
+              price: product.price.toString(),
+              salePrice: product.salePrice?.toString() || null,
+              stock: product.stock ?? 0,
+              image: (Array.isArray(product.images) && product.images.length ? (product.images as string[]) : ["/books/asan-tarjuma-quran-1.webp"])[0]
+            }}
+            variant="mobile"
+          />
+
+          <ProductPageClient
+            product={{
+              id: product.id,
+              name: product.name,
+              slug: product.slug,
+              brand: product.brand,
+              price: product.price.toString(),
+              salePrice: product.salePrice?.toString() || null,
+              stock: product.stock ?? 0,
+              image: (Array.isArray(product.images) && product.images.length ? (product.images as string[]) : ["/books/asan-tarjuma-quran-1.webp"])[0]
+            }}
+            variant="desktop"
+          />
+        </div>
       </div>
 
       <section className="mt-16">
