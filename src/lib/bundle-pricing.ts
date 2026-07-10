@@ -15,14 +15,14 @@ export const bundleTiers: BundleTier[] = [
   {
     quantity: 2,
     label: "Buy 2",
-    badge: "Save 10%",
-    discountPercent: 10
+    badge: "Save 5%",
+    discountPercent: 5
   },
   {
     quantity: 3,
     label: "Buy 3+",
-    badge: "Save 15%",
-    discountPercent: 15
+    badge: "Save 10%",
+    discountPercent: 10
   }
 ];
 
