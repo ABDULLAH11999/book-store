@@ -73,7 +73,7 @@ export function ProductPageClient({
   }
 
   const bundleCards = (
-    <div className={variant === "desktop" ? "grid gap-3 xl:grid-cols-3" : "grid gap-3 md:grid-cols-3"}>
+    <div className={variant === "desktop" ? "grid gap-3 2xl:grid-cols-3" : "grid gap-3 md:grid-cols-3"}>
       {bundleTiers.map((tier) => {
         const tierPricing = getBundlePricing(tier.quantity, activeUnitPrice);
         const selected = quantity === tier.quantity;
@@ -213,13 +213,11 @@ export function ProductPageClient({
             </div>
           </div>
 
-          <div className="grid gap-6 lg:grid-cols-[minmax(0,1.4fr)_minmax(320px,0.8fr)]">
-            <div className="space-y-4">
-              {bundleCards}
-              {bundleSummary}
-            </div>
+          <div className="space-y-4">
+            {bundleCards}
+            {bundleSummary}
 
-            <div className="space-y-4">
+            <div className="grid gap-4 xl:grid-cols-[minmax(0,1fr)_minmax(280px,0.9fr)] xl:items-start">
               <div className="rounded-3xl border border-black/10 bg-black/[0.02] p-5">
                 <div className="flex flex-wrap items-end gap-4">
                   {salePrice ? (
