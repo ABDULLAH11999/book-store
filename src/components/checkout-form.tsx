@@ -47,20 +47,20 @@ export function CheckoutForm() {
   }
 
   return (
-    <form onSubmit={onSubmit} className="space-y-4 rounded-3xl border border-black/10 bg-white p-6 shadow-sm">
-      <div className="grid gap-4 md:grid-cols-2">
-        <input name="name" required placeholder="Full Name *" className="rounded-2xl border border-black/10 px-4 py-3 outline-none" />
-        <input name="phone" required placeholder="Phone *" className="rounded-2xl border border-black/10 px-4 py-3 outline-none" />
-        <input name="email" type="email" required placeholder="Email *" className="rounded-2xl border border-black/10 px-4 py-3 outline-none" />
-        <input name="city" required placeholder="City *" className="rounded-2xl border border-black/10 px-4 py-3 outline-none" />
+    <form onSubmit={onSubmit} className="space-y-4 rounded-3xl border border-black/10 bg-white p-4 shadow-sm sm:p-6">
+      <div className="grid gap-3 sm:gap-4 md:grid-cols-2">
+        <input name="name" required placeholder="Full Name *" className="min-w-0 rounded-2xl border border-black/10 px-4 py-3 text-sm outline-none sm:text-base" />
+        <input name="phone" required placeholder="Phone *" className="min-w-0 rounded-2xl border border-black/10 px-4 py-3 text-sm outline-none sm:text-base" />
+        <input name="email" type="email" required placeholder="Email *" className="min-w-0 rounded-2xl border border-black/10 px-4 py-3 text-sm outline-none sm:text-base" />
+        <input name="city" required placeholder="City *" className="min-w-0 rounded-2xl border border-black/10 px-4 py-3 text-sm outline-none sm:text-base" />
       </div>
-      <textarea name="address" required placeholder="Delivery Address *" rows={4} className="w-full rounded-2xl border border-black/10 px-4 py-3 outline-none" />
-      <textarea name="notes" placeholder="Order Notes" rows={3} className="w-full rounded-2xl border border-black/10 px-4 py-3 outline-none" />
+      <textarea name="address" required placeholder="Delivery Address *" rows={4} className="w-full min-w-0 rounded-2xl border border-black/10 px-4 py-3 text-sm outline-none sm:text-base" />
+      <textarea name="notes" placeholder="Order Notes" rows={3} className="w-full min-w-0 rounded-2xl border border-black/10 px-4 py-3 text-sm outline-none sm:text-base" />
       <div className="rounded-2xl border border-dashed border-gold bg-[#fffaf0] px-4 py-3 font-semibold text-black">
         Cash on Delivery
       </div>
       <button disabled={loading || items.length === 0} className="w-full rounded-2xl bg-black px-4 py-3 font-semibold text-white transition hover:bg-zinc-800 disabled:opacity-60">
-        {loading ? "Placing Order..." : `Place Order • ${formatPKR(subtotal)}`}
+        {loading ? "Placing Order..." : `Place Order - ${formatPKR(subtotal)}`}
       </button>
     </form>
   );

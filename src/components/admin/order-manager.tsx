@@ -12,7 +12,7 @@ type Order = {
   status: string;
   subtotal: string;
   total: string;
-  customer: { name: string; phone: string; email?: string | null };
+  customer: { name: string; phone: string; email?: string | null; address?: string; city?: string };
   createdAt: string;
   items: Array<{ name: string; quantity: number; price: number }>;
 };

@@ -20,7 +20,9 @@ export default async function AdminOrdersPage() {
         customer: {
           name: order.customer.name,
           phone: order.customer.phone,
-          email: order.customer.email
+          email: order.customer.email,
+          address: order.customer.address,
+          city: order.customer.city
         },
         createdAt: order.createdAt.toISOString(),
         items: Array.isArray(order.items) ? (order.items as Array<{ name: string; quantity: number; price: number }>) : []
@@ -35,7 +37,9 @@ export default async function AdminOrdersPage() {
         customer: {
           name: demoTestimonials[index % demoTestimonials.length].customerName,
           phone: `0300-12345${index}`,
-          email: null
+          email: null,
+          address: "Luxury Plaza, Karachi",
+          city: ["Lahore", "Karachi", "Islamabad", "Rawalpindi"][index % 4]
         },
         createdAt: new Date(Date.now() - index * 86400000).toISOString(),
         items: [{ name: product.name, quantity: 1, price: Number(product.salePrice ?? product.price) }]
