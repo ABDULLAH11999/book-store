@@ -49,13 +49,13 @@ export function CheckoutForm() {
   return (
     <form onSubmit={onSubmit} className="space-y-4 rounded-3xl border border-black/10 bg-white p-4 shadow-sm sm:p-6">
       <div className="grid gap-3 sm:gap-4 md:grid-cols-2">
-        <input name="name" required placeholder="Full Name *" className="min-w-0 rounded-2xl border border-black/10 px-4 py-3 text-sm outline-none sm:text-base" />
-        <input name="phone" required placeholder="Phone *" className="min-w-0 rounded-2xl border border-black/10 px-4 py-3 text-sm outline-none sm:text-base" />
-        <input name="email" type="email" required placeholder="Email *" className="min-w-0 rounded-2xl border border-black/10 px-4 py-3 text-sm outline-none sm:text-base" />
-        <input name="city" required placeholder="City *" className="min-w-0 rounded-2xl border border-black/10 px-4 py-3 text-sm outline-none sm:text-base" />
+        <input name="name" required placeholder="Full Name *" className="w-full min-w-0 max-w-full rounded-2xl border border-black/10 px-4 py-3 text-sm outline-none sm:text-base" />
+        <input name="phone" required placeholder="Phone *" className="w-full min-w-0 max-w-full rounded-2xl border border-black/10 px-4 py-3 text-sm outline-none sm:text-base" />
+        <input name="email" type="email" required placeholder="Email *" className="w-full min-w-0 max-w-full rounded-2xl border border-black/10 px-4 py-3 text-sm outline-none sm:text-base" />
+        <input name="city" required placeholder="City *" className="w-full min-w-0 max-w-full rounded-2xl border border-black/10 px-4 py-3 text-sm outline-none sm:text-base" />
       </div>
-      <textarea name="address" required placeholder="Delivery Address *" rows={4} className="w-full min-w-0 rounded-2xl border border-black/10 px-4 py-3 text-sm outline-none sm:text-base" />
-      <textarea name="notes" placeholder="Order Notes" rows={3} className="w-full min-w-0 rounded-2xl border border-black/10 px-4 py-3 text-sm outline-none sm:text-base" />
+      <textarea name="address" required placeholder="Delivery Address *" rows={4} className="w-full min-w-0 max-w-full rounded-2xl border border-black/10 px-4 py-3 text-sm outline-none sm:text-base" />
+      <textarea name="notes" placeholder="Order Notes" rows={3} className="w-full min-w-0 max-w-full rounded-2xl border border-black/10 px-4 py-3 text-sm outline-none sm:text-base" />
       <div className="rounded-2xl border border-dashed border-gold bg-[#fffaf0] px-4 py-3 font-semibold text-black">
         Cash on Delivery
       </div>

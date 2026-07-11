@@ -16,7 +16,7 @@ export function OrderSummary({
   onRemoveItem?: (index: number) => void;
 }) {
   return (
-    <aside className="rounded-3xl border border-black/10 bg-white p-4 shadow-sm sm:p-6">
+    <aside className="min-w-0 max-w-full rounded-3xl border border-black/10 bg-white p-4 shadow-sm sm:p-6">
       <h2 className="font-heading text-2xl sm:text-3xl">Order Summary</h2>
       <div className="mt-5 space-y-3 sm:mt-6">
         {items.map((item, index) => (
@@ -30,7 +30,7 @@ export function OrderSummary({
                 {formatPKR(getBundlePricing(item.quantity, Number(item.salePrice ?? item.price)).discountedTotal)}
               </span>
             </div>
-            <div className="mt-3 flex items-center justify-between gap-2">
+            <div className="mt-3 flex flex-wrap items-center justify-between gap-2">
               <div className="inline-flex items-center rounded-full border border-black/10 bg-white">
                 <button
                   type="button"
