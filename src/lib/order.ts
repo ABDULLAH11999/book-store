@@ -26,7 +26,7 @@ export async function nextOrderNumber() {
 }
 
 export async function createCheckoutOrder(input: {
-  customer: { name: string; phone: string; email?: string | null; address: string; city: string };
+  customer: { name: string; phone: string; email: string; address: string; city: string };
   items: CheckoutItem[];
   notes?: string | null;
 }) {
@@ -35,13 +35,13 @@ export async function createCheckoutOrder(input: {
     create: {
       name: input.customer.name,
       phone: input.customer.phone,
-      email: input.customer.email || null,
+      email: input.customer.email,
       address: input.customer.address,
       city: input.customer.city
     },
     update: {
       name: input.customer.name,
-      email: input.customer.email || null,
+      email: input.customer.email,
       address: input.customer.address,
       city: input.customer.city
     }
@@ -113,16 +113,14 @@ export async function createCheckoutOrder(input: {
   const { adminEmail } = await resolveMailConfig();
   const emailJobs: Array<Promise<unknown>> = [];
 
-  if (input.customer.email) {
-    emailJobs.push(
-      sendMail({
-        to: input.customer.email,
-        subject: customerTemplate.subject,
-        html: customerTemplate.html,
-        template: "order-confirmation"
-      })
-    );
-  }
+  emailJobs.push(
+    sendMail({
+      to: input.customer.email,
+      subject: customerTemplate.subject,
+      html: customerTemplate.html,
+      template: "order-confirmation"
+    })
+  );
 
   if (adminEmail) {
     emailJobs.push(

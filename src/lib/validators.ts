@@ -25,7 +25,7 @@ export const productSchema = z.object({
 export const customerSchema = z.object({
   name: z.string().trim().min(2),
   phone: z.string().trim().min(7),
-  email: z.string().trim().email().optional().nullable(),
+  email: z.string().trim().min(1).email(),
   address: z.string().trim().min(2),
   city: z.string().trim().min(2)
 });

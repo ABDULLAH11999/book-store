@@ -20,7 +20,7 @@ export function CheckoutForm() {
       customer: {
         name: String(form.get("name") || ""),
         phone: String(form.get("phone") || ""),
-        email: String(form.get("email") || "") || null,
+        email: String(form.get("email") || ""),
         address: String(form.get("address") || ""),
         city: String(form.get("city") || "")
       },
@@ -51,7 +51,7 @@ export function CheckoutForm() {
       <div className="grid gap-4 md:grid-cols-2">
         <input name="name" required placeholder="Full Name *" className="rounded-2xl border border-black/10 px-4 py-3 outline-none" />
         <input name="phone" required placeholder="Phone *" className="rounded-2xl border border-black/10 px-4 py-3 outline-none" />
-        <input name="email" type="email" placeholder="Email (optional)" className="rounded-2xl border border-black/10 px-4 py-3 outline-none" />
+        <input name="email" type="email" required placeholder="Email *" className="rounded-2xl border border-black/10 px-4 py-3 outline-none" />
         <input name="city" required placeholder="City *" className="rounded-2xl border border-black/10 px-4 py-3 outline-none" />
       </div>
       <textarea name="address" required placeholder="Delivery Address *" rows={4} className="w-full rounded-2xl border border-black/10 px-4 py-3 outline-none" />

@@ -32,13 +32,13 @@ export function OrderCreateForm({ products }: { products: Product[] }) {
     const cleanCustomer = {
       name: customer.name.trim(),
       phone: customer.phone.trim(),
-      email: customer.email.trim() || null,
+      email: customer.email.trim(),
       address: customer.address.trim(),
       city: customer.city.trim()
     };
 
-    if (!cleanCustomer.name || !cleanCustomer.phone || !cleanCustomer.address || !cleanCustomer.city) {
-      toast.error("Fill customer name, phone, address, and city");
+    if (!cleanCustomer.name || !cleanCustomer.phone || !cleanCustomer.email || !cleanCustomer.address || !cleanCustomer.city) {
+      toast.error("Fill customer name, phone, email, address, and city");
       return;
     }
 
