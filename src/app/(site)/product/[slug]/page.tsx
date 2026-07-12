@@ -8,6 +8,7 @@ import { MediaImage } from "@/components/media-image";
 import { StarRating } from "@/components/star-rating";
 import { getSeoSettings, getSiteUrl } from "@/lib/seo";
 import { BRAND_NAME } from "@/lib/branding";
+import { getSetting } from "@/lib/settings";
 
 export const revalidate = 300;
 
@@ -75,9 +76,17 @@ export default async function ProductDetailPage({ params }: { params: { slug: st
   let product: any = null;
   let related: Array<any> = [];
   let testimonials: Array<any> = [];
+  let businessInfo: { whatsappNumber?: string; contactPhone?: string } = {};
 
   try {
-    product = await prisma.product.findUnique({ where: { slug: params.slug } });
+    [product, businessInfo] = await Promise.all([
+      prisma.product.findUnique({ where: { slug: params.slug } }),
+      getSetting("businessInfo", {
+        whatsappNumber: "",
+        contactPhone: ""
+      })
+    ]);
+
     if (product && product.status === "PUBLISHED") {
       related = await prisma.product.findMany({
         where: {
@@ -98,6 +107,8 @@ export default async function ProductDetailPage({ params }: { params: { slug: st
   }
 
   if (!product) return notFound();
+
+  const whatsappNumber = String(businessInfo.whatsappNumber || businessInfo.contactPhone || "").trim();
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-12 lg:px-8">
@@ -123,6 +134,7 @@ export default async function ProductDetailPage({ params }: { params: { slug: st
               image: (Array.isArray(product.images) && product.images.length ? (product.images as string[]) : ["/books/asan-tarjuma-quran-1.webp"])[0]
             }}
             variant="mobile"
+            whatsappNumber={whatsappNumber}
           />
 
           <ProductPageClient
@@ -137,6 +149,7 @@ export default async function ProductDetailPage({ params }: { params: { slug: st
               image: (Array.isArray(product.images) && product.images.length ? (product.images as string[]) : ["/books/asan-tarjuma-quran-1.webp"])[0]
             }}
             variant="desktop"
+            whatsappNumber={whatsappNumber}
           />
         </div>
       </div>

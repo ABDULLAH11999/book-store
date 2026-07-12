@@ -28,7 +28,8 @@ const trustPoints = [
 
 export function ProductPageClient({
   product,
-  variant = "mobile"
+  variant = "mobile",
+  whatsappNumber = ""
 }: {
   product: {
     id: string;
@@ -41,6 +42,7 @@ export function ProductPageClient({
     image: string;
   };
   variant?: ProductVariant;
+  whatsappNumber?: string;
 }) {
   const router = useRouter();
   const { addItem } = useCart();
@@ -51,6 +53,9 @@ export function ProductPageClient({
   const stockLeft = Math.max(0, product.stock || 49);
   const viewers = useMemo(() => 400 + (product.id.length % 90), [product.id]);
   const pricing = useMemo(() => getBundlePricing(quantity, activeUnitPrice), [quantity, activeUnitPrice]);
+  const whatsappHref = whatsappNumber
+    ? `https://wa.me/${whatsappNumber.replace(/\D/g, "")}?text=${encodeURIComponent(`I want to order ${product.name}`)}`
+    : "#";
 
   function handleAddToCart() {
     addItem(
@@ -177,7 +182,7 @@ export function ProductPageClient({
         BUY IT NOW
       </button>
       <a
-        href={`https://wa.me/?text=${encodeURIComponent(`I want to order ${product.name}`)}`}
+        href={whatsappHref}
         className="block rounded-2xl bg-[#25D366] px-6 py-4 text-center font-semibold text-black transition hover:opacity-95"
         target="_blank"
         rel="noreferrer"
