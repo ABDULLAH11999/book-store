@@ -19,19 +19,21 @@ function csvEscape(value: unknown) {
 
 function formatDateTime(value: Date) {
   return new Intl.DateTimeFormat("en-PK", {
-    year: "numeric",
-    month: "2-digit",
-    day: "2-digit",
-    hour: "2-digit",
-    minute: "2-digit",
-    second: "2-digit",
-    hour12: true
+    dateStyle: "medium",
+    timeStyle: "short",
+    timeZone: "Asia/Karachi"
   }).format(value);
 }
 
 function formatPhone(value: string) {
   const digits = value.replace(/\D/g, "");
   return digits ? `="${digits}"` : "";
+}
+
+function formatAmount(value: unknown) {
+  return new Intl.NumberFormat("en-PK", {
+    maximumFractionDigits: 2
+  }).format(Number(value));
 }
 
 export async function GET(request: Request) {
@@ -57,8 +59,8 @@ export async function GET(request: Request) {
         order.customer.city || "",
         order.customer.address || "",
         order.status,
-        Number(order.subtotal).toFixed(2),
-        Number(order.total).toFixed(2),
+        formatAmount(order.subtotal),
+        formatAmount(order.total),
         formatDateTime(order.createdAt)
       ]
         .map(csvEscape)
