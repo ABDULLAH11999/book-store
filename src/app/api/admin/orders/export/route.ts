@@ -12,6 +12,28 @@ function resolveDurationStart(duration: string | null) {
   return null;
 }
 
+function csvEscape(value: unknown) {
+  const text = String(value ?? "");
+  return `"${text.replaceAll('"', '""')}"`;
+}
+
+function formatDateTime(value: Date) {
+  return new Intl.DateTimeFormat("en-PK", {
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit",
+    hour12: true
+  }).format(value);
+}
+
+function formatPhone(value: string) {
+  const digits = value.replace(/\D/g, "");
+  return digits ? `="${digits}"` : "";
+}
+
 export async function GET(request: Request) {
   const auth = await requireAdmin();
   if (!auth.ok) return auth.response;
@@ -26,17 +48,21 @@ export async function GET(request: Request) {
     orderBy: { createdAt: "desc" }
   });
   const rows = [
-    ["Order Number", "Customer", "Phone", "Status", "Subtotal", "Total", "Created At"].join(","),
+    ["Order Number", "Customer", "Phone", "City", "Address", "Status", "Subtotal", "Total", "Created At"].map(csvEscape).join(","),
     ...orders.map((order) =>
       [
         order.orderNumber,
         order.customer.name,
-        order.customer.phone,
+        formatPhone(order.customer.phone),
+        order.customer.city || "",
+        order.customer.address || "",
         order.status,
-        Number(order.subtotal),
-        Number(order.total),
-        order.createdAt.toISOString()
-      ].join(",")
+        Number(order.subtotal).toFixed(2),
+        Number(order.total).toFixed(2),
+        formatDateTime(order.createdAt)
+      ]
+        .map(csvEscape)
+        .join(",")
     )
   ];
 
