@@ -36,6 +36,20 @@ function formatAmount(value: unknown) {
   }).format(Number(value));
 }
 
+type OrderItem = {
+  name?: string;
+  quantity?: number;
+  price?: number;
+};
+
+function formatItemList(items: unknown, selector: (item: OrderItem) => string) {
+  if (!Array.isArray(items)) return "";
+  return items
+    .map((item) => selector(item as OrderItem))
+    .filter((value) => value.length > 0)
+    .join(" | ");
+}
+
 export async function GET(request: Request) {
   const auth = await requireAdmin();
   if (!auth.ok) return auth.response;
@@ -50,7 +64,22 @@ export async function GET(request: Request) {
     orderBy: { createdAt: "desc" }
   });
   const rows = [
-    ["Order Number", "Customer", "Phone", "City", "Address", "Status", "Subtotal", "Total", "Created At"].map(csvEscape).join(","),
+    [
+      "Order Number",
+      "Customer",
+      "Phone",
+      "City",
+      "Address",
+      "Product Name",
+      "Quantity",
+      "Price",
+      "Status",
+      "Subtotal",
+      "Total",
+      "Created At"
+    ]
+      .map(csvEscape)
+      .join(","),
     ...orders.map((order) =>
       [
         order.orderNumber,
@@ -58,6 +87,9 @@ export async function GET(request: Request) {
         formatPhone(order.customer.phone),
         order.customer.city || "",
         order.customer.address || "",
+        formatItemList(order.items, (item) => item.name || ""),
+        formatItemList(order.items, (item) => (item.quantity !== undefined ? String(item.quantity) : "")),
+        formatItemList(order.items, (item) => (item.price !== undefined ? formatAmount(item.price) : "")),
         order.status,
         formatAmount(order.subtotal),
         formatAmount(order.total),
