@@ -71,10 +71,11 @@ export async function GET() {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  const [customers, products, orders, testimonials, siteSettings, emailLogs, adminUsers, sequences] = await Promise.all([
+  const [customers, products, orders, visitorSessions, testimonials, siteSettings, emailLogs, adminUsers, sequences] = await Promise.all([
     prisma.customer.findMany({ orderBy: { createdAt: "asc" }, include: { orders: true } }),
     prisma.product.findMany({ orderBy: { createdAt: "asc" } }),
     prisma.order.findMany({ orderBy: { createdAt: "asc" }, include: { customer: true } }),
+    prisma.visitorSession.findMany({ orderBy: { createdAt: "asc" } }),
     prisma.testimonial.findMany({ orderBy: { sortOrder: "asc" } }),
     prisma.siteSettings.findMany({ orderBy: { key: "asc" } }),
     prisma.emailLog.findMany({ orderBy: { sentAt: "asc" } }),
@@ -92,6 +93,7 @@ export async function GET() {
       customers: serializeDates(customers),
       products: serializeDates(products),
       orders: serializeDates(orders),
+      visitorSessions: serializeDates(visitorSessions),
       testimonials: serializeDates(testimonials),
       siteSettings: serializeDates(siteSettings),
       emailLogs: serializeDates(emailLogs),
