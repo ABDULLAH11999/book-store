@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { auth } from "@/lib/auth";
+import { createBackupFilename } from "@/lib/branding";
 import { prisma } from "@/lib/prisma";
 import { readdir, readFile, stat } from "fs/promises";
 import path from "path";
@@ -106,7 +107,7 @@ export async function GET() {
     }
   };
 
-  const filename = `anmol-gadgets-backup-${new Date().toISOString().replace(/[:.]/g, "-")}.json`;
+  const filename = createBackupFilename();
   const json = JSON.stringify(backup, null, 2);
 
   return new NextResponse(json, {

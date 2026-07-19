@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import toast from "react-hot-toast";
+import { createBackupFilename } from "@/lib/branding";
 
 export function DbBackupPanel() {
   const [loading, setLoading] = useState(false);
@@ -24,7 +25,7 @@ export function DbBackupPanel() {
     const blob = await response.blob();
     const disposition = response.headers.get("content-disposition") || "";
     const match = disposition.match(/filename="([^"]+)"/i);
-    const filename = match?.[1] || "anmol-gadgets-backup.sql";
+    const filename = match?.[1] || createBackupFilename();
     const url = window.URL.createObjectURL(blob);
     const anchor = document.createElement("a");
     anchor.href = url;
